@@ -17,22 +17,37 @@ void test_create_destroy()
 {
    ioopm_hash_table_t *ht = ioopm_hash_table_create();
    CU_ASSERT_PTR_NOT_NULL(ht);
-   ioopm_hash_table_destroy(ht);
+   ioopm_hash_table_destroy_iter(ht);
 }
 
-/*
-Testing with a fresh key that is not already in use
-Testing with a key that is already in use
-Testing with an invalid key (if at all possible)
-*/
-void test_fresh_key(){ // Gör ingenting just nu
+void test_update_key() // från instruktionerna
+{
+  // create new hash table
   ioopm_hash_table_t *ht = ioopm_hash_table_create();
-  entry_t test_entry;
-  test_entry.key = "test";
-  CU_ASSERT(ioopm_hash_table_lookup(ht, test_entry.key) == -1);
-  ioopm_hash_table_destroy(ht);
-}
 
+  char *key = "abc";
+  int value = 123;
+  int value2 = 456;
+  // check that key is not in ht
+  int result = 0;
+  CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key, &result));
+  CU_ASSERT_EQUAL(result, 0);
+
+  // insert key-value pair and check that the mapping exists
+  ioopm_hash_table_insert(ht, key, value);
+  CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key, &result));
+  CU_ASSERT_EQUAL(result, value);
+
+
+  // insert key med nytt värde
+  ioopm_hash_table_insert(ht, key, value2);
+  CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key, &result));
+  CU_ASSERT_EQUAL(result, value2);
+
+
+  // destroy hash table
+  ioopm_hash_table_destroy_iter(ht);
+}
 
 void test_insert_once() // från instruktionerna
 {
@@ -53,8 +68,9 @@ void test_insert_once() // från instruktionerna
   CU_ASSERT_EQUAL(result, value);
 
   // destroy hash table
-  ioopm_hash_table_destroy(ht);
+  ioopm_hash_table_destroy_iter(ht);
 }
+
 
 int main() {
   // First we try to set up CUnit, and exit if we fail
@@ -74,10 +90,12 @@ int main() {
   // For each call to CU_add_test we specify the test suite, the
   // name or description of the test, and the function that runs
   // the test in question. If you want to add another test, just
-  // copy a line below and change the information
+  // copy a line below and change the information'
+  // || CU_add_test(my_test_suite, "test fresh entry", test_fresh_key) == NULL
   if ( CU_add_test(my_test_suite, "hashtable create / destroy", test_create_destroy) == NULL 
       ||  0
-      || CU_add_test(my_test_suite, "test fresh entry", test_fresh_key) == NULL
+      || CU_add_test(my_test_suite, "hashtable insert / lookup / destroy", test_insert_once) == NULL
+      || CU_add_test(my_test_suite, "insert same key twice with different values", test_update_key )
   )
     {
       // If adding any of the tests fails, we tear down CUnit and exit
@@ -87,7 +105,8 @@ int main() {
 
   // Set the running mode. Use CU_BRM_VERBOSE for maximum output.
   // Use CU_BRM_NORMAL to only print errors and a summary
-  CU_basic_set_mode(CU_BRM_NORMAL);
+  //CU_basic_set_mode(CU_BRM_NORMAL);
+  CU_basic_set_mode(CU_BRM_VERBOSE);
 
   // This is where the tests are actually run!
   CU_basic_run_tests();
