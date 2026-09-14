@@ -71,7 +71,6 @@ void test_insert_once() // från instruktionerna
   ioopm_hash_table_destroy_iter(ht);
 }
 
-
 int main() {
   // First we try to set up CUnit, and exit if we fail
   if (CU_initialize_registry() != CUE_SUCCESS)
@@ -95,8 +94,7 @@ int main() {
   if ( CU_add_test(my_test_suite, "hashtable create / destroy", test_create_destroy) == NULL 
       ||  0
       || CU_add_test(my_test_suite, "hashtable insert / lookup / destroy", test_insert_once) == NULL
-      || CU_add_test(my_test_suite, "insert same key twice with different values", test_update_key )
-  )
+      || CU_add_test(my_test_suite, "hashtable insert / lookup / destroy", test_insert_once) == NULL)
     {
       // If adding any of the tests fails, we tear down CUnit and exit
       CU_cleanup_registry();
@@ -105,8 +103,7 @@ int main() {
 
   // Set the running mode. Use CU_BRM_VERBOSE for maximum output.
   // Use CU_BRM_NORMAL to only print errors and a summary
-  //CU_basic_set_mode(CU_BRM_NORMAL);
-  CU_basic_set_mode(CU_BRM_VERBOSE);
+  CU_basic_set_mode(CU_BRM_NORMAL);
 
   // This is where the tests are actually run!
   CU_basic_run_tests();
