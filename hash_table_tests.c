@@ -71,7 +71,6 @@ void test_insert_once() // från instruktionerna
   ioopm_hash_table_destroy_iter(ht);
 }
 
-
 int main() {
   // First we try to set up CUnit, and exit if we fail
   if (CU_initialize_registry() != CUE_SUCCESS)
