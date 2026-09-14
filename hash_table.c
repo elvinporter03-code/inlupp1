@@ -10,6 +10,7 @@ struct entry
   int value;    // holds the value
   entry_t *next; // points to the next entry (possibly NULL)
 };
+//Testkommentar
 
 struct hash_table
 {
