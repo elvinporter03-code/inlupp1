@@ -11,8 +11,19 @@
 * or by an at symbol @@.
 *
 */
-
+typedef struct entry entry_t;
 typedef struct hash_table ioopm_hash_table_t;
+struct entry
+{
+  char *key;
+  int value;
+  entry_t *next; 
+};
+
+struct hash_table
+{
+  entry_t *buckets[17];
+};
 
 /// @brief Create a new hash table
 /// @return A new empty hash table

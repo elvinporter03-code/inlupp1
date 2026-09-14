@@ -13,22 +13,34 @@ int clean_suite(void) {
   return 0;
 }
 
-// These are example test functions. You should replace them with
-// functions of your own.
-void test1(void) {
-  CU_ASSERT(42);
-}
-
-void test2(void) {
-  CU_ASSERT_EQUAL(1 + 1, 2);
-}
-
 void test_create_destroy()
 {
    ioopm_hash_table_t *ht = ioopm_hash_table_create();
    CU_ASSERT_PTR_NOT_NULL(ht);
    ioopm_hash_table_destroy(ht);
 }
+
+/*
+Testing with a fresh key that is not already in use
+Testing with a key that is already in use
+Testing with an invalid key (if at all possible)
+*/
+void test_fresh_key(){ // Gör ingenting just nu
+  ioopm_hash_table_t *ht = ioopm_hash_table_create();
+  entry_t test_entry;
+  test_entry.key = "test";
+  CU_ASSERT(ioopm_hash_table_lookup(ht, test_entry.key) == -1);
+  ioopm_hash_table_destroy(ht);
+}
+
+/*
+void test_lookup(){ 
+  ioopm_hash_table_t *ht = ioopm_hash_table_create();
+  entry_t test_entry;
+  test_entry.key = "test";
+  ioopm_hash_table_destroy(ht);
+}
+*/
 
 int main() {
   // First we try to set up CUnit, and exit if we fail
@@ -51,6 +63,7 @@ int main() {
   // copy a line below and change the information
   if ( CU_add_test(my_test_suite, "hashtable create / destroy", test_create_destroy) == NULL 
       ||  0
+      || CU_add_test(my_test_suite, "test fresh entry", test_fresh_key) == NULL
   )
     {
       // If adding any of the tests fails, we tear down CUnit and exit
