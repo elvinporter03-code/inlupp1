@@ -24,7 +24,8 @@ struct entry
 
 struct hash_table
 {
-  entry_t *buckets[17];
+  entry_t buckets[17];
+  int ht_size;
 };
 
 /// @brief Create a new hash table

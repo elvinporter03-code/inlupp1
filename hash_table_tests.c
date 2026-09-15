@@ -207,6 +207,129 @@ void test_remove_last_entry_in_collision_chain()
     ioopm_hash_table_destroy_iter(ht);
 }
 
+// 1. Tom tabell ska inte ha nyckeln k
+//Gjorda av deepseek
+static void test_has_key_empty(void) {
+  ioopm_hash_table_t *ht = ioopm_hash_table_create();
+  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, "k"));
+
+  ioopm_hash_table_destroy_iter(ht);
+}
+
+// 2. Efter insert av k ska k finnas, men inte k2
+//Gjorda av deepseek
+static void test_has_key_single(void) {
+  ioopm_hash_table_t *ht = ioopm_hash_table_create();
+  ioopm_hash_table_insert(ht, "k", 1);
+  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, "k"));
+  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, "k2"));
+
+  ioopm_hash_table_destroy_iter(ht);
+}
+
+// 3. Efter insert av k1, k2, k3 ska alla finnas, men inte k4
+//Gjorda av deepseek
+static void test_has_key_multiple(void) {
+  ioopm_hash_table_t *ht = ioopm_hash_table_create();
+  ioopm_hash_table_insert(ht, "k1", 1);
+  ioopm_hash_table_insert(ht, "k2", 2);
+  ioopm_hash_table_insert(ht, "k3", 3);
+
+  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, "k1"));
+  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, "k2"));
+  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, "k3"));
+  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, "k4"));
+
+  ioopm_hash_table_destroy_iter(ht);
+}
+
+// 4. Insert + remove av k => k ska inte finnas
+//Gjorda av deepseek
+static void test_remove_single(void) {
+  ioopm_hash_table_t *ht = ioopm_hash_table_create();
+  int result = 0;
+  ioopm_hash_table_insert(ht, "k", 42);
+  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, "k", &result));
+  CU_ASSERT_EQUAL(result, 42);
+  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, "k"));
+
+  ioopm_hash_table_destroy_iter(ht);
+}
+
+// 5. Insert k1,k2,k3, remove k2 => k1,k3 finns, k2 inte
+//Gjorda av deepseek
+static void test_remove_middle(void) {
+  ioopm_hash_table_t *ht = ioopm_hash_table_create();
+  int result = 0;
+  ioopm_hash_table_insert(ht, "k1", 1);
+  ioopm_hash_table_insert(ht, "k2", 2);
+  ioopm_hash_table_insert(ht, "k3", 3);
+
+  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, "k2", &result));
+  CU_ASSERT_EQUAL(result, 2);
+
+  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, "k1"));
+  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, "k3"));
+  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, "k2"));
+
+  ioopm_hash_table_destroy_iter(ht);
+}
+
+// size of an empty hash table
+// gjort av deepseek
+static void test_size_empty(void) {
+  ioopm_hash_table_t *ht = ioopm_hash_table_create();
+  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 0);
+
+  ioopm_hash_table_destroy_iter(ht);
+}
+
+// size of a singleton hash table
+// gjort av deepseek
+static void test_size_singleton(void) {
+  ioopm_hash_table_t *ht = ioopm_hash_table_create();
+  ioopm_hash_table_insert(ht, "k", 1);
+  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 1);
+
+  ioopm_hash_table_destroy_iter(ht);
+}
+
+// size of a larger hash table
+// gjort av deepseek
+static void test_size_larger(void) {
+  ioopm_hash_table_t *ht = ioopm_hash_table_create();
+  ioopm_hash_table_insert(ht, "k1", 1);
+  ioopm_hash_table_insert(ht, "k2", 2);
+  ioopm_hash_table_insert(ht, "k3", 3);
+  ioopm_hash_table_insert(ht, "k4", 4);
+  ioopm_hash_table_insert(ht, "k5", 5);
+  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 5);
+  
+  ioopm_hash_table_destroy_iter(ht);
+}
+
+// size after removing an element
+// gjort av deepseek
+static void test_size_after_remove(void) {
+  ioopm_hash_table_t *ht = ioopm_hash_table_create();
+  int result = 0;
+
+  ioopm_hash_table_insert(ht, "k1", 1);
+  ioopm_hash_table_insert(ht, "k2", 2);
+  ioopm_hash_table_insert(ht, "k3", 3);
+  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 3);
+
+  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, "k2", &result));
+  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 2);
+
+  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, "k1", &result));
+  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 1);
+
+  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, "k3", &result));
+  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 0);
+
+  ioopm_hash_table_destroy_iter(ht);
+}
 
 int main() {
   // First we try to set up CUnit, and exit if we fail
@@ -236,6 +359,15 @@ int main() {
       || CU_add_test(my_test_suite, "remove only key", test_remove_only_key) == NULL
       || CU_add_test(my_test_suite, "remove from collision chain", test_remove_from_collision_chain) == NULL
       || CU_add_test(my_test_suite, "remove last entry in collision chain", test_remove_last_entry_in_collision_chain) == NULL
+      || CU_add_test(my_test_suite, "tries to find key that does not exist", test_has_key_empty) == NULL
+      || CU_add_test(my_test_suite, "Finds valid key, does not find invalid key", test_has_key_single) == NULL
+      || CU_add_test(my_test_suite, "Finds mult valid keys, but not one invalid", test_has_key_multiple) == NULL
+      || CU_add_test(my_test_suite, "Inserts key, then removes it", test_remove_single) == NULL
+      || CU_add_test(my_test_suite, "Inserts keys, removes middle key", test_remove_middle) == NULL
+      || CU_add_test(my_test_suite, "size of empty table", test_size_empty) == NULL
+      || CU_add_test(my_test_suite, "size of singleton table", test_size_singleton) == NULL
+      || CU_add_test(my_test_suite, "size of larger table", test_size_larger) == NULL
+      || CU_add_test(my_test_suite, "size after removing element", test_size_after_remove) == NULL
   )
     {
       // If adding any of the tests fails, we tear down CUnit and exit

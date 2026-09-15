@@ -19,6 +19,7 @@ struct entry
 struct hash_table
 {
   entry_t buckets[No_Buckets];
+  int ht_size;
 };
 
 // HASH FUNCTION
@@ -36,33 +37,11 @@ static size_t string_knr_hash(const char *str)
 ioopm_hash_table_t *ioopm_hash_table_create(void)
 {
   /// Allocate zeroed-out space for a ioopm_hash_table_t = 17 pointers to entry_t's
-  return calloc(1, sizeof(ioopm_hash_table_t));
+  ioopm_hash_table_t *tmp = calloc(1, sizeof(ioopm_hash_table_t));
+  tmp->ht_size = 0;
+  return tmp;
 }
 
-/*
-// recursive version
-static void free_bucket_rec(entry_t *e){
-  if(e->next != NULL){
-    entry_t *tmp = e->next;
-    free(e);
-    free_bucket_rec(tmp);
-    
-  } 
-  else{
-    free(e);
-  }
-}
-void ioopm_hash_table_destroy_rec(ioopm_hash_table_t *ht)
-{
-  for (int index = 0; index < 17; index++) // traverse each allocated bucket in memory.
-  {
-    entry_t *entry = ht->buckets[index]; // copying bucket's pointer.
-    free_bucket_rec(entry);
-  }
-
-  free(ht); // when all buckets points to NULL, free ht
-}
-*/
 
 //iterative version
 static void entry_destroy(entry_t *current) {
@@ -83,12 +62,14 @@ static entry_t *find_previous_entry(ioopm_hash_table_t *ht, char *key){
 bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, char *key, int *result) {
   entry_t *previous = find_previous_entry(ht, key);
   entry_t *current = previous->next; 
-  if(current == NULL){
+  if (current == NULL) {
     return false;
   } else {
     previous->next = current->next;
     *result = current->value;
     entry_destroy(current);
+
+    (ht->ht_size)--; // decrement ht_size by one after removal.
     return true;
   }
 }
@@ -139,6 +120,8 @@ void ioopm_hash_table_insert(ioopm_hash_table_t *ht, char *key, int value)
   else
   {
     previous->next = entry_create(key, value, NULL);
+
+    (ht->ht_size)++; // increment ht_size when entry added.
   }
 }
 
@@ -160,22 +143,24 @@ bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, char *key, int *result)
 }
 
 
-/*
+
 bool ioopm_hash_table_has_key(ioopm_hash_table_t *ht, char *key){
-  //stub
-  return false;
+  // function uses same logic as lookup, therefore conveniant to reuse it.
+  
+  int tmp; // this is a filler, not important for this has_key but needed for lookup.
+
+  return ioopm_hash_table_lookup(ht, key, &tmp);
 }
 
-int ioopm_hash_table_size(ioopm_hash_table_t *ht){
-  //stub
-  return 0;
+int ioopm_hash_table_size(ioopm_hash_table_t *ht){  
+  return ht->ht_size;
 }
 
 
 bool ioopm_hash_table_is_empty(ioopm_hash_table_t *ht){
   return ioopm_hash_table_size(ht) == 0;
 }
-*/
+
 
 
 
