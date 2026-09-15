@@ -1,5 +1,6 @@
 #include <CUnit/Basic.h>
 #include "hash_table.h"
+#include "hash_table_iterator.h"
 
 int init_suite(void) {
   // Change this function if you want to do something *before* you
@@ -330,6 +331,7 @@ static void test_size_after_remove(void) {
 
   ioopm_hash_table_destroy_iter(ht);
 }
+
 
 int main() {
   // First we try to set up CUnit, and exit if we fail

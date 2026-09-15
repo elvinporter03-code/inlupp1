@@ -165,6 +165,3 @@ bool ioopm_hash_table_is_empty(ioopm_hash_table_t *ht){
 
 
  //gcc -Wall -Wextra -g hash_table.c hash_table_tests.c -o hash_table_tests -lcunit
-
-
-
