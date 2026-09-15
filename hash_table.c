@@ -64,10 +64,21 @@ void ioopm_hash_table_destroy_rec(ioopm_hash_table_t *ht)
 */
 
 //iterative version
+void entry_destroy(entry_t *current) {
+  
+  free(current);
+}
+
+void entry_remove(entry_t *current){
+  entry_t *tmp = current->next;
+  entry_destroy(current->next);
+  current->next = tmp;
+}
+
 static void free_bucket_iter(entry_t *e){
   entry_t *current = e->next;
 
-  while (current != NULL) // check if bucket is bajs
+  while (current != NULL) //loopar igenom till sista entryn och freear allt
       {
         entry_t *next = current->next;
         free(current); // free buckets pointer
@@ -81,9 +92,10 @@ void ioopm_hash_table_destroy_iter(ioopm_hash_table_t *ht)
   {
     entry_t *entry = &ht->buckets[index]; // create pointer to bucket
     free_bucket_iter(entry);
+    free(entry);
   }
 
-  free(ht); // when all buckets points to NULL, free ht
+  free(ht); // when all buckets only contains sentinel nodes, free ht
 }
 
 static entry_t *entry_create(char *key, int value, entry_t *next)
@@ -95,15 +107,6 @@ static entry_t *entry_create(char *key, int value, entry_t *next)
   return next;
 }
 
-void entry_destroy(entry_t *current) {
-  free(current);
-}
-
-void entry_remove(entry_t *previous){
-  entry_t *tmp = previous->next->next;
-  free(previous->next);
-  previous->next = tmp;
-}
 
 entry_t *find_previous_entry(ioopm_hash_table_t *ht, char *key){
 
