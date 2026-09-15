@@ -55,8 +55,9 @@ bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, char *key, int *result);
 /// @brief remove any mapping from key to a value
 /// @param ht hash table operated upon
 /// @param key key to remove
+/// @param result variable to store removed value in.
 /// @return the value mapped to by key (FIXME: what if the key does not exist?)
-int ioopm_hash_table_remove(ioopm_hash_table_t *ht, char *key);
+bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, char *key, int *result);
 
 //TODO
 unsigned long string_sum_hash(const char *str);

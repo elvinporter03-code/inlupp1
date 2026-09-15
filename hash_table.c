@@ -64,15 +64,32 @@ void ioopm_hash_table_destroy_rec(ioopm_hash_table_t *ht)
 */
 
 //iterative version
-void entry_destroy(entry_t *current) {
-  
+static void entry_destroy(entry_t *current) {
   free(current);
 }
 
-void entry_remove(entry_t *current){
-  entry_t *tmp = current->next;
-  entry_destroy(current->next);
-  current->next = tmp;
+entry_t *find_previous_entry(ioopm_hash_table_t *ht, char *key){
+
+  size_t bucket = string_knr_hash(key) % 17;
+  entry_t *previous = &ht->buckets[bucket];
+
+  while(previous->next != NULL && strcmp(previous->next->key, key) != 0){
+    previous = previous->next;
+  }
+  return previous;
+}
+
+bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, char *key, int *result) {
+  entry_t *previous = find_previous_entry(ht, key);
+  entry_t *current = previous->next; 
+  if(current == NULL){
+    return false;
+  } else {
+    previous->next = current->next;
+    *result = current->value;
+    entry_destroy(current);
+    return true;
+  }
 }
 
 static void free_bucket_iter(entry_t *e){
@@ -81,7 +98,7 @@ static void free_bucket_iter(entry_t *e){
   while (current != NULL) //loopar igenom till sista entryn och freear allt
       {
         entry_t *next = current->next;
-        free(current); // free buckets pointer
+        entry_destroy(current); // free buckets pointer
         current = next; // update buckets pointer next entry_t
       }
   }
@@ -92,7 +109,7 @@ void ioopm_hash_table_destroy_iter(ioopm_hash_table_t *ht)
   {
     entry_t *entry = &ht->buckets[index]; // create pointer to bucket
     free_bucket_iter(entry);
-    free(entry);
+    
   }
 
   free(ht); // when all buckets only contains sentinel nodes, free ht
@@ -108,16 +125,7 @@ static entry_t *entry_create(char *key, int value, entry_t *next)
 }
 
 
-entry_t *find_previous_entry(ioopm_hash_table_t *ht, char *key){
 
-  size_t bucket = string_knr_hash(key) % 17;
-  entry_t *previous = &ht->buckets[bucket];
-
-  while(previous->next != NULL && strcmp(previous->next->key, key) != 0){
-    previous = previous->next;
-  }
-  return previous;
-}
 
 void ioopm_hash_table_insert(ioopm_hash_table_t *ht, char *key, int value)
 {

@@ -71,9 +71,140 @@ void test_insert_once() // från instruktionerna
   ioopm_hash_table_destroy_iter(ht);
 }
 
-void test_check_nonexisting_key()//Create a hash table and check if it has some key k (it shouldn’t).
+// This test case was written with assistance from ChatGPT.
+void test_remove_existing_key()
 {
-  return;
+    ioopm_hash_table_t *ht = ioopm_hash_table_create();
+
+    char *key = "abc";
+    int value = 123;
+    int result = 0;
+
+    ioopm_hash_table_insert(ht, key, value);
+
+    // Remove the key
+    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, key, &result));
+
+    // Check that the removed value was returned
+    CU_ASSERT_EQUAL(result, value);
+
+    // Check that the key is no longer in the table
+    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key, &result));
+
+    ioopm_hash_table_destroy_iter(ht);
+}
+
+// This test case was written with assistance from ChatGPT.
+void test_remove_nonexisting_key()
+{
+    ioopm_hash_table_t *ht = ioopm_hash_table_create();
+
+    char *key = "abc";
+    int result = 999;
+
+    // Nothing has been inserted, so removal should fail
+    CU_ASSERT_FALSE(ioopm_hash_table_remove(ht, key, &result));
+
+    // The result should not have been changed
+    CU_ASSERT_EQUAL(result, 999);
+
+    ioopm_hash_table_destroy_iter(ht);
+}
+
+// This test case was written with assistance from ChatGPT.
+void test_remove_only_key()
+{
+    ioopm_hash_table_t *ht = ioopm_hash_table_create();
+
+    char *key = "abc";
+    int value = 123;
+    int result = 0;
+
+    ioopm_hash_table_insert(ht, key, value);
+
+    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, key, &result));
+    CU_ASSERT_EQUAL(result, value);
+
+    // The table should now behave as if the key was never inserted
+    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key, &result));
+
+    // Removing it again should fail
+    CU_ASSERT_FALSE(ioopm_hash_table_remove(ht, key, &result));
+
+    ioopm_hash_table_destroy_iter(ht);
+}
+
+// This test case was written with assistance from ChatGPT.
+void test_remove_from_collision_chain()
+{
+    ioopm_hash_table_t *ht = ioopm_hash_table_create();
+
+    /*
+     * We need keys that hash to the same bucket.
+     * These values can be replaced with known colliding keys
+     * if your assignment provides them.
+     *
+     * For now, find two/three keys that collide with your hash
+     * function.
+     */
+
+    char *key1 = "abc";
+    char *key2 = "acb";
+
+    int value1 = 100;
+    int value2 = 200;
+    int result = 0;
+
+    ioopm_hash_table_insert(ht, key1, value1);
+    ioopm_hash_table_insert(ht, key2, value2);
+
+    /*
+     * Remove key1 and make sure key2 is still there.
+     *
+     * This specifically tests that:
+     *
+     * previous->next = current->next;
+     *
+     * correctly reconnects the linked list.
+     */
+    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, key1, &result));
+    CU_ASSERT_EQUAL(result, value1);
+
+    CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key2, &result));
+    CU_ASSERT_EQUAL(result, value2);
+
+    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key1, &result));
+
+    ioopm_hash_table_destroy_iter(ht);
+}
+
+// This test case was written with assistance from ChatGPT.
+void test_remove_last_entry_in_collision_chain()
+{
+    ioopm_hash_table_t *ht = ioopm_hash_table_create();
+
+    char *key1 = "abc";
+    char *key2 = "acb";
+
+    int value1 = 100;
+    int value2 = 200;
+    int result = 0;
+
+    ioopm_hash_table_insert(ht, key1, value1);
+    ioopm_hash_table_insert(ht, key2, value2);
+
+    // Remove the second/last entry
+    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, key2, &result));
+    CU_ASSERT_EQUAL(result, value2);
+
+    // key1 should still exist
+    CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key1, &result));
+    CU_ASSERT_EQUAL(result, value1);
+
+    // key2 should be gone
+    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key2, &result));
+
+    ioopm_hash_table_destroy_iter(ht);
 }
 
 
@@ -98,9 +229,13 @@ int main() {
   // copy a line below and change the information'
   // || CU_add_test(my_test_suite, "test fresh entry", test_fresh_key) == NULL
   if ( CU_add_test(my_test_suite, "hashtable create / destroy", test_create_destroy) == NULL 
-      ||  0
       || CU_add_test(my_test_suite, "hashtable insert / lookup / destroy", test_insert_once) == NULL
       || CU_add_test(my_test_suite, "insert same key twice with different values", test_update_key) == NULL
+      || CU_add_test(my_test_suite, "remove existing key", test_remove_existing_key) == NULL
+      || CU_add_test(my_test_suite, "remove nonexisting key", test_remove_nonexisting_key) == NULL
+      || CU_add_test(my_test_suite, "remove only key", test_remove_only_key) == NULL
+      || CU_add_test(my_test_suite, "remove from collision chain", test_remove_from_collision_chain) == NULL
+      || CU_add_test(my_test_suite, "remove last entry in collision chain", test_remove_last_entry_in_collision_chain) == NULL
   )
     {
       // If adding any of the tests fails, we tear down CUnit and exit
