@@ -71,6 +71,12 @@ void test_insert_once() // från instruktionerna
   ioopm_hash_table_destroy_iter(ht);
 }
 
+void test_check_nonexisting_key()//Create a hash table and check if it has some key k (it shouldn’t).
+{
+  return;
+}
+
+
 int main() {
   // First we try to set up CUnit, and exit if we fail
   if (CU_initialize_registry() != CUE_SUCCESS)

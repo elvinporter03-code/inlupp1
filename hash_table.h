@@ -58,4 +58,17 @@ bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, char *key, int *result);
 /// @return the value mapped to by key (FIXME: what if the key does not exist?)
 int ioopm_hash_table_remove(ioopm_hash_table_t *ht, char *key);
 
+//TODO
 unsigned long string_sum_hash(const char *str);
+
+//TODO
+bool ioopm_hash_table_has_key(ioopm_hash_table_t *ht, char *key);
+
+// TODO: documentation
+bool ioopm_hash_table_is_empty(ioopm_hash_table_t *ht);
+
+// TODO: documentation
+int ioopm_hash_table_size(ioopm_hash_table_t *ht);
+
+//TODO: documentation
+entry_t *find_previous(ioopm_hash_table_t *ht, char *key);
