@@ -1,6 +1,7 @@
 #pragma once
 #include <stdbool.h>
 
+
 /**
 * @file hash_table.h
 * @author Elvin Porter och Anton Äng

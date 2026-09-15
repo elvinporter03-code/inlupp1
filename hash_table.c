@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-
 #include <stdio.h>
+
+#define No_Buckets 17
 
 typedef struct entry entry_t;
 typedef struct hash_table ioopm_hash_table_t;
@@ -17,7 +18,7 @@ struct entry
 
 struct hash_table
 {
-  entry_t buckets[17];
+  entry_t buckets[No_Buckets];
 };
 
 // HASH FUNCTION
@@ -68,9 +69,9 @@ static void entry_destroy(entry_t *current) {
   free(current);
 }
 
-entry_t *find_previous_entry(ioopm_hash_table_t *ht, char *key){
+static entry_t *find_previous_entry(ioopm_hash_table_t *ht, char *key){
 
-  size_t bucket = string_knr_hash(key) % 17;
+  size_t bucket = string_knr_hash(key) % No_Buckets;
   entry_t *previous = &ht->buckets[bucket];
 
   while(previous->next != NULL && strcmp(previous->next->key, key) != 0){
@@ -105,7 +106,7 @@ static void free_bucket_iter(entry_t *e){
 
 void ioopm_hash_table_destroy_iter(ioopm_hash_table_t *ht)
 {
-  for (int index = 0; index < 17; index++) // traverse each allocated bucket in memory.
+  for (int index = 0; index < No_Buckets; index++) // traverse each allocated bucket in memory.
   {
     entry_t *entry = &ht->buckets[index]; // create pointer to bucket
     free_bucket_iter(entry);
@@ -123,8 +124,6 @@ static entry_t *entry_create(char *key, int value, entry_t *next)
   next->next = NULL;
   return next;
 }
-
-
 
 
 void ioopm_hash_table_insert(ioopm_hash_table_t *ht, char *key, int value)
@@ -182,13 +181,5 @@ bool ioopm_hash_table_is_empty(ioopm_hash_table_t *ht){
 
  //gcc -Wall -Wextra -g hash_table.c hash_table_tests.c -o hash_table_tests -lcunit
 
- /*
- int main(void) {
- 
-   printf("%ld", sizeof(entry_t));
- 
-   return 0;
- }
- */
 
 
