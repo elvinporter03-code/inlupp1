@@ -16,36 +16,42 @@ struct hash_table_iterator
   entry_t *current_entry;
 };
 
-static entry_t *find_first_entry_in_ht(ioopm_hash_table_t *ht, int *index){
-    int i = 0;
-    for(; i < No_Buckets; i++){
-        if (ht->buckets[i].next != NULL && ht->buckets[i].key != NULL){
-            *index = i;
-            return &ht->buckets[i];
-        }
-    }
-    return &ht->buckets[i];
+
+static void advance_iterator_state(ioopm_hash_table_iterator_t *it)
+{
+  // advance to the next entry in the bucket
+  it->current_entry = it->current_entry->next;
+
+  // if it was null advance to the next bucket
+  if (it->current_entry == NULL)
+  {
+    it->current_bucket += 1;
+
+    // if the next bucket existed, update the current entry
+    if (it->current_bucket != No_Buckets)
+    {
+      it->current_entry = &it->ht->buckets[it->current_bucket];
+     }
+  }
 }
 
-static entry_t *find_next_entry_in_ht(ioopm_hash_table_t *ht, int *index){
-    int i = *index;
-    for(; i < No_Buckets; i++){
-        if (ht->buckets[i].next != NULL && ht->buckets[i].key != NULL){
-            *index = i;
-            return &ht->buckets[i];
-        }
+ static void skip_sentinel_nodes(ioopm_hash_table_iterator_t *it)
+  {
+    while (it->current_bucket != No_Buckets &&
+           it->current_entry == &it->ht->buckets[it->current_bucket])
+    {
+      advance_iterator_state(it); 
     }
-    return &ht->buckets[i];
-}
+  }
 
-
-ioopm_hash_table_iterator_t *ioopm_hash_table_iterator_create(ioopm_hash_table_t *ht){
-    int bucket_index;
-    ioopm_hash_table_iterator_t *result = calloc(1, sizeof(ioopm_hash_table_iterator_t));
-    result->current_entry = find_first_entry_in_ht(ht, &bucket_index);
-    result->current_bucket = bucket_index;
-    result->ht = ht;
-    return result;
+ioopm_hash_table_iterator_t *ioopm_hash_table_iterator_create(ioopm_hash_table_t *ht)
+{
+  ioopm_hash_table_iterator_t *it = calloc(1, sizeof(ioopm_hash_table_iterator_t));
+  it->ht = ht;
+  it->current_bucket = 0;
+  it->current_entry = &ht->buckets[0];
+  skip_sentinel_nodes(it);
+  return it;
 }
 
 void ioopm_hash_table_iterator_destroy(ioopm_hash_table_iterator_t *it){
@@ -53,7 +59,7 @@ void ioopm_hash_table_iterator_destroy(ioopm_hash_table_iterator_t *it){
 }
 
 bool ioopm_hash_table_iterator_at_end(ioopm_hash_table_iterator_t *it){
-    return it->current_bucket == No_Buckets && it->current_entry->next == NULL;
+  return it->current_bucket == No_Buckets;
 }
 
 char *ioopm_hash_table_iterator_current_key(ioopm_hash_table_iterator_t *it){
@@ -65,5 +71,7 @@ int ioopm_hash_table_iterator_current_value(ioopm_hash_table_iterator_t *it){
 }
 
 void ioopm_hash_table_iterator_advance(ioopm_hash_table_iterator_t *it){
-    it->current_entry = find_next_entry_in_ht(it->ht, &it->current_bucket);
+    advance_iterator_state(it);
+    skip_sentinel_nodes(it);
 }
+
