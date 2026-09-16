@@ -14,8 +14,11 @@ int clean_suite(void) {
   return 0;
 }
 
-void test(void){
-    void;
+void test_iterating_empty(void){
+    ioopm_hash_table_t *ht = ioopm_hash_table_create();
+    ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht); 
+    ioopm_hash_table_iterator_advance(it);
+    CU_ASSERT_TRUE(ioopm_hash_table_iterator_at_end(it));
 }
 
 int main() {
@@ -38,7 +41,7 @@ int main() {
   // the test in question. If you want to add another test, just
   // copy a line below and change the information'
   // || CU_add_test(my_test_suite, "test fresh entry", test_fresh_key) == NULL
-  if ( CU_add_test(my_test_suite, "test", test) == NULL)
+  if ( CU_add_test(my_test_suite, "iterating over empty ht", test_iterating_empty) == NULL)
     {
       // If adding any of the tests fails, we tear down CUnit and exit
       CU_cleanup_registry();

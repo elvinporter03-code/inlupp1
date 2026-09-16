@@ -59,7 +59,7 @@ static entry_t *find_previous_entry(ioopm_hash_table_t *ht, char *key){
   return previous;
 }
 
-bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, char *key, int *result) {
+bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, char *key, int *result) { //FUNKAR INTE i en länkad lista, OCH FIXA TESTERNA
   entry_t *previous = find_previous_entry(ht, key);
   entry_t *current = previous->next; 
   if (current == NULL) {
