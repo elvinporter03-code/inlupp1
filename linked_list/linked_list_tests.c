@@ -1,4 +1,5 @@
 #include <CUnit/Basic.h>
+#include "linked_list.h"
 
 int init_suite(void) {
   // Change this function if you want to do something *before* you
@@ -14,12 +15,35 @@ int clean_suite(void) {
 
 // These are example test functions. You should replace them with
 // functions of your own.
-void test1(void) {
-  CU_ASSERT(42);
+void test_empty(void) {
+  ioopm_list_t *listan = ioopm_list_create();
+  CU_ASSERT_EQUAL(NULL, listan->first);
+  CU_ASSERT_EQUAL(NULL, listan->last);
+  CU_ASSERT_EQUAL(listan->size, 0);
+  ioopm_list_destroy(listan);
 }
 
-void test2(void) {
-  CU_ASSERT_EQUAL(1 + 1, 2);
+void test_singleton(void) {
+  ioopm_list_t *listan = ioopm_list_create();
+  ioopm_list_append(listan, (ioopm_element_t) 67);
+  CU_ASSERT_EQUAL(listan->first->head.integer, 67);
+  CU_ASSERT_EQUAL(listan->last->head.integer, 67);
+  CU_ASSERT_EQUAL(listan->size, 1);
+  ioopm_list_destroy(listan);
+}
+
+void test_3_appends(void) {
+  ioopm_list_t *listan = ioopm_list_create();
+  ioopm_list_append(listan, (ioopm_element_t) 67);
+  ioopm_list_append(listan, (ioopm_element_t) 68);
+  ioopm_list_append(listan, (ioopm_element_t) 69);
+
+  CU_ASSERT_EQUAL(listan->first->head.integer, 67);
+  CU_ASSERT_EQUAL(listan->last->head.integer, 69);
+  CU_ASSERT_EQUAL(listan->size, 3);
+  CU_ASSERT_EQUAL(listan->first->tail->head.integer, 68);
+
+  ioopm_list_destroy(listan);
 }
 
 int main() {
@@ -42,9 +66,10 @@ int main() {
   // the test in question. If you want to add another test, just
   // copy a line below and change the information
   if (
-    (CU_add_test(my_test_suite, "A simple test", test1) == NULL) ||
-    (CU_add_test(my_test_suite, "Basic arithmetics", test2) == NULL) ||
-    0
+    (CU_add_test(my_test_suite, "Empty list", test_empty) == NULL) 
+    || (CU_add_test(my_test_suite, "Singleton append", test_singleton) == NULL) 
+    || (CU_add_test(my_test_suite, "3 entry list append", test_3_appends) == NULL)
+
   )
     {
       // If adding any of the tests fails, we tear down CUnit and exit
