@@ -46,6 +46,161 @@ void test_3_appends(void) {
   ioopm_list_destroy(listan);
 }
 
+/* deepseek */
+void test_ioopm_list_create(void) {
+    ioopm_list_t *list = ioopm_list_create();
+    CU_ASSERT_PTR_NOT_NULL(list);
+    CU_ASSERT_EQUAL(list->size, 0);
+    CU_ASSERT_PTR_NULL(list->first);
+    CU_ASSERT_PTR_NULL(list->last);
+    ioopm_list_destroy(list);
+}
+
+/* deepseek*/
+void test_ioopm_list_size(void) {
+    ioopm_list_t *list = ioopm_list_create();
+    CU_ASSERT_EQUAL(ioopm_list_size(list), 0);
+
+    ioopm_element_t v1 = { .integer = 10 };
+    ioopm_list_append(list, v1);
+    CU_ASSERT_EQUAL(ioopm_list_size(list), 1);
+
+    ioopm_element_t v2 = { .integer = 20 };
+    ioopm_list_append(list, v2);
+    CU_ASSERT_EQUAL(ioopm_list_size(list), 2);
+
+    ioopm_list_destroy(list);
+}
+
+/* deepseek */
+void test_ioopm_list_is_empty(void) {
+    ioopm_list_t *list = ioopm_list_create();
+    CU_ASSERT_TRUE(ioopm_list_is_empty(list));
+
+    ioopm_element_t v = { .integer = 5 };
+    ioopm_list_append(list, v);
+    CU_ASSERT_FALSE(ioopm_list_is_empty(list));
+
+    ioopm_list_destroy(list);
+}
+
+/* deepseek */
+void test_ioopm_list_prepend(void) {
+    ioopm_list_t *list = ioopm_list_create();
+
+    ioopm_element_t v1 = { .integer = 10 };
+    ioopm_list_prepend(list, v1);
+    CU_ASSERT_PTR_NOT_NULL(list->first);
+    CU_ASSERT_EQUAL(list->first->head.integer, 10);
+    CU_ASSERT_PTR_NULL(list->first->tail);
+
+    ioopm_element_t v2 = { .integer = 20 };
+    ioopm_list_prepend(list, v2);
+    CU_ASSERT_EQUAL(list->first->head.integer, 20);
+    CU_ASSERT_EQUAL(list->first->tail->head.integer, 10);
+
+    ioopm_list_destroy(list);
+}
+
+/* deepseek */
+void test_ioopm_list_head(void) {
+    ioopm_list_t *list = ioopm_list_create();
+
+    ioopm_element_t v1 = { .integer = 10 };
+    ioopm_list_append(list, v1);
+
+    ioopm_element_t v2 = { .integer = 20 };
+    ioopm_list_append(list, v2);
+
+    ioopm_element_t head = ioopm_list_head(list);
+    CU_ASSERT_EQUAL(head.integer, 10);
+
+    ioopm_list_destroy(list);
+}
+
+/* deepseek */
+void test_ioopm_list_last(void) {
+    ioopm_list_t *list = ioopm_list_create();
+
+    ioopm_element_t v1 = { .integer = 10 };
+    ioopm_list_append(list, v1);
+
+    ioopm_element_t v2 = { .integer = 20 };
+    ioopm_list_append(list, v2);
+
+    ioopm_element_t last = ioopm_list_last(list);
+    CU_ASSERT_EQUAL(last.integer, 20);
+
+    ioopm_list_destroy(list);
+}
+
+/* deepseek */
+void test_ioopm_list_insert(void) {
+    ioopm_list_t *list = ioopm_list_create();
+
+    ioopm_element_t v1 = { .integer = 10 };
+    ioopm_element_t v2 = { .integer = 20 };
+    ioopm_element_t v3 = { .integer = 30 };
+
+    /* Infoga vid index 0 (ska prependa) */
+    ioopm_list_insert(list, 0, v1);
+    CU_ASSERT_EQUAL(list->first->head.integer, 10);
+
+    ioopm_list_insert(list, 0, v2);
+    CU_ASSERT_EQUAL(list->first->head.integer, 20);
+    CU_ASSERT_EQUAL(list->first->tail->head.integer, 10);
+
+    /* Infoga vid index 1 (mellan två noder) */
+    ioopm_list_insert(list, 1, v3);
+    ioopm_element_t a2 = ioopm_list_get(list, 2);
+    ioopm_element_t a1 = ioopm_list_get(list, 1);
+    ioopm_element_t a0 = ioopm_list_get(list, 0);
+
+    CU_ASSERT_EQUAL(a0.integer, 20);
+    CU_ASSERT_EQUAL(a1.integer, 30);
+    CU_ASSERT_EQUAL(a2.integer, 10);
+
+    ioopm_list_destroy(list);
+}
+
+/* deepseek */
+void test_ioopm_list_get(void) {
+    ioopm_list_t *list = ioopm_list_create();
+
+    ioopm_element_t v1 = { .integer = 10 };
+    ioopm_element_t v2 = { .integer = 20 };
+    ioopm_element_t v3 = { .integer = 30 };
+
+    ioopm_list_append(list, v1);
+    ioopm_list_append(list, v2);
+    ioopm_list_append(list, v3);
+
+    CU_ASSERT_EQUAL(ioopm_list_get(list, 0).integer, 10);
+    CU_ASSERT_EQUAL(ioopm_list_get(list, 1).integer, 20);
+    CU_ASSERT_EQUAL(ioopm_list_get(list, 2).integer, 30);
+
+    ioopm_list_destroy(list);
+}
+
+/* deepseek */
+void test_ioopm_list_remove(void) {
+    ioopm_list_t *list = ioopm_list_create();
+
+    ioopm_element_t v1 = { .integer = 10 };
+    ioopm_element_t v2 = { .integer = 20 };
+    ioopm_element_t v3 = { .integer = 30 };
+
+    ioopm_list_append(list, v1);
+    ioopm_list_append(list, v2);
+    ioopm_list_append(list, v3);
+
+    ioopm_element_t removed = ioopm_list_remove(list, 1);
+    CU_ASSERT_EQUAL(removed.integer, 20);
+    CU_ASSERT_EQUAL(ioopm_list_get(list, 0).integer, 10);
+    CU_ASSERT_EQUAL(ioopm_list_get(list, 1).integer, 30);
+
+    ioopm_list_destroy(list);
+}
 int main() {
   // First we try to set up CUnit, and exit if we fail
   if (CU_initialize_registry() != CUE_SUCCESS)
@@ -69,7 +224,15 @@ int main() {
     (CU_add_test(my_test_suite, "Empty list", test_empty) == NULL) 
     || (CU_add_test(my_test_suite, "Singleton append", test_singleton) == NULL) 
     || (CU_add_test(my_test_suite, "3 entry list append", test_3_appends) == NULL)
-
+    || (CU_add_test(my_test_suite, "ioopm_list_create", test_ioopm_list_create) == NULL)
+    || (CU_add_test(my_test_suite, "ioopm_list_size", test_ioopm_list_size) == NULL)
+    || (CU_add_test(my_test_suite, "ioopm_list_is_empty", test_ioopm_list_is_empty) == NULL)
+    || (CU_add_test(my_test_suite, "ioopm_list_prepend", test_ioopm_list_prepend) == NULL)
+    || (CU_add_test(my_test_suite, "ioopm_list_head", test_ioopm_list_head) == NULL)
+    || (CU_add_test(my_test_suite, "ioopm_list_last", test_ioopm_list_last) == NULL)
+    || (CU_add_test(my_test_suite, "ioopm_list_insert", test_ioopm_list_insert) == NULL)
+    || (CU_add_test(my_test_suite, "ioopm_list_get", test_ioopm_list_get) == NULL)
+    || (CU_add_test(my_test_suite, "ioopm_list_remove", test_ioopm_list_remove) == NULL)
   )
     {
       // If adding any of the tests fails, we tear down CUnit and exit

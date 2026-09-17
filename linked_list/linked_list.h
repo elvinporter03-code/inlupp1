@@ -86,7 +86,7 @@ ioopm_element_t ioopm_list_get(ioopm_list_t *list, int index);
 /// @return the number of elements in the list
 int ioopm_list_size(ioopm_list_t *list);
 
-/// @brief Test whether a list is empty or not
+/// @brief  whether a list is empty or not
 /// @param list the linked list
 /// @return true if the number of elements int the list is 0, else false
 bool ioopm_list_is_empty(ioopm_list_t *list);
