@@ -1,5 +1,6 @@
 #include <CUnit/Basic.h>
 #include "linked_list.h"
+#include "list_iterator.h"
 
 int init_suite(void) {
   // Change this function if you want to do something *before* you
@@ -131,6 +132,14 @@ void test_ioopm_list_last(void) {
     ioopm_element_t last = ioopm_list_last(list);
     CU_ASSERT_EQUAL(last.integer, 20);
 
+    ioopm_list_iterator_t *it = ioopm_list_iterator_create(list);
+    while(!ioopm_list_iterator_at_end(it)){
+      ioopm_list_iterator_advance(it);
+    }
+    ioopm_element_t last2 = ioopm_list_iterator_current(it);
+    CU_ASSERT_EQUAL(last2.integer, 20);
+
+    ioopm_list_iterator_destroy(it);
     ioopm_list_destroy(list);
 }
 
@@ -182,7 +191,7 @@ void test_ioopm_list_get(void) {
     ioopm_list_destroy(list);
 }
 
-/* deepseek */
+/* deepseek men uppdaterat till iterator av mig*/
 void test_ioopm_list_remove(void) {
     ioopm_list_t *list = ioopm_list_create();
 
@@ -194,13 +203,73 @@ void test_ioopm_list_remove(void) {
     ioopm_list_append(list, v2);
     ioopm_list_append(list, v3);
 
-    ioopm_element_t removed = ioopm_list_remove(list, 1);
+    ioopm_list_iterator_t *it = ioopm_list_iterator_create(list); 
+    ioopm_list_iterator_advance(it);
+
+    ioopm_element_t removed = ioopm_list_iterator_remove(it);
     CU_ASSERT_EQUAL(removed.integer, 20);
     CU_ASSERT_EQUAL(ioopm_list_get(list, 0).integer, 10);
     CU_ASSERT_EQUAL(ioopm_list_get(list, 1).integer, 30);
 
+    ioopm_list_iterator_destroy(it);
     ioopm_list_destroy(list);
 }
+
+
+void test_iterator_iterate(void){ //alla tester i en inte clankat
+  ioopm_list_t *list = ioopm_list_create();
+  ioopm_element_t v1 = { .integer = 10 };
+  ioopm_element_t v2 = { .integer = 20 };
+  ioopm_element_t v3 = { .integer = 30 };
+  ioopm_list_append(list, v1);
+  ioopm_list_append(list, v2);
+  ioopm_list_append(list, v3);
+  ioopm_list_iterator_t *it = ioopm_list_iterator_create(list); 
+
+  CU_ASSERT_FALSE(ioopm_list_iterator_at_end(it));//på 10
+  CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).integer, 10);
+
+  ioopm_list_iterator_advance(it); //på 20
+  CU_ASSERT_FALSE(ioopm_list_iterator_at_end(it));
+  CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).integer, 20);
+
+  ioopm_list_iterator_remove(it); //på 30
+  CU_ASSERT_TRUE(ioopm_list_iterator_at_end(it));
+  CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).integer, 30);
+
+  ioopm_list_iterator_insert(it, v2); //sätter in 20 igen
+  CU_ASSERT_FALSE(ioopm_list_iterator_at_end(it));
+  CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).integer, 20);
+
+  ioopm_list_iterator_destroy(it);
+  ioopm_list_destroy(list);
+}
+
+void test_iterator_insert(void){
+  ioopm_list_t *list = ioopm_list_create();
+  ioopm_list_iterator_t *it = ioopm_list_iterator_create(list); 
+
+  ioopm_element_t v1 = { .integer = 10 };
+  ioopm_element_t v2 = { .integer = 20 };
+  ioopm_element_t v3 = { .integer = 30 };
+
+  ioopm_list_iterator_insert(it, v1); //insertar på index 0
+  ioopm_list_iterator_insert(it, v2); 
+  ioopm_list_iterator_insert(it, v3);
+
+
+  CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).integer, 30);
+
+  ioopm_list_iterator_advance(it);
+  CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).integer, 20);
+
+  ioopm_list_iterator_advance(it);
+  CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).integer, 10);
+
+  ioopm_list_iterator_destroy(it);
+  ioopm_list_destroy(list);
+}
+
 int main() {
   // First we try to set up CUnit, and exit if we fail
   if (CU_initialize_registry() != CUE_SUCCESS)
@@ -233,6 +302,8 @@ int main() {
     || (CU_add_test(my_test_suite, "ioopm_list_insert", test_ioopm_list_insert) == NULL)
     || (CU_add_test(my_test_suite, "ioopm_list_get", test_ioopm_list_get) == NULL)
     || (CU_add_test(my_test_suite, "ioopm_list_remove", test_ioopm_list_remove) == NULL)
+    || (CU_add_test(my_test_suite, "ioopm_list_iterator", test_iterator_iterate) == NULL)
+    || (CU_add_test(my_test_suite, "iterator_insert", test_iterator_insert) == NULL)
   )
     {
       // If adding any of the tests fails, we tear down CUnit and exit
