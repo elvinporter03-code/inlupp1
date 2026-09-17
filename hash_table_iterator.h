@@ -14,7 +14,16 @@
 *
 */
 
+#define No_Buckets 17
+
 typedef struct hash_table_iterator ioopm_hash_table_iterator_t;
+
+struct hash_table_iterator
+{
+  ioopm_hash_table_t *ht;
+  size_t current_bucket;
+  entry_t *current_entry;
+};
 
 /// @brief Create an iterator for a hash table.
 /// @param ht hash table to iterate over

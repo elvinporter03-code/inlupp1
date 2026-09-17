@@ -1,6 +1,8 @@
 #pragma once
 #include <stdbool.h>
+#include <stddef.h>
 
+#define No_Buckets 17
 
 /**
 * @file hash_table.h
@@ -15,18 +17,30 @@
 */
 typedef struct entry entry_t;
 typedef struct hash_table ioopm_hash_table_t;
+typedef union element elem_t;
+
+union element {
+  char *string;
+  int integer;
+  float floating_point;
+  bool boolean;
+  size_t unsigned_integer;
+};
+
 struct entry
 {
-  char *key;
-  int value;
-  entry_t *next; 
+  char *key;    // holds the key
+  entry_t *next; // points to the next entry (possibly NULL)
+  elem_t value;
 };
 
 struct hash_table
 {
-  entry_t buckets[17];
+  entry_t buckets[No_Buckets];
   size_t ht_size;
 };
+
+
 
 /// @brief Create a new hash table
 /// @return A new empty hash table

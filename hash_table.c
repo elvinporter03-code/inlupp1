@@ -8,12 +8,21 @@
 
 typedef struct entry entry_t;
 typedef struct hash_table ioopm_hash_table_t;
+typedef union element elem_t;
+
+union element {
+  char *string;
+  int integer;
+  float floating_point;
+  bool boolean;
+  size_t unsigned_integer;
+};
 
 struct entry
 {
   char *key;    // holds the key
-  int value;    // holds the value
   entry_t *next; // points to the next entry (possibly NULL)
+  elem_t value;
 };
 
 struct hash_table
@@ -21,6 +30,8 @@ struct hash_table
   entry_t buckets[No_Buckets];
   size_t ht_size;
 };
+
+
 
 // HASH FUNCTION
 static size_t string_knr_hash(const char *str)
@@ -59,7 +70,7 @@ static entry_t *find_previous_entry(ioopm_hash_table_t *ht, char *key){
   return previous;
 }
 
-bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, char *key, int *result) { //FUNKAR INTE i en länkad lista, OCH FIXA TESTERNA
+bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, char *key, elem_t *result) { 
   entry_t *previous = find_previous_entry(ht, key);
   entry_t *current = previous->next; 
   if (current == NULL) {
@@ -97,7 +108,7 @@ void ioopm_hash_table_destroy_iter(ioopm_hash_table_t *ht)
   free(ht); // when all buckets only contains sentinel nodes, free ht
 }
 
-static entry_t *entry_create(char *key, int value, entry_t *next)
+static entry_t *entry_create(char *key, elem_t value, entry_t *next)
 {
   next = calloc(1, sizeof(entry_t)); 
   next->key = key;
@@ -107,7 +118,7 @@ static entry_t *entry_create(char *key, int value, entry_t *next)
 }
 
 
-void ioopm_hash_table_insert(ioopm_hash_table_t *ht, char *key, int value)
+void ioopm_hash_table_insert(ioopm_hash_table_t *ht, char *key, elem_t value)
 {
   // find previous entry, or the last entry if the key does not exist
   entry_t *previous = find_previous_entry(ht, key);
@@ -125,7 +136,7 @@ void ioopm_hash_table_insert(ioopm_hash_table_t *ht, char *key, int value)
   }
 }
 
-bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, char *key, int *result)
+bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, char *key, elem_t *result)
 {
 
   entry_t *previous = find_previous_entry(ht, key);
@@ -147,7 +158,7 @@ bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, char *key, int *result)
 bool ioopm_hash_table_has_key(ioopm_hash_table_t *ht, char *key){
   // function uses same logic as lookup, therefore conveniant to reuse it.
   
-  int tmp; // this is a filler, not important for this has_key but needed for lookup.
+  elem_t tmp; // this is a filler, not important for this has_key but needed for lookup.
 
   return ioopm_hash_table_lookup(ht, key, &tmp);
 }

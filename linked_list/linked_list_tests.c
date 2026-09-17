@@ -2,6 +2,8 @@
 #include "linked_list.h"
 #include "list_iterator.h"
 
+typedef union element    elem_t;
+
 int init_suite(void) {
   // Change this function if you want to do something *before* you
   // run a test suite
@@ -26,7 +28,7 @@ void test_empty(void) {
 
 void test_singleton(void) {
   ioopm_list_t *listan = ioopm_list_create();
-  ioopm_list_append(listan, (ioopm_element_t) 67);
+  ioopm_list_append(listan, (elem_t) 67);
   CU_ASSERT_EQUAL(listan->first->head.integer, 67);
   CU_ASSERT_EQUAL(listan->last->head.integer, 67);
   CU_ASSERT_EQUAL(listan->size, 1);
@@ -35,9 +37,9 @@ void test_singleton(void) {
 
 void test_3_appends(void) {
   ioopm_list_t *listan = ioopm_list_create();
-  ioopm_list_append(listan, (ioopm_element_t) 67);
-  ioopm_list_append(listan, (ioopm_element_t) 68);
-  ioopm_list_append(listan, (ioopm_element_t) 69);
+  ioopm_list_append(listan, (elem_t) 67);
+  ioopm_list_append(listan, (elem_t) 68);
+  ioopm_list_append(listan, (elem_t) 69);
 
   CU_ASSERT_EQUAL(listan->first->head.integer, 67);
   CU_ASSERT_EQUAL(listan->last->head.integer, 69);
@@ -62,11 +64,11 @@ void test_ioopm_list_size(void) {
     ioopm_list_t *list = ioopm_list_create();
     CU_ASSERT_EQUAL(ioopm_list_size(list), 0);
 
-    ioopm_element_t v1 = { .integer = 10 };
+    elem_t v1 = { .integer = 10 };
     ioopm_list_append(list, v1);
     CU_ASSERT_EQUAL(ioopm_list_size(list), 1);
 
-    ioopm_element_t v2 = { .integer = 20 };
+    elem_t v2 = { .integer = 20 };
     ioopm_list_append(list, v2);
     CU_ASSERT_EQUAL(ioopm_list_size(list), 2);
 
@@ -78,7 +80,7 @@ void test_ioopm_list_is_empty(void) {
     ioopm_list_t *list = ioopm_list_create();
     CU_ASSERT_TRUE(ioopm_list_is_empty(list));
 
-    ioopm_element_t v = { .integer = 5 };
+    elem_t v = { .integer = 5 };
     ioopm_list_append(list, v);
     CU_ASSERT_FALSE(ioopm_list_is_empty(list));
 
@@ -89,13 +91,13 @@ void test_ioopm_list_is_empty(void) {
 void test_ioopm_list_prepend(void) {
     ioopm_list_t *list = ioopm_list_create();
 
-    ioopm_element_t v1 = { .integer = 10 };
+    elem_t v1 = { .integer = 10 };
     ioopm_list_prepend(list, v1);
     CU_ASSERT_PTR_NOT_NULL(list->first);
     CU_ASSERT_EQUAL(list->first->head.integer, 10);
     CU_ASSERT_PTR_NULL(list->first->tail);
 
-    ioopm_element_t v2 = { .integer = 20 };
+    elem_t v2 = { .integer = 20 };
     ioopm_list_prepend(list, v2);
     CU_ASSERT_EQUAL(list->first->head.integer, 20);
     CU_ASSERT_EQUAL(list->first->tail->head.integer, 10);
@@ -107,13 +109,13 @@ void test_ioopm_list_prepend(void) {
 void test_ioopm_list_head(void) {
     ioopm_list_t *list = ioopm_list_create();
 
-    ioopm_element_t v1 = { .integer = 10 };
+    elem_t v1 = { .integer = 10 };
     ioopm_list_append(list, v1);
 
-    ioopm_element_t v2 = { .integer = 20 };
+    elem_t v2 = { .integer = 20 };
     ioopm_list_append(list, v2);
 
-    ioopm_element_t head = ioopm_list_head(list);
+    elem_t head = ioopm_list_head(list);
     CU_ASSERT_EQUAL(head.integer, 10);
 
     ioopm_list_destroy(list);
@@ -123,20 +125,20 @@ void test_ioopm_list_head(void) {
 void test_ioopm_list_last(void) {
     ioopm_list_t *list = ioopm_list_create();
 
-    ioopm_element_t v1 = { .integer = 10 };
+    elem_t v1 = { .integer = 10 };
     ioopm_list_append(list, v1);
 
-    ioopm_element_t v2 = { .integer = 20 };
+    elem_t v2 = { .integer = 20 };
     ioopm_list_append(list, v2);
 
-    ioopm_element_t last = ioopm_list_last(list);
+    elem_t last = ioopm_list_last(list);
     CU_ASSERT_EQUAL(last.integer, 20);
 
     ioopm_list_iterator_t *it = ioopm_list_iterator_create(list);
     while(!ioopm_list_iterator_at_end(it)){
       ioopm_list_iterator_advance(it);
     }
-    ioopm_element_t last2 = ioopm_list_iterator_current(it);
+    elem_t last2 = ioopm_list_iterator_current(it);
     CU_ASSERT_EQUAL(last2.integer, 20);
 
     ioopm_list_iterator_destroy(it);
@@ -147,9 +149,9 @@ void test_ioopm_list_last(void) {
 void test_ioopm_list_insert(void) {
     ioopm_list_t *list = ioopm_list_create();
 
-    ioopm_element_t v1 = { .integer = 10 };
-    ioopm_element_t v2 = { .integer = 20 };
-    ioopm_element_t v3 = { .integer = 30 };
+    elem_t v1 = { .integer = 10 };
+    elem_t v2 = { .integer = 20 };
+    elem_t v3 = { .integer = 30 };
 
     /* Infoga vid index 0 (ska prependa) */
     ioopm_list_insert(list, 0, v1);
@@ -161,9 +163,9 @@ void test_ioopm_list_insert(void) {
 
     /* Infoga vid index 1 (mellan två noder) */
     ioopm_list_insert(list, 1, v3);
-    ioopm_element_t a2 = ioopm_list_get(list, 2);
-    ioopm_element_t a1 = ioopm_list_get(list, 1);
-    ioopm_element_t a0 = ioopm_list_get(list, 0);
+    elem_t a2 = ioopm_list_get(list, 2);
+    elem_t a1 = ioopm_list_get(list, 1);
+    elem_t a0 = ioopm_list_get(list, 0);
 
     CU_ASSERT_EQUAL(a0.integer, 20);
     CU_ASSERT_EQUAL(a1.integer, 30);
@@ -176,9 +178,9 @@ void test_ioopm_list_insert(void) {
 void test_ioopm_list_get(void) {
     ioopm_list_t *list = ioopm_list_create();
 
-    ioopm_element_t v1 = { .integer = 10 };
-    ioopm_element_t v2 = { .integer = 20 };
-    ioopm_element_t v3 = { .integer = 30 };
+    elem_t v1 = { .integer = 10 };
+    elem_t v2 = { .integer = 20 };
+    elem_t v3 = { .integer = 30 };
 
     ioopm_list_append(list, v1);
     ioopm_list_append(list, v2);
@@ -195,9 +197,9 @@ void test_ioopm_list_get(void) {
 void test_ioopm_list_remove(void) {
     ioopm_list_t *list = ioopm_list_create();
 
-    ioopm_element_t v1 = { .integer = 10 };
-    ioopm_element_t v2 = { .integer = 20 };
-    ioopm_element_t v3 = { .integer = 30 };
+    elem_t v1 = { .integer = 10 };
+    elem_t v2 = { .integer = 20 };
+    elem_t v3 = { .integer = 30 };
 
     ioopm_list_append(list, v1);
     ioopm_list_append(list, v2);
@@ -206,7 +208,7 @@ void test_ioopm_list_remove(void) {
     ioopm_list_iterator_t *it = ioopm_list_iterator_create(list); 
     ioopm_list_iterator_advance(it);
 
-    ioopm_element_t removed = ioopm_list_iterator_remove(it);
+    elem_t removed = ioopm_list_iterator_remove(it);
     CU_ASSERT_EQUAL(removed.integer, 20);
     CU_ASSERT_EQUAL(ioopm_list_get(list, 0).integer, 10);
     CU_ASSERT_EQUAL(ioopm_list_get(list, 1).integer, 30);
@@ -218,9 +220,9 @@ void test_ioopm_list_remove(void) {
 
 void test_iterator_iterate(void){ //alla tester i en inte clankat
   ioopm_list_t *list = ioopm_list_create();
-  ioopm_element_t v1 = { .integer = 10 };
-  ioopm_element_t v2 = { .integer = 20 };
-  ioopm_element_t v3 = { .integer = 30 };
+  elem_t v1 = { .integer = 10 };
+  elem_t v2 = { .integer = 20 };
+  elem_t v3 = { .integer = 30 };
   ioopm_list_append(list, v1);
   ioopm_list_append(list, v2);
   ioopm_list_append(list, v3);
@@ -249,9 +251,9 @@ void test_iterator_insert(void){
   ioopm_list_t *list = ioopm_list_create();
   ioopm_list_iterator_t *it = ioopm_list_iterator_create(list); 
 
-  ioopm_element_t v1 = { .integer = 10 };
-  ioopm_element_t v2 = { .integer = 20 };
-  ioopm_element_t v3 = { .integer = 30 };
+  elem_t v1 = { .integer = 10 };
+  elem_t v2 = { .integer = 20 };
+  elem_t v3 = { .integer = 30 };
 
   ioopm_list_iterator_insert(it, v1); //insertar på index 0
   ioopm_list_iterator_insert(it, v2); 

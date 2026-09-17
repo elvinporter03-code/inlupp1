@@ -7,7 +7,7 @@
 //Typedef ska vara efter struct
 typedef struct list      ioopm_list_t;
 typedef struct list_node ioopm_list_node_t;
-typedef union element    ioopm_element_t;
+typedef union element    elem_t;
 
 struct list {
     ioopm_list_node_t *first;
@@ -24,7 +24,7 @@ union element {
 };
 
 struct list_node {
-    ioopm_element_t head;
+    elem_t head;
     ioopm_list_node_t *tail;
 };
 
@@ -47,7 +47,7 @@ void ioopm_list_destroy(ioopm_list_t *list){
     free(list);
 }
 
-void ioopm_list_append(ioopm_list_t *list, ioopm_element_t value){
+void ioopm_list_append(ioopm_list_t *list, elem_t value){
     ioopm_list_node_t *new_node = calloc(1, sizeof(ioopm_list_node_t));
 
     new_node -> head = value;
@@ -64,15 +64,15 @@ void ioopm_list_append(ioopm_list_t *list, ioopm_element_t value){
     (list -> size)++;
 }
 
-ioopm_element_t ioopm_list_head(ioopm_list_t *list){
+elem_t ioopm_list_head(ioopm_list_t *list){
     return list->first->head;
 }
 
-ioopm_element_t ioopm_list_last(ioopm_list_t *list) {
+elem_t ioopm_list_last(ioopm_list_t *list) {
     return list->last->head;
 }
 
-void ioopm_list_prepend(ioopm_list_t *list, ioopm_element_t value){
+void ioopm_list_prepend(ioopm_list_t *list, elem_t value){
     ioopm_list_node_t *new_node = calloc(1, sizeof(ioopm_list_node_t));
     new_node -> head = value;
     new_node -> tail = list->first; 
@@ -93,7 +93,7 @@ static ioopm_list_node_t *find_previous(ioopm_list_node_t *tmp, size_t index){
     return tmp;
 }
 
-void ioopm_list_insert(ioopm_list_t *list, size_t index, ioopm_element_t value){ //inte testad men ser fin ut
+void ioopm_list_insert(ioopm_list_t *list, size_t index, elem_t value){ //inte testad men ser fin ut
     if(index == 0){
         ioopm_list_prepend(list, value);
         return;
@@ -110,10 +110,10 @@ void ioopm_list_insert(ioopm_list_t *list, size_t index, ioopm_element_t value){
     (list->size)++;
 }
 
-ioopm_element_t ioopm_list_remove(ioopm_list_t *list, size_t index){
+elem_t ioopm_list_remove(ioopm_list_t *list, size_t index){
     ioopm_list_node_t *previous = find_previous(list->first, index);
     ioopm_list_node_t *current = previous->tail;
-    ioopm_element_t removed = current->head;
+    elem_t removed = current->head;
 
     previous->tail = current->tail;
     if (index == 0){
@@ -126,7 +126,7 @@ ioopm_element_t ioopm_list_remove(ioopm_list_t *list, size_t index){
     return removed;
 }
 
-ioopm_element_t ioopm_list_get(ioopm_list_t *list, size_t index){
+elem_t ioopm_list_get(ioopm_list_t *list, size_t index){
     if(index == 0 ){
         return list->first->head;
     }

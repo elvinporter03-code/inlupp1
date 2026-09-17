@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 typedef struct list_iterator ioopm_list_iterator_t;
+typedef union element    elem_t;
 
 struct list_iterator{
     ioopm_list_node_t *current;
@@ -35,7 +36,7 @@ void ioopm_list_iterator_advance(ioopm_list_iterator_t *iter){
     }
 }
 
-ioopm_element_t ioopm_list_iterator_current(ioopm_list_iterator_t *iter){
+elem_t ioopm_list_iterator_current(ioopm_list_iterator_t *iter){
     return iter->current->head;
 }
 
@@ -49,13 +50,13 @@ static size_t find_index(ioopm_list_node_t *node, ioopm_list_t *list){
     return count;
 }
 
-ioopm_element_t ioopm_list_iterator_remove(ioopm_list_iterator_t *iter){
-    ioopm_element_t removed = ioopm_list_remove(iter->list, find_index(iter->current, iter->list));
+elem_t ioopm_list_iterator_remove(ioopm_list_iterator_t *iter){
+    elem_t removed = ioopm_list_remove(iter->list, find_index(iter->current, iter->list));
     ioopm_list_iterator_advance(iter);
     return removed;
 }
 
-void ioopm_list_iterator_insert(ioopm_list_iterator_t *iter, ioopm_element_t element){
+void ioopm_list_iterator_insert(ioopm_list_iterator_t *iter, elem_t element){
     if(iter->list->first == NULL){
         ioopm_list_append(iter->list, element);
         iter->current = iter->list->first;

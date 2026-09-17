@@ -5,9 +5,11 @@
 #include <string.h>
 #include <stdio.h>
 
+
 #define No_Buckets 17
 
 typedef struct hash_table_iterator ioopm_hash_table_iterator_t;
+
 
 struct hash_table_iterator
 {
@@ -66,7 +68,7 @@ char *ioopm_hash_table_iterator_current_key(ioopm_hash_table_iterator_t *it){
     return it->current_entry->key;
 }
 
-int ioopm_hash_table_iterator_current_value(ioopm_hash_table_iterator_t *it){
+elem_t ioopm_hash_table_iterator_current_value(ioopm_hash_table_iterator_t *it){
     return it->current_entry->value;
 }
 
