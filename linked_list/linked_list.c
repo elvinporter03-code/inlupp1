@@ -108,4 +108,3 @@ ioopm_element_t ioopm_list_remove(ioopm_list_t *list, int index){
 
     return removed;
 }
-
