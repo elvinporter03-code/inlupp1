@@ -12,7 +12,7 @@ typedef struct hash_table_iterator ioopm_hash_table_iterator_t;
 struct hash_table_iterator
 {
   ioopm_hash_table_t *ht;
-  int current_bucket;
+  size_t current_bucket;
   entry_t *current_entry;
 };
 

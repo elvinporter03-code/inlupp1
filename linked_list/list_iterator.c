@@ -39,9 +39,9 @@ ioopm_element_t ioopm_list_iterator_current(ioopm_list_iterator_t *iter){
     return iter->current->head;
 }
 
-static int find_index(ioopm_list_node_t *node, ioopm_list_t *list){
+static size_t find_index(ioopm_list_node_t *node, ioopm_list_t *list){
     ioopm_list_node_t *current = list->first;
-    int count = 0;
+    size_t count = 0;
     while(node->tail != current->tail){
         current = current->tail;
         count++;
@@ -61,10 +61,10 @@ void ioopm_list_iterator_insert(ioopm_list_iterator_t *iter, ioopm_element_t ele
         iter->current = iter->list->first;
         return;
     }
-    int index = find_index(iter->current, iter->list);
+    size_t index = find_index(iter->current, iter->list);
     ioopm_list_insert(iter->list, index, element);
 
-    int i = 0;
+    size_t i = 0;
     iter->current = iter->list->first;
     while(i != index){
         iter->current = iter->current->tail;

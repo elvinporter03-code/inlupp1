@@ -19,7 +19,7 @@ struct entry
 struct hash_table
 {
   entry_t buckets[No_Buckets];
-  int ht_size;
+  size_t ht_size;
 };
 
 // HASH FUNCTION
@@ -87,7 +87,7 @@ static void free_bucket_iter(entry_t *e){
 
 void ioopm_hash_table_destroy_iter(ioopm_hash_table_t *ht)
 {
-  for (int index = 0; index < No_Buckets; index++) // traverse each allocated bucket in memory.
+  for (size_t index = 0; index < No_Buckets; index++) // traverse each allocated bucket in memory.
   {
     entry_t *entry = &ht->buckets[index]; // create pointer to bucket
     free_bucket_iter(entry);
@@ -152,7 +152,7 @@ bool ioopm_hash_table_has_key(ioopm_hash_table_t *ht, char *key){
   return ioopm_hash_table_lookup(ht, key, &tmp);
 }
 
-int ioopm_hash_table_size(ioopm_hash_table_t *ht){  
+size_t ioopm_hash_table_size(ioopm_hash_table_t *ht){  
   return ht->ht_size;
 }
 

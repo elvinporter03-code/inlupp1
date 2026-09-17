@@ -25,7 +25,7 @@ struct entry
 struct hash_table
 {
   entry_t buckets[17];
-  int ht_size;
+  size_t ht_size;
 };
 
 /// @brief Create a new hash table
@@ -37,7 +37,7 @@ ioopm_hash_table_t *ioopm_hash_table_create(void);
 //void ioopm_hash_table_destroy(ioopm_hash_table_t *ht);
 
 
-//void ioopm_hash_table_destroy_rec(ioopm_hash_table_t *ht);
+
 void ioopm_hash_table_destroy_iter(ioopm_hash_table_t *ht);
 
 
@@ -71,7 +71,7 @@ bool ioopm_hash_table_has_key(ioopm_hash_table_t *ht, char *key);
 bool ioopm_hash_table_is_empty(ioopm_hash_table_t *ht);
 
 // TODO: documentation
-int ioopm_hash_table_size(ioopm_hash_table_t *ht);
+size_t ioopm_hash_table_size(ioopm_hash_table_t *ht);
 
 //TODO: documentation
 entry_t *find_previous(ioopm_hash_table_t *ht, char *key);
