@@ -1,6 +1,7 @@
 #include <CUnit/Basic.h>
 #include "hash_table.h"
 #include "hash_table_iterator.h"
+#include "common.h"
 
 int init_suite(void) {
   // Change this function if you want to do something *before* you

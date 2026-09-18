@@ -3,11 +3,11 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
+#include "common.h"
 
 //Typedef ska vara efter struct
 typedef struct list      ioopm_list_t;
 typedef struct list_node ioopm_list_node_t;
-typedef union element    elem_t;
 
 struct list {
     ioopm_list_node_t *first;
@@ -15,13 +15,6 @@ struct list {
     size_t size;
 };
 
-union element {
-    char *string;
-    int integer;
-    float floating_point;
-    bool boolean;
-    size_t unsigned_integer;
-};
 
 struct list_node {
     elem_t head;

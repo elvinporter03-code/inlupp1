@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
-
+#include "common.h"
 
 #define No_Buckets 17
 
@@ -64,7 +64,7 @@ bool ioopm_hash_table_iterator_at_end(ioopm_hash_table_iterator_t *it){
   return it->current_bucket == No_Buckets;
 }
 
-char *ioopm_hash_table_iterator_current_key(ioopm_hash_table_iterator_t *it){
+elem_t *ioopm_hash_table_iterator_current_key(ioopm_hash_table_iterator_t *it){
     return it->current_entry->key;
 }
 

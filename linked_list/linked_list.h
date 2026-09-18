@@ -1,23 +1,15 @@
 #pragma once
 #include <stdbool.h>
 #include <stddef.h>
+#include "common.h"
 
 typedef struct list      ioopm_list_t;
 typedef struct list_node ioopm_list_node_t;
-typedef union element    ioopm_element_t;
 
 struct list {
     ioopm_list_node_t *first;
     ioopm_list_node_t *last;
     int size;
-};
-
-union element {
-    char *string;
-    int integer;
-    float floating_point;
-    bool boolean;
-    size_t unsigned_integer;
 };
 
 struct list_node {
