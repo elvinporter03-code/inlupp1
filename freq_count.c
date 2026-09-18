@@ -12,13 +12,13 @@
 /// @param ht a hash table containing the frequencies of the words found so far
 void process_word(char *word, ioopm_hash_table_t *ht)
 {  
-  int tmp = 0;
+  elem_t tmp = int_elem(0);
   if(ioopm_hash_table_has_key(ht, word)){
     ioopm_hash_table_lookup(ht, word, &tmp);
-    ioopm_hash_table_insert(ht, word, tmp + 1);
+    ioopm_hash_table_insert(ht, word, tmp.i + 1);
   }
   else{
-    ioopm_hash_table_insert(ht, strdup(word), 1);
+    ioopm_hash_table_insert(ht, strdup(word), int_elem(1));
   }
   
 }
