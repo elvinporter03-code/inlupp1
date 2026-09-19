@@ -54,18 +54,18 @@ void test_update_key() // från instruktionerna
   // check that key is not in ht
   elem_t result = int_elem(0);
   
-  CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, &key, &result));
+  CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key, &result));
   CU_ASSERT_EQUAL(result.i, 0);
 
   // insert key-value pair and check that the mapping exists
-  ioopm_hash_table_insert(ht, &key, value);
-  CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, &key, &result));
+  ioopm_hash_table_insert(ht, key, value);
+  CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key, &result));
   CU_ASSERT_EQUAL(result.i, value.i);
 
 
   // insert key med nytt värde
-  ioopm_hash_table_insert(ht, &key, value2);
-  CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, &key, &result));
+  ioopm_hash_table_insert(ht, key, value2);
+  CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key, &result));
   CU_ASSERT_EQUAL(result.i, value2.i);
 
 
@@ -85,12 +85,12 @@ void test_insert_once() // från instruktionerna
 
   // check that key is not in ht
   elem_t result = int_elem(0);
-  CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, &key, &result));
+  CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key, &result));
   CU_ASSERT_EQUAL(result.i, 0);
 
   // insert key-value pair and check that the mapping exists
-  ioopm_hash_table_insert(ht, &key, value);
-  CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, &key, &result));
+  ioopm_hash_table_insert(ht, key, value);
+  CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key, &result));
   CU_ASSERT_EQUAL(result.i, value.i);
 
   // destroy hash table
@@ -108,16 +108,16 @@ void test_remove_existing_key()
     elem_t value = int_elem(123);
     elem_t result = int_elem(0);
 
-    ioopm_hash_table_insert(ht, &key, value);
+    ioopm_hash_table_insert(ht, key, value);
 
     // Remove the key
-    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, &key, &result));
+    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, key, &result));
 
     // Check that the removed value was returned
     CU_ASSERT_EQUAL(result.i, value.i);
 
     // Check that the key is no longer in the table
-    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, &key, &result));
+    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key, &result));
 
     ioopm_hash_table_destroy_iter(ht);
 }
@@ -133,7 +133,7 @@ void test_remove_nonexisting_key()
     elem_t result = int_elem(999);
 
     // Nothing has been inserted, so removal should fail
-    CU_ASSERT_FALSE(ioopm_hash_table_remove(ht, &key, &result));
+    CU_ASSERT_FALSE(ioopm_hash_table_remove(ht, key, &result));
 
     // The result should not have been changed
     CU_ASSERT_EQUAL(result.i, int_elem(999).i);
@@ -152,16 +152,16 @@ void test_remove_only_key()
     elem_t value = int_elem(123);
     elem_t result = int_elem(0);
 
-    ioopm_hash_table_insert(ht, &key, value);
+    ioopm_hash_table_insert(ht, key, value);
 
-    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, &key, &result));
+    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, key, &result));
     CU_ASSERT_EQUAL(result.i, value.i);
 
     // The table should now behave as if the key was never inserted
-    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, &key, &result));
+    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key, &result));
 
     // Removing it again should fail
-    CU_ASSERT_FALSE(ioopm_hash_table_remove(ht, &key, &result));
+    CU_ASSERT_FALSE(ioopm_hash_table_remove(ht, key, &result));
 
     ioopm_hash_table_destroy_iter(ht);
 }
@@ -190,8 +190,8 @@ void test_remove_from_collision_chain()
     elem_t value2 = int_elem(200);
     elem_t result = int_elem(0);
 
-    ioopm_hash_table_insert(ht, &key1, value1);
-    ioopm_hash_table_insert(ht, &key2, value2);
+    ioopm_hash_table_insert(ht, key1, value1);
+    ioopm_hash_table_insert(ht, key2, value2);
 
     /*
      * Remove key1 and make sure key2 is still there.
@@ -202,13 +202,13 @@ void test_remove_from_collision_chain()
      *
      * correctly reconnects the linked list.
      */
-    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, &key1, &result));
+    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, key1, &result));
     CU_ASSERT_EQUAL(result.i, value1.i);
 
-    CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, &key2, &result));
+    CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key2, &result));
     CU_ASSERT_EQUAL(result.i, value2.i);
 
-    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, &key1, &result));
+    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key1, &result));
 
     ioopm_hash_table_destroy_iter(ht);
 }
@@ -226,19 +226,19 @@ void test_remove_last_entry_in_collision_chain()
     elem_t value2 = int_elem(200);
     elem_t result = int_elem(0);
 
-    ioopm_hash_table_insert(ht, &key1, value1);
-    ioopm_hash_table_insert(ht, &key2, value2);
+    ioopm_hash_table_insert(ht, key1, value1);
+    ioopm_hash_table_insert(ht, key2, value2);
 
     // Remove the second/last entry
-    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, &key2, &result));
+    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, key2, &result));
     CU_ASSERT_EQUAL(result.i, value2.i);
 
     // key1 should still exist
-    CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, &key1, &result));
+    CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key1, &result));
     CU_ASSERT_EQUAL(result.i, value1.i);
 
     // key2 should be gone
-    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, &key2, &result));
+    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key2, &result));
 
     ioopm_hash_table_destroy_iter(ht);
 }
@@ -249,7 +249,7 @@ static void test_has_key_empty(void) {
   ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
 
 
-  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, &string_elem("A*")));
+  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("A*")));
 
   ioopm_hash_table_destroy_iter(ht);
 }
@@ -258,9 +258,9 @@ static void test_has_key_empty(void) {
 static void test_has_key_single(void) {
   ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
 
-  ioopm_hash_table_insert(ht, &string_elem("k"), int_elem(1));
-  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, &string_elem("k")));
-  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, &string_elem("B-")));
+  ioopm_hash_table_insert(ht, string_elem("k"), int_elem(1));
+  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("k")));
+  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("B-")));
 
   ioopm_hash_table_destroy_iter(ht);
 }
@@ -270,14 +270,14 @@ static void test_has_key_single(void) {
 static void test_has_key_multiple(void) {
   ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
 
-  ioopm_hash_table_insert(ht, &string_elem("A*"), int_elem(1));
-  ioopm_hash_table_insert(ht, &string_elem("B-"), int_elem(2));
-  ioopm_hash_table_insert(ht, &string_elem("C0"), int_elem(3));
+  ioopm_hash_table_insert(ht, string_elem("A*"), int_elem(1));
+  ioopm_hash_table_insert(ht, string_elem("B-"), int_elem(2));
+  ioopm_hash_table_insert(ht, string_elem("C0"), int_elem(3));
 
-  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, &string_elem("A*")));
-  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, &string_elem("B-")));
-  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, &string_elem("C0")));
-  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, &string_elem("HEJ")));
+  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("A*")));
+  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("B-")));
+  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("C0")));
+  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("HEJ")));
 
   ioopm_hash_table_destroy_iter(ht);
 }
@@ -288,10 +288,10 @@ static void test_remove_single(void) {
   ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
 
   elem_t result = int_elem(0);
-  ioopm_hash_table_insert(ht, &string_elem("k"), int_elem(42));
-  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, &string_elem("k"), &result));
+  ioopm_hash_table_insert(ht, string_elem("k"), int_elem(42));
+  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, string_elem("k"), &result));
   CU_ASSERT_EQUAL(result.i, 42);
-  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, &string_elem("k")));
+  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("k")));
 
   ioopm_hash_table_destroy_iter(ht);
 }
@@ -302,16 +302,16 @@ static void test_remove_middle(void) {
   ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
 
   elem_t result = int_elem(0);
-  ioopm_hash_table_insert(ht, &string_elem("A*"), int_elem(1));
-  ioopm_hash_table_insert(ht, &string_elem("B-"), int_elem(2));
-  ioopm_hash_table_insert(ht, &string_elem("C0"), int_elem(3));
+  ioopm_hash_table_insert(ht, string_elem("A*"), int_elem(1));
+  ioopm_hash_table_insert(ht, string_elem("B-"), int_elem(2));
+  ioopm_hash_table_insert(ht, string_elem("C0"), int_elem(3));
 
-  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, &string_elem("B-"), &result));
+  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, string_elem("B-"), &result));
   CU_ASSERT_EQUAL(result.i, 2);
 
-  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, &string_elem("A*")));
-  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, &string_elem("C0")));
-  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, &string_elem("B-")));
+  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("A*")));
+  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("C0")));
+  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("B-")));
 
   ioopm_hash_table_destroy_iter(ht);
 }
@@ -331,7 +331,7 @@ static void test_size_empty(void) {
 static void test_size_singleton(void) {
   ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
 
-  ioopm_hash_table_insert(ht, &string_elem("k"), int_elem(1));
+  ioopm_hash_table_insert(ht, string_elem("k"), int_elem(1));
   CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 1);
 
   ioopm_hash_table_destroy_iter(ht);
@@ -342,11 +342,11 @@ static void test_size_singleton(void) {
 static void test_size_larger(void) {
   ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
 
-  ioopm_hash_table_insert(ht, &string_elem("k1"), int_elem(1));
-  ioopm_hash_table_insert(ht, &string_elem("k2"), int_elem(2));
-  ioopm_hash_table_insert(ht, &string_elem("k3"), int_elem(3));
-  ioopm_hash_table_insert(ht, &string_elem("k4"), int_elem(4));
-  ioopm_hash_table_insert(ht, &string_elem("k5"), int_elem(5));
+  ioopm_hash_table_insert(ht, string_elem("k1"), int_elem(1));
+  ioopm_hash_table_insert(ht, string_elem("k2"), int_elem(2));
+  ioopm_hash_table_insert(ht, string_elem("k3"), int_elem(3));
+  ioopm_hash_table_insert(ht, string_elem("k4"), int_elem(4));
+  ioopm_hash_table_insert(ht, string_elem("k5"), int_elem(5));
   CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 5);
   
   ioopm_hash_table_destroy_iter(ht);
@@ -359,18 +359,18 @@ static void test_size_after_remove(void) {
 
   elem_t result = int_elem(0);
   
-  ioopm_hash_table_insert(ht, &string_elem("A*"), int_elem(1));
-  ioopm_hash_table_insert(ht, &string_elem("B-"), int_elem(2));
-  ioopm_hash_table_insert(ht, &string_elem("C0"), int_elem(3));
+  ioopm_hash_table_insert(ht, string_elem("A*"), int_elem(1));
+  ioopm_hash_table_insert(ht, string_elem("B-"), int_elem(2));
+  ioopm_hash_table_insert(ht, string_elem("C0"), int_elem(3));
   CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 3);
 
-  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, &string_elem("A*"), &result));
+  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, string_elem("A*"), &result));
   CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 2);
 
-  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, &string_elem("B-"), &result));
+  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, string_elem("B-"), &result));
   CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 1);
 
-  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, &string_elem("C0"), &result));
+  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, string_elem("C0"), &result));
   CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 0);
 
   ioopm_hash_table_destroy_iter(ht);

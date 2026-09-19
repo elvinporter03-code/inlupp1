@@ -37,27 +37,27 @@ void ioopm_hash_table_destroy_iter(ioopm_hash_table_t *ht);
 /// @param ht hash table operated upon
 /// @param key key to insert
 /// @param value value to insert
-void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t *key, elem_t value);
+void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value);
 
 /// @brief lookup value for key in hash table ht and writes it to result
 /// @param ht hash table operated upon
 /// @param key key to lookup
 /// @param result pointer to where the result gets written
 /// @return true/false depending on wether lookup was sucessfull    
-bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, elem_t *key, elem_t *result);
+bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, elem_t key, elem_t *result);
 
 /// @brief remove any mapping from key to a value
 /// @param ht hash table operated upon
 /// @param key key to remove
 /// @param result variable to store removed value in.
 /// @return the value mapped to by key (FIXME: what if the key does not exist?)
-bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, elem_t *key, elem_t *result);
+bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, elem_t key, elem_t *result);
 
 //TODO
 unsigned long string_sum_hash(const char *str);
 
 //TODO
-bool ioopm_hash_table_has_key(ioopm_hash_table_t *ht, elem_t *key);
+bool ioopm_hash_table_has_key(ioopm_hash_table_t *ht, elem_t key);
 
 // TODO: documentation
 bool ioopm_hash_table_is_empty(ioopm_hash_table_t *ht);
@@ -66,4 +66,4 @@ bool ioopm_hash_table_is_empty(ioopm_hash_table_t *ht);
 size_t ioopm_hash_table_size(ioopm_hash_table_t *ht);
 
 //TODO: documentation
-entry_t *find_previous(ioopm_hash_table_t *ht, elem_t *key);
+entry_t *find_previous(ioopm_hash_table_t *ht, elem_t key);

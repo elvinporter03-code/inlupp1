@@ -22,18 +22,18 @@ static void entry_destroy(entry_t *current) {
   free(current);
 }
 
-static entry_t *find_previous_entry(ioopm_hash_table_t *ht, elem_t *key){
+static entry_t *find_previous_entry(ioopm_hash_table_t *ht, elem_t key){
 
-  size_t bucket = ht->hash(*key) % No_Buckets;
+  size_t bucket = ht->hash(key) % No_Buckets;
   entry_t *previous = &ht->buckets[bucket];
 
-  while(previous->next != NULL && !(ht->is_equal(*(previous->next->key), *key))){
+  while(previous->next != NULL && !(ht->is_equal(previous->next->key, key))){
     previous = previous->next;
   }
   return previous;
 }
 
-bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, elem_t *key, elem_t *result) { 
+bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, elem_t key, elem_t *result) { 
   entry_t *previous = find_previous_entry(ht, key);
   entry_t *current = previous->next; 
   if (current == NULL) {
@@ -71,7 +71,7 @@ void ioopm_hash_table_destroy_iter(ioopm_hash_table_t *ht)
   free(ht); // when all buckets only contains sentinel nodes, free ht
 }
 
-static entry_t *entry_create(elem_t *key, elem_t value, entry_t *next)
+static entry_t *entry_create(elem_t key, elem_t value, entry_t *next)
 {
   next = calloc(1, sizeof(entry_t)); 
   next->key = key;
@@ -81,7 +81,7 @@ static entry_t *entry_create(elem_t *key, elem_t value, entry_t *next)
 }
 
 
-void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t *key, elem_t value)
+void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value)
 {
   // find previous entry, or the last entry if the key does not exist
   entry_t *previous = find_previous_entry(ht, key);
@@ -99,7 +99,7 @@ void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t *key, elem_t value)
   }
 }
 
-bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, elem_t *key, elem_t *result)
+bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, elem_t key, elem_t *result)
 {
 
   entry_t *previous = find_previous_entry(ht, key);
@@ -118,7 +118,7 @@ bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, elem_t *key, elem_t *result
 
 
 
-bool ioopm_hash_table_has_key(ioopm_hash_table_t *ht, elem_t *key){
+bool ioopm_hash_table_has_key(ioopm_hash_table_t *ht, elem_t key){
   // function uses same logic as lookup, therefore conveniant to reuse it.
   
   elem_t tmp; // this is a filler, not important for this has_key but needed for lookup.

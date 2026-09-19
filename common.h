@@ -21,7 +21,7 @@ union element {
 
 struct entry
 {
-  elem_t *key;    // holds the key
+  elem_t key;    // holds the key
   entry_t *next; // points to the next entry (possibly NULL)
   elem_t value;
 };
