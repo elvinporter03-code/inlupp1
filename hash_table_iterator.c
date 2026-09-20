@@ -9,10 +9,11 @@
 
 typedef struct hash_table_iterator ioopm_hash_table_iterator_t;
 
+
 struct hash_table_iterator
 {
   ioopm_hash_table_t *ht;
-  int current_bucket;
+  size_t current_bucket;
   entry_t *current_entry;
 };
 
@@ -62,11 +63,11 @@ bool ioopm_hash_table_iterator_at_end(ioopm_hash_table_iterator_t *it){
   return it->current_bucket == No_Buckets;
 }
 
-char *ioopm_hash_table_iterator_current_key(ioopm_hash_table_iterator_t *it){
-    return it->current_entry->key;
+elem_t ioopm_hash_table_iterator_current_key(ioopm_hash_table_iterator_t *it){
+  return it->current_entry->key;
 }
 
-int ioopm_hash_table_iterator_current_value(ioopm_hash_table_iterator_t *it){
+elem_t ioopm_hash_table_iterator_current_value(ioopm_hash_table_iterator_t *it){
     return it->current_entry->value;
 }
 

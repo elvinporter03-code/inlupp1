@@ -1,7 +1,6 @@
 #pragma once
 #include "hash_table.h"
 #include <stdbool.h>
-
 /**
 * @file hash_table_iterator.h
 * @author Elvin Porter & Anton Äng
@@ -14,7 +13,16 @@
 *
 */
 
+#define No_Buckets 17
+
 typedef struct hash_table_iterator ioopm_hash_table_iterator_t;
+
+struct hash_table_iterator
+{
+  ioopm_hash_table_t *ht;
+  size_t current_bucket;
+  entry_t *current_entry;
+};
 
 /// @brief Create an iterator for a hash table.
 /// @param ht hash table to iterate over
@@ -39,10 +47,10 @@ void ioopm_hash_table_iterator_advance(ioopm_hash_table_iterator_t *it);
 /// @pre it is positioned at an entry
 /// @param it iterator operated upon
 /// @return the key of the current entry
-char *ioopm_hash_table_iterator_current_key(ioopm_hash_table_iterator_t *it);
+elem_t ioopm_hash_table_iterator_current_key(ioopm_hash_table_iterator_t *it);
 
 /// @brief Get the value of the current entry
 /// @pre it is positioned at an entry
 /// @param it iterator operated upon
 /// @return the value if the current entry
-int ioopm_hash_table_iterator_current_value(ioopm_hash_table_iterator_t *it);
+elem_t ioopm_hash_table_iterator_current_value(ioopm_hash_table_iterator_t *it);
