@@ -79,7 +79,7 @@ ioopm_element_t ioopm_list_remove(ioopm_list_t *list, int index);
 /// @param list the linked list that will be extended
 /// @param index the position in the list
 /// @return the value at the given position
-int ioopm_list_get(ioopm_list_t *list, int index);
+ioopm_element_t ioopm_list_get(ioopm_list_t *list, int index);
 
 /// @brief Lookup the number of elements in the linked list in O(1) time
 /// @param list the linked list

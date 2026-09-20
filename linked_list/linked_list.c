@@ -108,3 +108,17 @@ ioopm_element_t ioopm_list_remove(ioopm_list_t *list, int index){
 
     return removed;
 }
+
+ioopm_element_t ioopm_list_get(ioopm_list_t *list, int index){
+    ioopm_list_node_t *previous = find_previous(list->first, index);
+    previous = previous->tail;
+    return previous->head;
+}
+
+int ioopm_list_size(ioopm_list_t *list){
+    return list->size;
+}
+
+bool ioopm_list_is_empty(ioopm_list_t *list){
+    return ioopm_list_size(list) == 0;
+}
