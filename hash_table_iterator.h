@@ -1,6 +1,5 @@
 #pragma once
 #include "hash_table.h"
-#include <stdbool.h>
 /**
 * @file hash_table_iterator.h
 * @author Elvin Porter & Anton Äng

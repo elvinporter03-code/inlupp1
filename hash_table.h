@@ -1,7 +1,6 @@
 #pragma once
-#include <stdbool.h>
-#include <stddef.h>
 #include "common.h"
+
 /**
 * @file hash_table.h
 * @author Elvin Porter och Anton Äng
@@ -13,10 +12,6 @@
 * or by an at symbol @@.
 *
 */
-#define No_Buckets 17
-
-
-
 
 /// @brief Create a new hash table
 /// @param hash_fn pointer to hash function 

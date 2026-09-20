@@ -5,9 +5,6 @@
 #include <stdio.h>
 #include "common.h"
 
-#define No_Buckets 17
-
-
 ioopm_hash_table_t *ioopm_hash_table_create(ioopm_hash_function *hash_fn, ioopm_eq_function *key_eq_fn){
   ioopm_hash_table_t *tmp = calloc(1, sizeof(ioopm_hash_table_t));
   tmp->ht_size = 0;

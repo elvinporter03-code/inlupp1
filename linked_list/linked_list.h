@@ -1,6 +1,5 @@
 #pragma once
-#include <stdbool.h>
-#include <stddef.h>
+
 #include "../common.h"
 
 typedef struct list      ioopm_list_t;
