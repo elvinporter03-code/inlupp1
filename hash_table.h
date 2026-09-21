@@ -48,17 +48,29 @@ bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, elem_t key, elem_t *result)
 /// @return the value mapped to by key (FIXME: what if the key does not exist?)
 bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, elem_t key, elem_t *result);
 
-//TODO
+/// @brief example hash function to convert strings to integers
+/// @param str The string to be hashed
+/// @return bucket to index into 
 unsigned long string_sum_hash(const char *str);
 
-//TODO
+/// @brief Checks if the key exists in the given hashtable 
+/// @param ht Hashtable to check
+/// @param key key to check
+/// @return True if key is in hashtable
 bool ioopm_hash_table_has_key(ioopm_hash_table_t *ht, elem_t key);
 
-// TODO: documentation
+/// @brief Checks wether the hashtable has any entries
+/// @param ht hashtable
+/// @return True if size is 0
 bool ioopm_hash_table_is_empty(ioopm_hash_table_t *ht);
 
-// TODO: documentation
+/// @brief fetches the amount of entries in the given hashtable
+/// @param ht hashtable
+/// @return size of the hashtable as a positive integer
 size_t ioopm_hash_table_size(ioopm_hash_table_t *ht);
 
-//TODO: documentation
-entry_t *find_previous(ioopm_hash_table_t *ht, elem_t key);
+/// @brief Finds the previous entry
+/// @param ht hashtable
+/// @param key current key
+/// @return the element placed before the current key in linked list.
+entry_t *ioopm_find_previous(ioopm_hash_table_t *ht, elem_t key);

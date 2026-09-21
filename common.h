@@ -28,9 +28,9 @@ struct entry
 
 struct hash_table
 {
-  entry_t buckets[No_Buckets];
-  size_t ht_size;
-  ioopm_hash_function *hash;
-  ioopm_eq_function *is_equal;
+  entry_t buckets[No_Buckets]; //Amount of buckets for the table, should be scaled with amount of entries
+  size_t ht_size; // holds the amount of entries for O(1) lookup
+  ioopm_hash_function *hash; //Function to hash the desired kind of key  
+  ioopm_eq_function *is_equal; // Function to check if the desired kind of key is equal to another
 };
 
