@@ -5,7 +5,6 @@
 #define int_elem(x)   ((elem_t) { .i = (x) })
 #define bool_elem(x)  ((elem_t) { .b = (x) })
 #define string_elem(x) ((elem_t) { .s = (x) })
-#define No_Buckets 17
 
 typedef struct entry entry_t;
 typedef struct hash_table ioopm_hash_table_t;
@@ -29,7 +28,8 @@ struct entry
 struct hash_table
 {
   // previous index
-  entry_t buckets[No_Buckets]; // Amount of buckets for the table, should be scaled with amount of entries
+  size_t no_buckets;
+  entry_t *buckets;
   size_t ht_size; // holds the amount of entries for O(1) lookup
   ioopm_hash_function *hash; //Function to hash the desired kind of key  
   ioopm_eq_function *is_equal; // Function to check if the desired kind of key is equal to another

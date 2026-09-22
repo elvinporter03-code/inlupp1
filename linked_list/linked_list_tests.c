@@ -276,15 +276,12 @@ void test_iterator_insert(void)
   ioopm_list_iterator_insert(it, v2);
   ioopm_list_iterator_insert(it, v3);
 
-  printf("\n%d\n", ioopm_list_iterator_current(it).i);
   CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).i, 10);
 
   ioopm_list_iterator_advance(it);
-  printf("\n%d\n", ioopm_list_iterator_current(it).i);
   CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).i, 20);
 
   ioopm_list_iterator_advance(it);
-  printf("\n%d\n", ioopm_list_iterator_current(it).i);
   CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).i, 30);
 
   /* i denna ordningen var testerna förut, men jag tror att det är fel. testerna ovan tror jag är rätt för att kolla vad current(it).i är korrekt
