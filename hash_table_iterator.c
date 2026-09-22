@@ -7,7 +7,6 @@
 
 typedef struct hash_table_iterator ioopm_hash_table_iterator_t;
 
-
 struct hash_table_iterator
 {
   ioopm_hash_table_t *ht;
@@ -15,7 +14,10 @@ struct hash_table_iterator
   entry_t *current_entry;
 };
 
-
+/// @brief Moves the hash table iterator to point at the next entry,
+///        if there are no more entries in the bucket, the iterator moves on to the next bucket.
+/// @param it Pointer to a hash_table_iterator
+/// @return void
 static void advance_iterator_state(ioopm_hash_table_iterator_t *it)
 {
   // advance to the next entry in the bucket
@@ -30,18 +32,18 @@ static void advance_iterator_state(ioopm_hash_table_iterator_t *it)
     if (it->current_bucket != No_Buckets)
     {
       it->current_entry = &it->ht->buckets[it->current_bucket];
-     }
+    }
   }
 }
 
- static void skip_sentinel_nodes(ioopm_hash_table_iterator_t *it)
+static void skip_sentinel_nodes(ioopm_hash_table_iterator_t *it)
+{
+  while (it->current_bucket != No_Buckets &&
+         it->current_entry == &it->ht->buckets[it->current_bucket])
   {
-    while (it->current_bucket != No_Buckets &&
-           it->current_entry == &it->ht->buckets[it->current_bucket])
-    {
-      advance_iterator_state(it); 
-    }
+    advance_iterator_state(it);
   }
+}
 
 ioopm_hash_table_iterator_t *ioopm_hash_table_iterator_create(ioopm_hash_table_t *ht)
 {
@@ -53,24 +55,28 @@ ioopm_hash_table_iterator_t *ioopm_hash_table_iterator_create(ioopm_hash_table_t
   return it;
 }
 
-void ioopm_hash_table_iterator_destroy(ioopm_hash_table_iterator_t *it){
-    free(it);
+void ioopm_hash_table_iterator_destroy(ioopm_hash_table_iterator_t *it)
+{
+  free(it);
 }
 
-bool ioopm_hash_table_iterator_at_end(ioopm_hash_table_iterator_t *it){
+bool ioopm_hash_table_iterator_at_end(ioopm_hash_table_iterator_t *it)
+{
   return it->current_bucket == No_Buckets;
 }
 
-elem_t ioopm_hash_table_iterator_current_key(ioopm_hash_table_iterator_t *it){
+elem_t ioopm_hash_table_iterator_current_key(ioopm_hash_table_iterator_t *it)
+{
   return it->current_entry->key;
 }
 
-elem_t ioopm_hash_table_iterator_current_value(ioopm_hash_table_iterator_t *it){
-    return it->current_entry->value;
+elem_t ioopm_hash_table_iterator_current_value(ioopm_hash_table_iterator_t *it)
+{
+  return it->current_entry->value;
 }
 
-void ioopm_hash_table_iterator_advance(ioopm_hash_table_iterator_t *it){
-    advance_iterator_state(it);
-    skip_sentinel_nodes(it);
+void ioopm_hash_table_iterator_advance(ioopm_hash_table_iterator_t *it)
+{
+  advance_iterator_state(it);
+  skip_sentinel_nodes(it);
 }
-

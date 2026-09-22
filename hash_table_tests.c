@@ -39,7 +39,7 @@ void test_create_destroy()
    ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
 
    CU_ASSERT_PTR_NOT_NULL(ht);
-   ioopm_hash_table_destroy_iter(ht);
+   ioopm_hash_table_destroy(ht);
 }
 
 void test_update_key() // från instruktionerna
@@ -70,7 +70,7 @@ void test_update_key() // från instruktionerna
 
 
   // destroy hash table
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 void test_insert_once() // från instruktionerna
@@ -94,7 +94,7 @@ void test_insert_once() // från instruktionerna
   CU_ASSERT_EQUAL(result.i, value.i);
 
   // destroy hash table
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 // This test case was written with assistance from ChatGPT.
@@ -119,7 +119,7 @@ void test_remove_existing_key()
     // Check that the key is no longer in the table
     CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key, &result));
 
-    ioopm_hash_table_destroy_iter(ht);
+    ioopm_hash_table_destroy(ht);
 }
 
 // This test case was written with assistance from ChatGPT.
@@ -138,7 +138,7 @@ void test_remove_nonexisting_key()
     // The result should not have been changed
     CU_ASSERT_EQUAL(result.i, int_elem(999).i);
 
-    ioopm_hash_table_destroy_iter(ht);
+    ioopm_hash_table_destroy(ht);
 }
 
 // This test case was written with assistance from ChatGPT.
@@ -163,7 +163,7 @@ void test_remove_only_key()
     // Removing it again should fail
     CU_ASSERT_FALSE(ioopm_hash_table_remove(ht, key, &result));
 
-    ioopm_hash_table_destroy_iter(ht);
+    ioopm_hash_table_destroy(ht);
 }
 
 // This test case was written with assistance from ChatGPT.
@@ -210,7 +210,7 @@ void test_remove_from_collision_chain()
 
     CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key1, &result));
 
-    ioopm_hash_table_destroy_iter(ht);
+    ioopm_hash_table_destroy(ht);
 }
 
 // This test case was written with assistance from ChatGPT.
@@ -240,7 +240,7 @@ void test_remove_last_entry_in_collision_chain()
     // key2 should be gone
     CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key2, &result));
 
-    ioopm_hash_table_destroy_iter(ht);
+    ioopm_hash_table_destroy(ht);
 }
 
 // 1. Tom tabell ska inte ha nyckeln k
@@ -251,7 +251,7 @@ static void test_has_key_empty(void) {
 
   CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("A*")));
 
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 // 2. Efter insert av k ska k finnas, men inte k2
 //Gjorda av deepseek
@@ -262,7 +262,7 @@ static void test_has_key_single(void) {
   CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("k")));
   CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("B-")));
 
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 // 3. Efter insert av k1, k2, k3 ska alla finnas, men inte k4
@@ -279,7 +279,7 @@ static void test_has_key_multiple(void) {
   CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("C0")));
   CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("HEJ")));
 
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 // 4. Insert + remove av k => k ska inte finnas
@@ -293,7 +293,7 @@ static void test_remove_single(void) {
   CU_ASSERT_EQUAL(result.i, 42);
   CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("k")));
 
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 // 5. Insert k1,k2,k3, remove k2 => k1,k3 finns, k2 inte
@@ -313,7 +313,7 @@ static void test_remove_middle(void) {
   CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("C0")));
   CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("B-")));
 
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 // size of an empty hash table
@@ -323,7 +323,7 @@ static void test_size_empty(void) {
 
   CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 0);
 
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 // size of a singleton hash table
@@ -334,7 +334,7 @@ static void test_size_singleton(void) {
   ioopm_hash_table_insert(ht, string_elem("k"), int_elem(1));
   CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 1);
 
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 // size of a larger hash table
@@ -349,7 +349,7 @@ static void test_size_larger(void) {
   ioopm_hash_table_insert(ht, string_elem("k5"), int_elem(5));
   CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 5);
   
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 // size after removing an element
@@ -373,7 +373,7 @@ static void test_size_after_remove(void) {
   CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, string_elem("C0"), &result));
   CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 0);
 
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 

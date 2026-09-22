@@ -41,7 +41,7 @@ void test_iterating_empty(void) {
   ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht);
   CU_ASSERT_TRUE(ioopm_hash_table_iterator_at_end(it));
   ioopm_hash_table_iterator_destroy(it);
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 void test_iterating_singleton(void) {
@@ -63,7 +63,7 @@ void test_iterating_singleton(void) {
   CU_ASSERT_TRUE(ioopm_hash_table_iterator_at_end(it));
 
   ioopm_hash_table_iterator_destroy(it);
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 void test_iterator_several_entries(void) {
@@ -85,7 +85,7 @@ void test_iterator_several_entries(void) {
   }
 
   ioopm_hash_table_iterator_destroy(it);
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
   CU_ASSERT_EQUAL(iteration_count, 3);
 }
 
@@ -122,7 +122,7 @@ void test_iterator_several_unique(void) {
       CU_ASSERT_TRUE(visited[i]);
   }
   ioopm_hash_table_iterator_destroy(it);
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
 }
 
 void test_iterator_several_unique_same_bucket(void) {
@@ -155,7 +155,7 @@ void test_iterator_several_unique_same_bucket(void) {
   }
 
   ioopm_hash_table_iterator_destroy(it);
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
   CU_ASSERT_EQUAL(iteration_count, 3);
 }
 

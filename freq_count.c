@@ -12,18 +12,19 @@
 /// @param word the word to process
 /// @param ht a hash table containing the frequencies of the words found so far
 void process_word(elem_t word, ioopm_hash_table_t *ht)
-{  
+{
   elem_t tmp = int_elem(0);
-  if(ioopm_hash_table_has_key(ht, word)){
+  if (ioopm_hash_table_has_key(ht, word))
+  {
     ioopm_hash_table_lookup(ht, word, &tmp);
     tmp.i++;
     ioopm_hash_table_insert(ht, word, tmp);
   }
-  else{
+  else
+  {
     elem_t key = string_elem(strdup(word.s));
     ioopm_hash_table_insert(ht, key, int_elem(1));
   }
-  
 }
 
 static size_t ioopm_string_knr_hash(elem_t key)
@@ -32,13 +33,14 @@ static size_t ioopm_string_knr_hash(elem_t key)
   size_t result = 0;
   while (*str != '\0')
   {
-    result = result * 31 + ((unsigned char) *str);
+    result = result * 31 + ((unsigned char)*str);
     str++;
   }
   return result;
 }
 
-static bool string_compare(elem_t str1, elem_t str2){
+static bool string_compare(elem_t str1, elem_t str2)
+{
   const char *string1 = str1.s;
   const char *string2 = str2.s;
 
@@ -51,10 +53,11 @@ static bool string_compare(elem_t str1, elem_t str2){
 void process_file(char *filename, ioopm_hash_table_t *ht)
 {
   FILE *f = fopen(filename, "r");
-  if (f == NULL) {
-    perror(filename);  
+  if (f == NULL)
+  {
+    perror(filename);
     return;
-}
+  }
   while (true)
   {
     char *buf = NULL;
@@ -65,7 +68,7 @@ void process_file(char *filename, ioopm_hash_table_t *ht)
       free(buf);
       break;
     }
-    for (elem_t word =string_elem(strtok(buf, Delimiters));
+    for (elem_t word = string_elem(strtok(buf, Delimiters));
          word.s && *word.s;
          word.s = strtok(NULL, Delimiters))
     {
@@ -132,7 +135,8 @@ int main(int argc, char *argv[])
   int index = 0;
 
   ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht);
-  while(!ioopm_hash_table_iterator_at_end(it)){
+  while (!ioopm_hash_table_iterator_at_end(it))
+  {
     freq_words[index].word = (ioopm_hash_table_iterator_current_key(it)).s;
     freq_words[index].freq = (ioopm_hash_table_iterator_current_value(it)).i;
     index++;

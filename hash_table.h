@@ -21,12 +21,7 @@ ioopm_hash_table_t *ioopm_hash_table_create(ioopm_hash_function *hash_fn, ioopm_
 
 /// @brief Delete a hash table and free its memory
 /// @param ht a hash table to be deleted
-//void ioopm_hash_table_destroy(ioopm_hash_table_t *ht);
-
-
-
-void ioopm_hash_table_destroy_iter(ioopm_hash_table_t *ht);
-
+void ioopm_hash_table_destroy(ioopm_hash_table_t *ht);
 
 /// @brief add key => value entry in hash table ht
 /// @param ht hash table operated upon
