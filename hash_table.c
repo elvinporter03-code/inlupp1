@@ -152,3 +152,4 @@ bool ioopm_hash_table_is_empty(ioopm_hash_table_t *ht)
 {
   return ioopm_hash_table_size(ht) == 0;
 }
+

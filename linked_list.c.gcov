@@ -1,0 +1,171 @@
+        -:    0:Source:linked_list/linked_list.c
+        -:    0:Graph:ll_tests-linked_list.gcno
+        -:    0:Data:ll_tests-linked_list.gcda
+        -:    0:Runs:2
+        -:    1:#include <stddef.h>
+        -:    2:#include <stdlib.h>
+        -:    3:#include <stdbool.h>
+        -:    4:#include <string.h>
+        -:    5:#include <stdio.h>
+        -:    6:#include "../common.h"
+        -:    7:
+        -:    8:// Typedef ska vara efter struct
+        -:    9:typedef struct list ioopm_list_t;
+        -:   10:typedef struct list_node ioopm_list_node_t;
+        -:   11:
+        -:   12:struct list
+        -:   13:{
+        -:   14:    ioopm_list_node_t *first;
+        -:   15:    ioopm_list_node_t *last;
+        -:   16:    size_t size;
+        -:   17:};
+        -:   18:
+        -:   19:struct list_node
+        -:   20:{
+        -:   21:    elem_t head;
+        -:   22:    ioopm_list_node_t *tail;
+        -:   23:};
+        -:   24:
+       28:   25:ioopm_list_t *ioopm_list_create(void)
+        -:   26:{
+       28:   27:    return calloc(1, sizeof(ioopm_list_t));
+        -:   28:}
+        -:   29:
+       28:   30:void ioopm_list_destroy(ioopm_list_t *list)
+        -:   31:{
+       28:   32:    ioopm_list_node_t *current = list->first;
+        -:   33:
+       82:   34:    while (current != NULL) // Loops through the entire list and frees up the memory of the current node while saving a temporary pointer to the next one for the next iteration
+        -:   35:    {
+       54:   36:        ioopm_list_node_t *next = current->tail;
+       54:   37:        free(current);
+       54:   38:        current = next;
+        -:   39:    }
+        -:   40:
+       28:   41:    free(list);
+       28:   42:}
+        -:   43:
+       42:   44:void ioopm_list_append(ioopm_list_t *list, elem_t value) // allokerar minne för en nod och kopplar in den sist i listan
+        -:   45:{
+       42:   46:    ioopm_list_node_t *new_node = calloc(1, sizeof(ioopm_list_node_t));
+        -:   47:
+       42:   48:    new_node->head = value;
+       42:   49:    new_node->tail = NULL;
+        -:   50:
+       42:   51:    if (list->size == 0)
+        -:   52:    {
+       20:   53:        list->first = new_node;
+        -:   54:    }
+        -:   55:    else
+        -:   56:    {
+       22:   57:        list->last->tail = new_node;
+        -:   58:    }
+        -:   59:
+       42:   60:    list->last = new_node;
+        -:   61:
+       42:   62:    (list->size)++;
+       42:   63:}
+        -:   64:
+        2:   65:elem_t ioopm_list_head(ioopm_list_t *list)
+        -:   66:{
+        2:   67:    return list->first->head;
+        -:   68:}
+        -:   69:
+        2:   70:elem_t ioopm_list_last(ioopm_list_t *list)
+        -:   71:{
+        2:   72:    return list->last->head;
+        -:   73:}
+        -:   74:
+       10:   75:void ioopm_list_prepend(ioopm_list_t *list, elem_t value) // Som append men sätter noden först
+        -:   76:{
+       10:   77:    ioopm_list_node_t *new_node = calloc(1, sizeof(ioopm_list_node_t));
+       10:   78:    new_node->head = value;
+       10:   79:    new_node->tail = list->first;
+       10:   80:    list->first = new_node;
+       10:   81:    (list->size)++;
+       10:   82:    if (list->last == NULL)
+        -:   83:    {
+        4:   84:        list->last = list->first;
+        -:   85:    }
+       10:   86:}
+        -:   87:
+        -:   88:/// @brief Finds the node before tmp
+        -:   89:/// @param tmp First node of the list
+        -:   90:/// @param index index of the current node
+        -:   91:/// @return The node right before the current one
+       20:   92:static ioopm_list_node_t *find_previous(ioopm_list_node_t *tmp, size_t index)
+        -:   93:{
+       20:   94:    ioopm_list_node_t *current = tmp;
+       44:   95:    while (index != 0)
+        -:   96:    {
+       24:   97:        tmp = current;
+       24:   98:        current = current->tail;
+       24:   99:        index--;
+        -:  100:    }
+       20:  101:    return tmp;
+        -:  102:}
+        -:  103:
+       12:  104:void ioopm_list_insert(ioopm_list_t *list, size_t index, elem_t value)
+        -:  105:{ // inte testad men ser fin ut
+       12:  106:    if (index == 0)
+        -:  107:    {
+        6:  108:        ioopm_list_prepend(list, value);
+        6:  109:        return;
+        -:  110:    }
+        6:  111:    else if (index == list->size)
+        -:  112:    {
+    #####:  113:        return;
+        -:  114:    }
+        6:  115:    ioopm_list_node_t *previous = find_previous(list->first, index);
+        6:  116:    ioopm_list_node_t *current = previous->tail;
+        -:  117:    //Hittar föregående och nuvaranda nod och skapar den nya noden
+        -:  118:    //Sätter sedan in den på rätt ställe
+        6:  119:    ioopm_list_node_t *new_node = calloc(1, sizeof(ioopm_list_node_t)); 
+        6:  120:    new_node->head = value;
+        6:  121:    new_node->tail = current;
+        6:  122:    previous->tail = new_node;
+        6:  123:    (list->size)++;
+        -:  124:}
+        -:  125:
+        4:  126:elem_t ioopm_list_remove(ioopm_list_t *list, size_t index) 
+        -:  127:{
+        -:  128:    //Hittar föregående och nuvarande nod
+        4:  129:    ioopm_list_node_t *previous = find_previous(list->first, index);
+        4:  130:    ioopm_list_node_t *current = previous->tail;
+        4:  131:    elem_t removed = current->head;
+        -:  132:    //Länkar om listan för att frigöra nuvarande nod
+        4:  133:    previous->tail = current->tail;
+        -:  134:    //Edge cases
+        4:  135:    if (index == 0)
+        -:  136:    {
+    #####:  137:        list->first = list->first->tail;
+        -:  138:    }
+        4:  139:    else if (index == list->size - 1)
+        -:  140:    {
+    #####:  141:        list->last = previous;
+        -:  142:    }
+        4:  143:    free(current); //Frigör minnet
+        4:  144:    (list->size)--;
+        4:  145:    return removed;
+        -:  146:}
+        -:  147:
+       16:  148:elem_t ioopm_list_get(ioopm_list_t *list, size_t index)
+        -:  149:{   //Edge case för när vi vill hämta första elementet en lista
+       16:  150:    if (index == 0)
+        -:  151:    {
+        6:  152:        return list->first->head;
+        -:  153:    }
+       10:  154:    ioopm_list_node_t *previous = find_previous(list->first, index); //återanvänder gammal funktion
+       10:  155:    previous = previous->tail; //Previous blir current
+       10:  156:    return previous->head;
+        -:  157:}
+        -:  158:
+       10:  159:size_t ioopm_list_size(ioopm_list_t *list)
+        -:  160:{
+       10:  161:    return list->size;
+        -:  162:}
+        -:  163:
+        4:  164:bool ioopm_list_is_empty(ioopm_list_t *list)
+        -:  165:{
+        4:  166:    return ioopm_list_size(list) == 0;
+        -:  167:}

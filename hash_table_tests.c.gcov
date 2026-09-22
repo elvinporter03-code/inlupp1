@@ -1,0 +1,438 @@
+        -:    0:Source:hash_table_tests.c
+        -:    0:Graph:ht_tests-hash_table_tests.gcno
+        -:    0:Data:ht_tests-hash_table_tests.gcda
+        -:    0:Runs:2
+        -:    1:#include <CUnit/Basic.h>
+        -:    2:#include "hash_table.h"
+        -:    3:#include "hash_table_iterator.h"
+        -:    4:#include "common.h"
+        -:    5:
+        2:    6:int init_suite(void) {
+        -:    7:  // Change this function if you want to do something *before* you
+        -:    8:  // run a test suite
+        2:    9:  return 0;
+        -:   10:}
+        -:   11:
+        2:   12:int clean_suite(void) {
+        -:   13:  // Change this function if you want to do something *after* you
+        -:   14:  // run a test suite
+        2:   15:  return 0;
+        -:   16:}
+        -:   17:
+      118:   18:static size_t ioopm_string_knr_hash(elem_t key)
+        -:   19:{
+      118:   20:  const char *str = key.s;
+      118:   21:  size_t result = 0;
+      374:   22:  while (*str != '\0')
+        -:   23:  {
+      256:   24:    result = result * 31 + ((unsigned char) *str);
+      256:   25:    str++;
+        -:   26:  }
+      118:   27:  return result;
+        -:   28:}
+        -:   29:
+       84:   30:static bool string_compare(elem_t str1, elem_t str2){
+       84:   31:  const char *string1 = str1.s;
+       84:   32:  const char *string2 = str2.s;
+        -:   33:
+       84:   34:  return strcmp(string1, string2) == 0;
+        -:   35:}
+        -:   36:
+        2:   37:void test_create_destroy()
+        -:   38:{
+        2:   39:   ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:   40:
+        2:   41:   CU_ASSERT_PTR_NOT_NULL(ht);
+        2:   42:   ioopm_hash_table_destroy(ht);
+        2:   43:}
+        -:   44:
+        2:   45:void test_update_key() // från instruktionerna
+        -:   46:{
+        -:   47:  // create new hash table
+        2:   48:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:   49:
+        -:   50:  elem_t key;
+        2:   51:  key.s = "abc";
+        2:   52:  elem_t value = int_elem(123);
+        2:   53:  elem_t value2 = int_elem(456);
+        -:   54:  // check that key is not in ht
+        2:   55:  elem_t result = int_elem(0);
+        -:   56:  
+        2:   57:  CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key, &result));
+        2:   58:  CU_ASSERT_EQUAL(result.i, 0);
+        -:   59:
+        -:   60:  // insert key-value pair and check that the mapping exists
+        2:   61:  ioopm_hash_table_insert(ht, key, value);
+        2:   62:  CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key, &result));
+        2:   63:  CU_ASSERT_EQUAL(result.i, value.i);
+        -:   64:
+        -:   65:
+        -:   66:  // insert key med nytt värde
+        2:   67:  ioopm_hash_table_insert(ht, key, value2);
+        2:   68:  CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key, &result));
+        2:   69:  CU_ASSERT_EQUAL(result.i, value2.i);
+        -:   70:
+        -:   71:
+        -:   72:  // destroy hash table
+        2:   73:  ioopm_hash_table_destroy(ht);
+        2:   74:}
+        -:   75:
+        2:   76:void test_insert_once() // från instruktionerna
+        -:   77:{
+        -:   78:  // create new hash table
+        2:   79:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:   80:
+        -:   81:
+        -:   82:  elem_t key;
+        2:   83:  key.s = "abc";
+        2:   84:  elem_t value = int_elem(123);
+        -:   85:
+        -:   86:  // check that key is not in ht
+        2:   87:  elem_t result = int_elem(0);
+        2:   88:  CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key, &result));
+        2:   89:  CU_ASSERT_EQUAL(result.i, 0);
+        -:   90:
+        -:   91:  // insert key-value pair and check that the mapping exists
+        2:   92:  ioopm_hash_table_insert(ht, key, value);
+        2:   93:  CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key, &result));
+        2:   94:  CU_ASSERT_EQUAL(result.i, value.i);
+        -:   95:
+        -:   96:  // destroy hash table
+        2:   97:  ioopm_hash_table_destroy(ht);
+        2:   98:}
+        -:   99:
+        -:  100:// This test case was written with assistance from ChatGPT.
+        2:  101:void test_remove_existing_key()
+        -:  102:{
+        2:  103:    ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  104:
+        -:  105:
+        -:  106:    elem_t key;
+        2:  107:    key.s = "abc";
+        2:  108:    elem_t value = int_elem(123);
+        2:  109:    elem_t result = int_elem(0);
+        -:  110:
+        2:  111:    ioopm_hash_table_insert(ht, key, value);
+        -:  112:
+        -:  113:    // Remove the key
+        2:  114:    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, key, &result));
+        -:  115:
+        -:  116:    // Check that the removed value was returned
+        2:  117:    CU_ASSERT_EQUAL(result.i, value.i);
+        -:  118:
+        -:  119:    // Check that the key is no longer in the table
+        2:  120:    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key, &result));
+        -:  121:
+        2:  122:    ioopm_hash_table_destroy(ht);
+        2:  123:}
+        -:  124:
+        -:  125:// This test case was written with assistance from ChatGPT.
+        2:  126:void test_remove_nonexisting_key()
+        -:  127:{
+        2:  128:    ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  129:
+        -:  130:
+        -:  131:    elem_t key;
+        2:  132:    key.s = "A*";
+        2:  133:    elem_t result = int_elem(999);
+        -:  134:
+        -:  135:    // Nothing has been inserted, so removal should fail
+        2:  136:    CU_ASSERT_FALSE(ioopm_hash_table_remove(ht, key, &result));
+        -:  137:
+        -:  138:    // The result should not have been changed
+        2:  139:    CU_ASSERT_EQUAL(result.i, int_elem(999).i);
+        -:  140:
+        2:  141:    ioopm_hash_table_destroy(ht);
+        2:  142:}
+        -:  143:
+        -:  144:// This test case was written with assistance from ChatGPT.
+        2:  145:void test_remove_only_key()
+        -:  146:{
+        2:  147:    ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  148:
+        -:  149:
+        -:  150:    elem_t key;
+        2:  151:    key.s = "abc";
+        2:  152:    elem_t value = int_elem(123);
+        2:  153:    elem_t result = int_elem(0);
+        -:  154:
+        2:  155:    ioopm_hash_table_insert(ht, key, value);
+        -:  156:
+        2:  157:    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, key, &result));
+        2:  158:    CU_ASSERT_EQUAL(result.i, value.i);
+        -:  159:
+        -:  160:    // The table should now behave as if the key was never inserted
+        2:  161:    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key, &result));
+        -:  162:
+        -:  163:    // Removing it again should fail
+        2:  164:    CU_ASSERT_FALSE(ioopm_hash_table_remove(ht, key, &result));
+        -:  165:
+        2:  166:    ioopm_hash_table_destroy(ht);
+        2:  167:}
+        -:  168:
+        -:  169:// This test case was written with assistance from ChatGPT.
+        2:  170:void test_remove_from_collision_chain()
+        -:  171:{
+        2:  172:    ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  173:
+        -:  174:
+        -:  175:    /*
+        -:  176:     * We need keys that hash to the same bucket.
+        -:  177:     * These values can be replaced with known colliding keys
+        -:  178:     * if your assignment provides them.
+        -:  179:     *
+        -:  180:     * For now, find two/three keys that collide with your hash
+        -:  181:     * function.
+        -:  182:     */
+        -:  183:
+        -:  184:     elem_t key1;
+        2:  185:     key1.s = "A*";    
+        -:  186:     elem_t key2;
+        2:  187:     key2.s = "B-";
+        -:  188:
+        2:  189:    elem_t value1 = int_elem(100);
+        2:  190:    elem_t value2 = int_elem(200);
+        2:  191:    elem_t result = int_elem(0);
+        -:  192:
+        2:  193:    ioopm_hash_table_insert(ht, key1, value1);
+        2:  194:    ioopm_hash_table_insert(ht, key2, value2);
+        -:  195:
+        -:  196:    /*
+        -:  197:     * Remove key1 and make sure key2 is still there.
+        -:  198:     *
+        -:  199:     * This specifically tests that:
+        -:  200:     *
+        -:  201:     * previous->next = current->next;
+        -:  202:     *
+        -:  203:     * correctly reconnects the linked list.
+        -:  204:     */
+        2:  205:    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, key1, &result));
+        2:  206:    CU_ASSERT_EQUAL(result.i, value1.i);
+        -:  207:
+        2:  208:    CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key2, &result));
+        2:  209:    CU_ASSERT_EQUAL(result.i, value2.i);
+        -:  210:
+        2:  211:    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key1, &result));
+        -:  212:
+        2:  213:    ioopm_hash_table_destroy(ht);
+        2:  214:}
+        -:  215:
+        -:  216:// This test case was written with assistance from ChatGPT.
+        2:  217:void test_remove_last_entry_in_collision_chain()
+        -:  218:{
+        2:  219:    ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  220:
+        -:  221:
+        2:  222:    elem_t key1 = string_elem("A*");
+        2:  223:    elem_t key2 = string_elem("B-");  
+        -:  224:
+        2:  225:    elem_t value1 = int_elem(100);
+        2:  226:    elem_t value2 = int_elem(200);
+        2:  227:    elem_t result = int_elem(0);
+        -:  228:
+        2:  229:    ioopm_hash_table_insert(ht, key1, value1);
+        2:  230:    ioopm_hash_table_insert(ht, key2, value2);
+        -:  231:
+        -:  232:    // Remove the second/last entry
+        2:  233:    CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, key2, &result));
+        2:  234:    CU_ASSERT_EQUAL(result.i, value2.i);
+        -:  235:
+        -:  236:    // key1 should still exist
+        2:  237:    CU_ASSERT_TRUE(ioopm_hash_table_lookup(ht, key1, &result));
+        2:  238:    CU_ASSERT_EQUAL(result.i, value1.i);
+        -:  239:
+        -:  240:    // key2 should be gone
+        2:  241:    CU_ASSERT_FALSE(ioopm_hash_table_lookup(ht, key2, &result));
+        -:  242:
+        2:  243:    ioopm_hash_table_destroy(ht);
+        2:  244:}
+        -:  245:
+        -:  246:// 1. Tom tabell ska inte ha nyckeln k
+        -:  247://Gjorda av deepseek
+        2:  248:static void test_has_key_empty(void) {
+        2:  249:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  250:
+        -:  251:
+        2:  252:  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("A*")));
+        -:  253:
+        2:  254:  ioopm_hash_table_destroy(ht);
+        2:  255:}
+        -:  256:// 2. Efter insert av k ska k finnas, men inte k2
+        -:  257://Gjorda av deepseek
+        2:  258:static void test_has_key_single(void) {
+        2:  259:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  260:
+        2:  261:  ioopm_hash_table_insert(ht, string_elem("k"), int_elem(1));
+        2:  262:  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("k")));
+        2:  263:  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("B-")));
+        -:  264:
+        2:  265:  ioopm_hash_table_destroy(ht);
+        2:  266:}
+        -:  267:
+        -:  268:// 3. Efter insert av k1, k2, k3 ska alla finnas, men inte k4
+        -:  269://Gjorda av deepseek
+        2:  270:static void test_has_key_multiple(void) {
+        2:  271:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  272:
+        2:  273:  ioopm_hash_table_insert(ht, string_elem("A*"), int_elem(1));
+        2:  274:  ioopm_hash_table_insert(ht, string_elem("B-"), int_elem(2));
+        2:  275:  ioopm_hash_table_insert(ht, string_elem("C0"), int_elem(3));
+        -:  276:
+        2:  277:  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("A*")));
+        2:  278:  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("B-")));
+        2:  279:  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("C0")));
+        2:  280:  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("HEJ")));
+        -:  281:
+        2:  282:  ioopm_hash_table_destroy(ht);
+        2:  283:}
+        -:  284:
+        -:  285:// 4. Insert + remove av k => k ska inte finnas
+        -:  286://Gjorda av deepseek
+        2:  287:static void test_remove_single(void) {
+        2:  288:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  289:
+        2:  290:  elem_t result = int_elem(0);
+        2:  291:  ioopm_hash_table_insert(ht, string_elem("k"), int_elem(42));
+        2:  292:  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, string_elem("k"), &result));
+        2:  293:  CU_ASSERT_EQUAL(result.i, 42);
+        2:  294:  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("k")));
+        -:  295:
+        2:  296:  ioopm_hash_table_destroy(ht);
+        2:  297:}
+        -:  298:
+        -:  299:// 5. Insert k1,k2,k3, remove k2 => k1,k3 finns, k2 inte
+        -:  300://Gjorda av deepseek
+        2:  301:static void test_remove_middle(void) {
+        2:  302:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  303:
+        2:  304:  elem_t result = int_elem(0);
+        2:  305:  ioopm_hash_table_insert(ht, string_elem("A*"), int_elem(1));
+        2:  306:  ioopm_hash_table_insert(ht, string_elem("B-"), int_elem(2));
+        2:  307:  ioopm_hash_table_insert(ht, string_elem("C0"), int_elem(3));
+        -:  308:
+        2:  309:  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, string_elem("B-"), &result));
+        2:  310:  CU_ASSERT_EQUAL(result.i, 2);
+        -:  311:
+        2:  312:  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("A*")));
+        2:  313:  CU_ASSERT_TRUE(ioopm_hash_table_has_key(ht, string_elem("C0")));
+        2:  314:  CU_ASSERT_FALSE(ioopm_hash_table_has_key(ht, string_elem("B-")));
+        -:  315:
+        2:  316:  ioopm_hash_table_destroy(ht);
+        2:  317:}
+        -:  318:
+        -:  319:// size of an empty hash table
+        -:  320:// gjort av deepseek
+        2:  321:static void test_size_empty(void) {
+        2:  322:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  323:
+        2:  324:  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 0);
+        -:  325:
+        2:  326:  ioopm_hash_table_destroy(ht);
+        2:  327:}
+        -:  328:
+        -:  329:// size of a singleton hash table
+        -:  330:// gjort av deepseek
+        2:  331:static void test_size_singleton(void) {
+        2:  332:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  333:
+        2:  334:  ioopm_hash_table_insert(ht, string_elem("k"), int_elem(1));
+        2:  335:  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 1);
+        -:  336:
+        2:  337:  ioopm_hash_table_destroy(ht);
+        2:  338:}
+        -:  339:
+        -:  340:// size of a larger hash table
+        -:  341:// gjort av deepseek
+        2:  342:static void test_size_larger(void) {
+        2:  343:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  344:
+        2:  345:  ioopm_hash_table_insert(ht, string_elem("k1"), int_elem(1));
+        2:  346:  ioopm_hash_table_insert(ht, string_elem("k2"), int_elem(2));
+        2:  347:  ioopm_hash_table_insert(ht, string_elem("k3"), int_elem(3));
+        2:  348:  ioopm_hash_table_insert(ht, string_elem("k4"), int_elem(4));
+        2:  349:  ioopm_hash_table_insert(ht, string_elem("k5"), int_elem(5));
+        2:  350:  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 5);
+        -:  351:  
+        2:  352:  ioopm_hash_table_destroy(ht);
+        2:  353:}
+        -:  354:
+        -:  355:// size after removing an element
+        -:  356:// gjort av deepseek
+        2:  357:static void test_size_after_remove(void) {
+        2:  358:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        -:  359:
+        2:  360:  elem_t result = int_elem(0);
+        -:  361:  
+        2:  362:  ioopm_hash_table_insert(ht, string_elem("A*"), int_elem(1));
+        2:  363:  ioopm_hash_table_insert(ht, string_elem("B-"), int_elem(2));
+        2:  364:  ioopm_hash_table_insert(ht, string_elem("C0"), int_elem(3));
+        2:  365:  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 3);
+        -:  366:
+        2:  367:  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, string_elem("A*"), &result));
+        2:  368:  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 2);
+        -:  369:
+        2:  370:  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, string_elem("B-"), &result));
+        2:  371:  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 1);
+        -:  372:
+        2:  373:  CU_ASSERT_TRUE(ioopm_hash_table_remove(ht, string_elem("C0"), &result));
+        2:  374:  CU_ASSERT_EQUAL(ioopm_hash_table_size(ht), 0);
+        -:  375:
+        2:  376:  ioopm_hash_table_destroy(ht);
+        2:  377:}
+        -:  378:
+        -:  379:
+        2:  380:int main() {
+        -:  381:  // First we try to set up CUnit, and exit if we fail
+        2:  382:  if (CU_initialize_registry() != CUE_SUCCESS)
+    #####:  383:    return CU_get_error();
+        -:  384:
+        -:  385:  // We then create an empty test suite and specify the name and
+        -:  386:  // the init and cleanup functions
+        2:  387:  CU_pSuite my_test_suite = CU_add_suite("My awesome test suite", init_suite, clean_suite);
+        2:  388:  if (my_test_suite == NULL) {
+        -:  389:      // If the test suite could not be added, tear down CUnit and exit
+    #####:  390:      CU_cleanup_registry();
+    #####:  391:      return CU_get_error();
+        -:  392:  }
+        -:  393:
+        -:  394:  // This is where we add the test functions to our test suite.
+        -:  395:  // For each call to CU_add_test we specify the test suite, the
+        -:  396:  // name or description of the test, and the function that runs
+        -:  397:  // the test in question. If you want to add another test, just
+        -:  398:  // copy a line below and change the information'
+        -:  399:  // || CU_add_test(my_test_suite, "test fresh entry", test_fresh_key) == NULL
+        2:  400:  if ( CU_add_test(my_test_suite, "hashtable create / destroy", test_create_destroy) == NULL 
+        2:  401:      || CU_add_test(my_test_suite, "hashtable insert / lookup / destroy", test_insert_once) == NULL
+        2:  402:      || CU_add_test(my_test_suite, "insert same key twice with different values", test_update_key) == NULL
+        2:  403:      || CU_add_test(my_test_suite, "remove existing key", test_remove_existing_key) == NULL
+        2:  404:      || CU_add_test(my_test_suite, "remove nonexisting key", test_remove_nonexisting_key) == NULL
+        2:  405:      || CU_add_test(my_test_suite, "remove only key", test_remove_only_key) == NULL
+        2:  406:      || CU_add_test(my_test_suite, "remove from collision chain", test_remove_from_collision_chain) == NULL
+        2:  407:      || CU_add_test(my_test_suite, "remove last entry in collision chain", test_remove_last_entry_in_collision_chain) == NULL
+        2:  408:      || CU_add_test(my_test_suite, "tries to find key that does not exist", test_has_key_empty) == NULL
+        2:  409:      || CU_add_test(my_test_suite, "Finds valid key, does not find invalid key", test_has_key_single) == NULL
+        2:  410:      || CU_add_test(my_test_suite, "Finds mult valid keys, but not one invalid", test_has_key_multiple) == NULL
+        2:  411:      || CU_add_test(my_test_suite, "Inserts key, then removes it", test_remove_single) == NULL
+        2:  412:      || CU_add_test(my_test_suite, "Inserts keys, removes middle key", test_remove_middle) == NULL
+        2:  413:      || CU_add_test(my_test_suite, "size of empty table", test_size_empty) == NULL
+        2:  414:      || CU_add_test(my_test_suite, "size of singleton table", test_size_singleton) == NULL
+        2:  415:      || CU_add_test(my_test_suite, "size of larger table", test_size_larger) == NULL
+        2:  416:      || CU_add_test(my_test_suite, "size after removing element", test_size_after_remove) == NULL
+        -:  417:  )
+        -:  418:    {
+        -:  419:      // If adding any of the tests fails, we tear down CUnit and exit
+    #####:  420:      CU_cleanup_registry();
+    #####:  421:      return CU_get_error();
+        -:  422:    }
+        -:  423:
+        -:  424:  // Set the running mode. Use CU_BRM_VERBOSE for maximum output.
+        -:  425:  // Use CU_BRM_NORMAL to only print errors and a summary
+        2:  426:  CU_basic_set_mode(CU_BRM_NORMAL);
+        -:  427:  
+        -:  428:  // This is where the tests are actually run!
+        2:  429:  CU_basic_run_tests();
+        -:  430:
+        -:  431:  // Tear down CUnit before exiting
+        2:  432:  CU_cleanup_registry();
+        2:  433:  return CU_get_error();
+        -:  434:}

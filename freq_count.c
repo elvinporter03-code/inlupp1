@@ -156,6 +156,6 @@ int main(int argc, char *argv[])
   // FIXME: Leaks memory! Use valgrind to find out where that memory is
   // being allocated, and then insert code here to free it.
 
-  ioopm_hash_table_destroy_iter(ht);
+  ioopm_hash_table_destroy(ht);
   ioopm_hash_table_iterator_destroy(it);
 }
