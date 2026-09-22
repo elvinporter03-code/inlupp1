@@ -1,177 +1,177 @@
         -:    0:Source:hash_table_iterator_tests.c
         -:    0:Graph:ht_it_tests-hash_table_iterator_tests.gcno
         -:    0:Data:ht_it_tests-hash_table_iterator_tests.gcda
-        -:    0:Runs:2
+        -:    0:Runs:4
         -:    1:#include <CUnit/Basic.h>
         -:    2:#include "hash_table.h"
         -:    3:#include "hash_table_iterator.h"
         -:    4:#include "common.h"
         -:    5:
-        2:    6:int init_suite(void) {
+        4:    6:int init_suite(void) {
         -:    7:  // Change this function if you want to do something *before* you
         -:    8:  // run a test suite
-        2:    9:  return 0;
+        4:    9:  return 0;
         -:   10:}
         -:   11:
-        2:   12:int clean_suite(void) {
+        4:   12:int clean_suite(void) {
         -:   13:  // Change this function if you want to do something *after* you
         -:   14:  // run a test suite
-        2:   15:  return 0;
+        4:   15:  return 0;
         -:   16:}
         -:   17:
         -:   18:
-       20:   19:static size_t ioopm_string_knr_hash(elem_t key)
+       40:   19:static size_t ioopm_string_knr_hash(elem_t key)
         -:   20:{
-       20:   21:  const char *str = key.s;
-       20:   22:  size_t result = 0;
-       72:   23:  while (*str != '\0')
+       40:   21:  const char *str = key.s;
+       40:   22:  size_t result = 0;
+      144:   23:  while (*str != '\0')
         -:   24:  {
-       52:   25:    result = result * 31 + ((unsigned char) *str);
-       52:   26:    str++;
+      104:   25:    result = result * 31 + ((unsigned char) *str);
+      104:   26:    str++;
         -:   27:  }
-       20:   28:  return result;
+       40:   28:  return result;
         -:   29:}
         -:   30:
-        6:   31:static bool string_compare(elem_t str1, elem_t str2){
-        6:   32:  const char *string1 = str1.s;
-        6:   33:  const char *string2 = str2.s;
+       12:   31:static bool string_compare(elem_t str1, elem_t str2){
+       12:   32:  const char *string1 = str1.s;
+       12:   33:  const char *string2 = str2.s;
         -:   34:
-        6:   35:  return strcmp(string1, string2) == 0;
+       12:   35:  return strcmp(string1, string2) == 0;
         -:   36:}
         -:   37:
         -:   38:
-        2:   39:void test_iterating_empty(void) {
-        2:   40:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
-        2:   41:  ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht);
-        2:   42:  CU_ASSERT_TRUE(ioopm_hash_table_iterator_at_end(it));
-        2:   43:  ioopm_hash_table_iterator_destroy(it);
-        2:   44:  ioopm_hash_table_destroy(ht);
-        2:   45:}
+        4:   39:void test_iterating_empty(void) {
+        4:   40:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        4:   41:  ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht);
+        4:   42:  CU_ASSERT_TRUE(ioopm_hash_table_iterator_at_end(it));
+        4:   43:  ioopm_hash_table_iterator_destroy(it);
+        4:   44:  ioopm_hash_table_destroy(ht);
+        4:   45:}
         -:   46:
-        2:   47:void test_iterating_singleton(void) {
-        2:   48:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+        4:   47:void test_iterating_singleton(void) {
+        4:   48:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
         -:   49:
-        2:   50:  elem_t key = string_elem("A*");
-        2:   51:  elem_t value = int_elem(123);
-        2:   52:  ioopm_hash_table_insert(ht, key, value);
+        4:   50:  elem_t key = string_elem("A*");
+        4:   51:  elem_t value = int_elem(123);
+        4:   52:  ioopm_hash_table_insert(ht, key, value);
         -:   53:
-        2:   54:  ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht);
+        4:   54:  ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht);
         -:   55:
-        2:   56:  elem_t result = ioopm_hash_table_iterator_current_value(it);
-        2:   57:  CU_ASSERT_EQUAL(result.i, 123);
+        4:   56:  elem_t result = ioopm_hash_table_iterator_current_value(it);
+        4:   57:  CU_ASSERT_EQUAL(result.i, 123);
         -:   58:
-        2:   59:  CU_ASSERT_FALSE(ioopm_hash_table_iterator_at_end(it));
-        2:   60:  CU_ASSERT_EQUAL(ioopm_hash_table_iterator_current_value(it).i, value.i);
+        4:   59:  CU_ASSERT_FALSE(ioopm_hash_table_iterator_at_end(it));
+        4:   60:  CU_ASSERT_EQUAL(ioopm_hash_table_iterator_current_value(it).i, value.i);
         -:   61:
-        2:   62:  ioopm_hash_table_iterator_advance(it);
-        2:   63:  CU_ASSERT_TRUE(ioopm_hash_table_iterator_at_end(it));
+        4:   62:  ioopm_hash_table_iterator_advance(it);
+        4:   63:  CU_ASSERT_TRUE(ioopm_hash_table_iterator_at_end(it));
         -:   64:
-        2:   65:  ioopm_hash_table_iterator_destroy(it);
-        2:   66:  ioopm_hash_table_destroy(ht);
-        2:   67:}
+        4:   65:  ioopm_hash_table_iterator_destroy(it);
+        4:   66:  ioopm_hash_table_destroy(ht);
+        4:   67:}
         -:   68:
-        2:   69:void test_iterator_several_entries(void) {
-        2:   70:  char *keys[3] = {"abc", "qwe", "asd"};
-        2:   71:  int values[3] = {0, 1, 2};
+        4:   69:void test_iterator_several_entries(void) {
+        4:   70:  char *keys[3] = {"abc", "qwe", "asd"};
+        4:   71:  int values[3] = {0, 1, 2};
         -:   72:
-        2:   73:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
-        8:   74:  for (int i = 0; i != 3; ++i) {
-        6:   75:      elem_t key = string_elem(keys[i]);
-        6:   76:      elem_t value = int_elem(values[i]);
-        6:   77:      ioopm_hash_table_insert(ht, key, value);
+        4:   73:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+       16:   74:  for (int i = 0; i != 3; ++i) {
+       12:   75:      elem_t key = string_elem(keys[i]);
+       12:   76:      elem_t value = int_elem(values[i]);
+       12:   77:      ioopm_hash_table_insert(ht, key, value);
         -:   78:  }
         -:   79:
-        2:   80:  int iteration_count = 0;
-        2:   81:  ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht);
-        8:   82:  while (!ioopm_hash_table_iterator_at_end(it)) {
-        6:   83:      iteration_count++;
-        6:   84:      ioopm_hash_table_iterator_advance(it);
+        4:   80:  int iteration_count = 0;
+        4:   81:  ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht);
+       16:   82:  while (!ioopm_hash_table_iterator_at_end(it)) {
+       12:   83:      iteration_count++;
+       12:   84:      ioopm_hash_table_iterator_advance(it);
         -:   85:  }
         -:   86:
-        2:   87:  ioopm_hash_table_iterator_destroy(it);
-        2:   88:  ioopm_hash_table_destroy(ht);
-        2:   89:  CU_ASSERT_EQUAL(iteration_count, 3);
-        2:   90:}
+        4:   87:  ioopm_hash_table_iterator_destroy(it);
+        4:   88:  ioopm_hash_table_destroy(ht);
+        4:   89:  CU_ASSERT_EQUAL(iteration_count, 3);
+        4:   90:}
         -:   91:
-        2:   92:void test_iterator_several_unique(void) {
-        2:   93:  char *keys[3] = {"abc", "qwe", "asd"};
-        2:   94:  int values[3] = {0, 1, 2};
-        2:   95:  bool visited[3] = {false, false, false};
+        4:   92:void test_iterator_several_unique(void) {
+        4:   93:  char *keys[3] = {"abc", "qwe", "asd"};
+        4:   94:  int values[3] = {0, 1, 2};
+        4:   95:  bool visited[3] = {false, false, false};
         -:   96:
-        2:   97:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
-        8:   98:  for (int i = 0; i != 3; i++) {
-        6:   99:      elem_t key = string_elem(keys[i]);
-        6:  100:      elem_t value = int_elem(values[i]);
-        6:  101:      ioopm_hash_table_insert(ht, key, value);
+        4:   97:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+       16:   98:  for (int i = 0; i != 3; i++) {
+       12:   99:      elem_t key = string_elem(keys[i]);
+       12:  100:      elem_t value = int_elem(values[i]);
+       12:  101:      ioopm_hash_table_insert(ht, key, value);
         -:  102:  }
         -:  103:
-        2:  104:  ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht);
+        4:  104:  ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht);
         -:  105:
-        8:  106:  while (!ioopm_hash_table_iterator_at_end(it)) {
-        6:  107:      elem_t current_value = ioopm_hash_table_iterator_current_value(it);
-        6:  108:      elem_t current_key = ioopm_hash_table_iterator_current_key(it);
+       16:  106:  while (!ioopm_hash_table_iterator_at_end(it)) {
+       12:  107:      elem_t current_value = ioopm_hash_table_iterator_current_value(it);
+       12:  108:      elem_t current_key = ioopm_hash_table_iterator_current_key(it);
         -:  109:
-       24:  110:      for (int i = 0; i < 3; i++) {
-       18:  111:          if (strcmp(current_key.s, keys[i]) == 0 &&
-        6:  112:              current_value.i == values[i])
+       48:  110:      for (int i = 0; i < 3; i++) {
+       36:  111:          if (strcmp(current_key.s, keys[i]) == 0 &&
+       12:  112:              current_value.i == values[i])
         -:  113:          {
-        6:  114:              CU_ASSERT_FALSE(visited[i]);
-        6:  115:              visited[i] = true;
+       12:  114:              CU_ASSERT_FALSE(visited[i]);
+       12:  115:              visited[i] = true;
         -:  116:          }
         -:  117:      }
-        6:  118:      ioopm_hash_table_iterator_advance(it);
+       12:  118:      ioopm_hash_table_iterator_advance(it);
         -:  119:  }
         -:  120:
-        8:  121:  for (int i = 0; i < 3; i++) {
-        6:  122:      CU_ASSERT_TRUE(visited[i]);
+       16:  121:  for (int i = 0; i < 3; i++) {
+       12:  122:      CU_ASSERT_TRUE(visited[i]);
         -:  123:  }
-        2:  124:  ioopm_hash_table_iterator_destroy(it);
-        2:  125:  ioopm_hash_table_destroy(ht);
-        2:  126:}
+        4:  124:  ioopm_hash_table_iterator_destroy(it);
+        4:  125:  ioopm_hash_table_destroy(ht);
+        4:  126:}
         -:  127:
-        2:  128:void test_iterator_several_unique_same_bucket(void) {
-        2:  129:  char *keys[3] = {"A*", "B-", "C0"};
-        2:  130:  int values[3] = {0, 1, 2};
-        2:  131:  bool visited[3] = {false, false, false};
+        4:  128:void test_iterator_several_unique_same_bucket(void) {
+        4:  129:  char *keys[3] = {"A*", "B-", "C0"};
+        4:  130:  int values[3] = {0, 1, 2};
+        4:  131:  bool visited[3] = {false, false, false};
         -:  132:
-        2:  133:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
-        8:  134:  for (int i = 0; i != 3; ++i) {
-        6:  135:      elem_t key = string_elem(keys[i]);
-        6:  136:      elem_t value = int_elem(values[i]);
-        6:  137:      ioopm_hash_table_insert(ht, key, value);
+        4:  133:  ioopm_hash_table_t *ht = ioopm_hash_table_create(ioopm_string_knr_hash, string_compare);
+       16:  134:  for (int i = 0; i != 3; ++i) {
+       12:  135:      elem_t key = string_elem(keys[i]);
+       12:  136:      elem_t value = int_elem(values[i]);
+       12:  137:      ioopm_hash_table_insert(ht, key, value);
         -:  138:  }
         -:  139:
-        2:  140:  int iteration_count = 0;
-        2:  141:  ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht);
-        8:  142:  while (!ioopm_hash_table_iterator_at_end(it)) {
-        6:  143:      elem_t current_value = ioopm_hash_table_iterator_current_value(it);
-       24:  144:      for (int i = 0; i < 3; i++) {
-       18:  145:          if (current_value.i == values[i]) {
-        6:  146:              if (!visited[i]) {
-        6:  147:                  visited[i] = true;
+        4:  140:  int iteration_count = 0;
+        4:  141:  ioopm_hash_table_iterator_t *it = ioopm_hash_table_iterator_create(ht);
+       16:  142:  while (!ioopm_hash_table_iterator_at_end(it)) {
+       12:  143:      elem_t current_value = ioopm_hash_table_iterator_current_value(it);
+       48:  144:      for (int i = 0; i < 3; i++) {
+       36:  145:          if (current_value.i == values[i]) {
+       12:  146:              if (!visited[i]) {
+       12:  147:                  visited[i] = true;
         -:  148:              } else {
     #####:  149:                  CU_ASSERT(0);   /* dublett – ska inte hända */
         -:  150:              }
         -:  151:          }
         -:  152:      }
-        6:  153:      ioopm_hash_table_iterator_advance(it);
-        6:  154:      iteration_count++;
+       12:  153:      ioopm_hash_table_iterator_advance(it);
+       12:  154:      iteration_count++;
         -:  155:  }
         -:  156:
-        2:  157:  ioopm_hash_table_iterator_destroy(it);
-        2:  158:  ioopm_hash_table_destroy(ht);
-        2:  159:  CU_ASSERT_EQUAL(iteration_count, 3);
-        2:  160:}
+        4:  157:  ioopm_hash_table_iterator_destroy(it);
+        4:  158:  ioopm_hash_table_destroy(ht);
+        4:  159:  CU_ASSERT_EQUAL(iteration_count, 3);
+        4:  160:}
         -:  161:
-        2:  162:int main() {
+        4:  162:int main() {
         -:  163:  // First we try to set up CUnit, and exit if we fail
-        2:  164:  if (CU_initialize_registry() != CUE_SUCCESS)
+        4:  164:  if (CU_initialize_registry() != CUE_SUCCESS)
     #####:  165:    return CU_get_error();
         -:  166:
         -:  167:  // We then create an empty test suite and specify the name and
         -:  168:  // the init and cleanup functions
-        2:  169:  CU_pSuite my_test_suite = CU_add_suite("My awesome test suite", init_suite, clean_suite);
-        2:  170:  if (my_test_suite == NULL) {
+        4:  169:  CU_pSuite my_test_suite = CU_add_suite("My awesome test suite", init_suite, clean_suite);
+        4:  170:  if (my_test_suite == NULL) {
         -:  171:      // If the test suite could not be added, tear down CUnit and exit
     #####:  172:      CU_cleanup_registry();
     #####:  173:      return CU_get_error();
@@ -183,11 +183,11 @@
         -:  179:  // the test in question. If you want to add another test, just
         -:  180:  // copy a line below and change the information'
         -:  181:  // || CU_add_test(my_test_suite, "test fresh entry", test_fresh_key) == NULL
-        2:  182:  if ( CU_add_test(my_test_suite, "iterating over empty ht", test_iterating_empty) == NULL
-        2:  183:   ||  CU_add_test(my_test_suite, "iterating over singleton ht", test_iterating_singleton) == NULL
-        2:  184:   ||  CU_add_test(my_test_suite, "iterating over ht with several entries", test_iterator_several_entries) == NULL
-        2:  185:   || CU_add_test(my_test_suite, "iterating over ht with several entries and checking if theyre unique", test_iterator_several_unique) == NULL
-        2:  186:   || CU_add_test(my_test_suite, "iterating over ht with several entries in same bucket and checking if theyre unique", test_iterator_several_unique_same_bucket) == NULL)
+        4:  182:  if ( CU_add_test(my_test_suite, "iterating over empty ht", test_iterating_empty) == NULL
+        4:  183:   ||  CU_add_test(my_test_suite, "iterating over singleton ht", test_iterating_singleton) == NULL
+        4:  184:   ||  CU_add_test(my_test_suite, "iterating over ht with several entries", test_iterator_several_entries) == NULL
+        4:  185:   || CU_add_test(my_test_suite, "iterating over ht with several entries and checking if theyre unique", test_iterator_several_unique) == NULL
+        4:  186:   || CU_add_test(my_test_suite, "iterating over ht with several entries in same bucket and checking if theyre unique", test_iterator_several_unique_same_bucket) == NULL)
         -:  187:    {
         -:  188:      // If adding any of the tests fails, we tear down CUnit and exit
     #####:  189:      CU_cleanup_registry();
@@ -196,12 +196,12 @@
         -:  192:
         -:  193:  // Set the running mode. Use CU_BRM_VERBOSE for maximum output.
         -:  194:  // Use CU_BRM_NORMAL to only print errors and a summary
-        2:  195:  CU_basic_set_mode(CU_BRM_NORMAL);
+        4:  195:  CU_basic_set_mode(CU_BRM_NORMAL);
         -:  196:  
         -:  197:  // This is where the tests are actually run!
-        2:  198:  CU_basic_run_tests();
+        4:  198:  CU_basic_run_tests();
         -:  199:
         -:  200:  // Tear down CUnit before exiting
-        2:  201:  CU_cleanup_registry();
-        2:  202:  return CU_get_error();
+        4:  201:  CU_cleanup_registry();
+        4:  202:  return CU_get_error();
         -:  203:}

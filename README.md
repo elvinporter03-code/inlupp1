@@ -90,4 +90,12 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
             1k      -   15
             10k     -   22
             16k     -   105
-    
+
+    ## Dynamic buckets
+        Antal ord   -   körtid (ms)
+            small   -   8
+            1k      -   12
+            10k     -   17
+            16k     -   85
+
+    ## Optimized dynamic buckets with better resizing function

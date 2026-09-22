@@ -7,11 +7,40 @@
 
 ioopm_hash_table_t *ioopm_hash_table_create(ioopm_hash_function *hash_fn, ioopm_eq_function *key_eq_fn)
 {
+  /*
   ioopm_hash_table_t *tmp = calloc(1, sizeof(ioopm_hash_table_t));
   tmp->ht_size = 0;
   tmp->hash = hash_fn;
   tmp->is_equal = key_eq_fn;
   return tmp;
+  */
+  ioopm_hash_table_t *ht = calloc(1, sizeof(ioopm_hash_table_t));
+
+  ht->no_buckets = 17;
+  ht->buckets = calloc(ht->no_buckets, sizeof(entry_t));
+  ht->ht_size = 0;
+  ht->hash = hash_fn;
+  ht->is_equal = key_eq_fn;
+
+  return ht;
+}
+
+static void resize_table(ioopm_hash_table_t *ht)
+{
+  float load_factor = 0.5;
+  size_t primes[] = {17, 31, 67, 127, 257, 509, 1021, 2053, 4099, 8191, 16381};
+  size_t current_capacity = (ht->ht_size) / load_factor;
+  for(int i = 0; i < 11; i++)
+  {
+    if(current_capacity < primes[i])
+    {
+      ht -> no_buckets = primes[i];
+      ht -> buckets = realloc(ht->buckets, (ht->no_buckets * sizeof(entry_t)));
+      return;
+    }
+  }
+  
+  return;
 }
 
 /// @brief Frees allocated memory of an entry_t
@@ -71,6 +100,7 @@ bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, elem_t key, elem_t *result)
     entry_destroy(current);
 
     (ht->ht_size)--; // decrement ht_size by one after removal.
+    resize_table(ht);
     return true;
   }
 }
@@ -114,6 +144,7 @@ void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value)
     previous->next = entry_create(key, value);
 
     (ht->ht_size)++; // increment ht_size when entry added.
+    resize_table(ht);
   }
 }
 
