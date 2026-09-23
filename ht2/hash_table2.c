@@ -58,8 +58,6 @@ static entry_t *find_previous_entry(ioopm_hash_table_t *ht, elem_t key)
   return previous;
 }
 
-
-
 void ioopm_hash_table_destroy(ioopm_hash_table_t *ht)
 {
   for (size_t index = 0; index < ht->no_buckets; index++)
@@ -84,8 +82,6 @@ static entry_t *entry_create(elem_t key, elem_t value)
 
   return next;
 }
-
-
 static void rehash_bucket(ioopm_hash_table_t *ht, entry_t *arr, entry_t *old_arr)
 {
   entry_t *current = old_arr->next; //initierar till första efter sentinelnoden
