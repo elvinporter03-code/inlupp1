@@ -147,4 +147,6 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
 
 
             1 375 339 0.25 16k
-            
+## plotting command
+valgrind --tool=massif ./ditt_program [argument]
+ms_print massif.out.<pid>
