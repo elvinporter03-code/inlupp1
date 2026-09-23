@@ -11,6 +11,7 @@ ioopm_hash_table_t *ioopm_hash_table_create(ioopm_hash_function *hash_fn, ioopm_
   ht->no_buckets = 17;
   ht->buckets = calloc(ht->no_buckets, sizeof(entry_t));
   ht->ht_size = 0;
+  ht->load_factor = 0.5;
   ht->hash = hash_fn;
   ht->is_equal = key_eq_fn;
 
@@ -85,6 +86,33 @@ static entry_t *entry_create(elem_t key, elem_t value)
   return next;
 }
 
+static entry_t *find_previous_rehash(ioopm_hash_table_t *ht, entry_t *buckets, elem_t key)
+{
+  size_t bucket = ht->hash(key) % ht->no_buckets;
+  entry_t *previous = &buckets[bucket];
+
+  while (previous->next != NULL && !(ht->is_equal(previous->next->key, key)))
+  {
+    previous = previous->next;
+  }
+  return previous;
+}
+
+
+static void rehash_insert(ioopm_hash_table_t *ht, entry_t *buckets, elem_t key, elem_t value)
+{
+  entry_t *previous = find_previous_rehash(ht, buckets, key);
+
+  // if the key exists, update the value, otherwise create a new entry
+  if (previous->next != NULL)
+  {
+    previous->next->value = value;
+  }
+  else
+  {
+    previous->next = entry_create(key, value);
+  }
+}
 
 static void rehash_bucket(ioopm_hash_table_t *ht, entry_t *arr, entry_t *old_arr)
 {
@@ -93,35 +121,34 @@ static void rehash_bucket(ioopm_hash_table_t *ht, entry_t *arr, entry_t *old_arr
   while (current != NULL) // traverse the bucket from current to the last non-NULL entry
   {
     entry_t *next = current->next;
-    ioopm_hash_table_insert(ht, current->key, current->value);
+    rehash_insert(ht, arr, current->key, current->value);
     entry_destroy(current);
     current = next; // update current pointer to next entry_t
   }
 }
 
-static void rehash(ioopm_hash_table_t *ht, entry_t *new_buckets)
+static void rehash(ioopm_hash_table_t *ht, entry_t *new_buckets, size_t old_buckets)
 {
-  for (size_t index = 0; index < ht->no_buckets; index++)
+  for (size_t index = 0; index < old_buckets; index++)
   {
     entry_t *entry = &ht->buckets[index];
     rehash_bucket(ht, new_buckets, entry);
   }
-  free(ht->buckets);
 }
 
 static void resize_table(ioopm_hash_table_t *ht)
 {
-  float load_factor = 0.5;
   size_t primes[] = {17, 31, 67, 127, 257, 509, 1021, 2053, 4099, 8191, 16381};
-  size_t required_capacity = (ht->ht_size) / load_factor;
+  size_t required_capacity = (ht->ht_size) / ht->load_factor;
 
   for (int i = 0; i < 11; i++)
   {
     if (required_capacity < primes[i])
     {
-      ht->no_buckets = primes[i];
-      entry_t *new_buckets = calloc(ht->no_buckets, sizeof(entry_t));
-      rehash(ht, new_buckets);
+      size_t old_no_buckets = ht->no_buckets;
+      ht->no_buckets = primes[i]; //updaterar mängden buckets
+      entry_t *new_buckets = calloc(ht->no_buckets, sizeof(entry_t)); //allokerar minne för dem
+      rehash(ht, new_buckets, old_no_buckets); //indexerar in alla entries i nya buckets
       free(ht->buckets);
       ht->buckets = new_buckets;
       return;
@@ -145,7 +172,10 @@ void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value)
     previous->next = entry_create(key, value);
 
     (ht->ht_size)++; // increment ht_size when entry added.
-    resize_table(ht);
+    if ((float)ht->ht_size / ht->no_buckets > ht->load_factor)
+    {
+      resize_table(ht);
+    }  
   }
 }
 
@@ -163,10 +193,6 @@ bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, elem_t key, elem_t *result)
     previous->next = current->next;
     *result = current->value;
     entry_destroy(current);
-
-    (ht->ht_size)--; // decrement ht_size by one after removal.
-    resize_table(ht);
-
     return true;
   }
 }
