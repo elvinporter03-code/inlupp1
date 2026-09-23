@@ -28,6 +28,7 @@ struct entry
 struct hash_table
 {
   // previous index
+  float load_factor;
   size_t no_buckets;
   entry_t *buckets;
   size_t ht_size; // holds the amount of entries for O(1) lookup
