@@ -208,4 +208,6 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
             10k     -   21
             16k     -   50
 
+## plotting command
+valgrind --tool=massif ./ditt_program [argument]
             
