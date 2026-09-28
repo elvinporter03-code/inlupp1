@@ -5,6 +5,7 @@
 #define int_elem(x)   ((elem_t) { .i = (x) })
 #define bool_elem(x)  ((elem_t) { .b = (x) })
 #define string_elem(x) ((elem_t) { .s = (x) })
+#define ptr_elem(x) ((elem_t) { .p = (x) })
 
 typedef struct entry entry_t;
 typedef struct hash_table ioopm_hash_table_t;
@@ -16,6 +17,7 @@ union element {
   char *s;
   int i;
   bool b;
+  void *p;
 };
 
 struct entry
