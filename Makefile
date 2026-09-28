@@ -40,5 +40,8 @@ coverage_ht_it: ht_it_tests-hash_table_iterator_tests.gcda
 test_improved:	ht2/hash_table2.c freq_count.c ht2/hash_table_iterator2.c 
 	gcc -g -O0 ht2/hash_table2.c freq_count.c ht2/hash_table_iterator2.c -o freq_count
 
+test_old:	hash_table.c freq_count.c hash_table_iterator.c 
+	gcc -g -O0 hash_table.c freq_count.c hash_table_iterator.c -o freq_count
+
 clean:
 	rm -f ht_tests ht_it_tests ll_tests

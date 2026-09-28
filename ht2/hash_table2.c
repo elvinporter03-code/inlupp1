@@ -9,12 +9,11 @@ ioopm_hash_table_t *ioopm_hash_table_create(ioopm_hash_function *hash_fn, ioopm_
 {
   ioopm_hash_table_t *ht = calloc(1, sizeof(ioopm_hash_table_t));
   ht->no_buckets = 17;
-  ht->buckets = calloc(ht->no_buckets, sizeof(entry_t));
+  ht->buckets = calloc(ht->no_buckets, sizeof(entry_t *));
   ht->ht_size = 0;
-  ht->load_factor = 0.5;
+  ht->load_factor = 0.75;
   ht->hash = hash_fn;
   ht->is_equal = key_eq_fn;
-
   return ht;
 }
 

@@ -150,3 +150,35 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
 ## plotting command
 valgrind --tool=massif ./ditt_program [argument]
 ms_print massif.out.<pid>
+
+# Profiling with memory 
+    Trying different load factors to whats optimal for memory management
+    
+    maximum simultaneous load (B):
+            0.5         0.25        0.75
+    16k     579,688     583,656     470,176
+    10k     29,728      42,032      22,144
+    1k      9,056       10,528      8,192
+    small   4,120       4,672       2,872
+
+    excess load at maximum (B):
+    16k     76,271    78,680        130,252 (70,367)
+    10k     6,691     6,707         3,800   
+    1k      813       845           813
+    small   671       240           96
+
+    excess delta (0.75-0.25)
+            excess      max
+    16k     51,572      -113,480  
+    10k     -2,907      -19,888
+    1k      -32         -2,336
+    small   -144        -1800
+
+
+    time (ms)           
+    16k     69          70          70
+    10k     20          20          20
+    1k      16          16          16
+    small   11          11          11
+
+    time difference is negligble and probably caused by measuring errors

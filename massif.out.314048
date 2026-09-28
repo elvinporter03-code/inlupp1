@@ -1,0 +1,1156 @@
+desc: (none)
+cmd: ./freq_count 16k-words.txt
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=298617
+mem_heap_B=12873
+mem_heap_extra_B=2375
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=688447
+mem_heap_B=49454
+mem_heap_extra_B=8666
+mem_stacks_B=0
+heap_tree=detailed
+n5: 49454 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 36720 0x109863: resize_table (hash_table2.c:150)
+  n1: 36720 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 36720 0x109BE4: process_word (freq_count.c:25)
+    n1: 36720 0x109D64: process_file (freq_count.c:74)
+     n0: 36720 0x109EF2: main (freq_count.c:129)
+ n2: 6144 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 3120 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 3120 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 3120 0x1096F9: rehash (hash_table2.c:135)
+     n1: 3120 0x109881: resize_table (hash_table2.c:151)
+      n1: 3120 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 3120 0x109BE4: process_word (freq_count.c:25)
+        n1: 3120 0x109D64: process_file (freq_count.c:74)
+         n0: 3120 0x109EF2: main (freq_count.c:129)
+  n1: 3024 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 3024 0x109BE4: process_word (freq_count.c:25)
+    n1: 3024 0x109D64: process_file (freq_count.c:74)
+     n0: 3024 0x109EF2: main (freq_count.c:129)
+ n1: 4096 0x48DB294: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x48EB603: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x48E8963: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:486)
+    n1: 4096 0x48DCEEF: getdelim (iogetdelim.c:77)
+     n1: 4096 0x109D0B: process_file (freq_count.c:64)
+      n0: 4096 0x109EF2: main (freq_count.c:129)
+ n1: 1854 0x490A45E: strdup (strdup.c:42)
+  n1: 1854 0x109BB7: process_word (freq_count.c:24)
+   n1: 1854 0x109D64: process_file (freq_count.c:74)
+    n0: 1854 0x109EF2: main (freq_count.c:129)
+ n0: 640 in 4 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=3
+#-----------
+time=1257533
+mem_heap_B=44822
+mem_heap_extra_B=16218
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=1655051
+mem_heap_B=72202
+mem_heap_extra_B=18758
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=1899743
+mem_heap_B=75324
+mem_heap_extra_B=21644
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=2358319
+mem_heap_B=81345
+mem_heap_extra_B=27247
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=2675943
+mem_heap_B=84827
+mem_heap_extra_B=30589
+mem_stacks_B=0
+heap_tree=detailed
+n5: 84827 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 49272 0x109863: resize_table (hash_table2.c:150)
+  n1: 49272 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 49272 0x109BE4: process_word (freq_count.c:25)
+    n1: 49272 0x109D64: process_file (freq_count.c:74)
+     n0: 49272 0x109EF2: main (freq_count.c:129)
+ n2: 22704 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 12264 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 12264 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 12264 0x1096F9: rehash (hash_table2.c:135)
+     n1: 12264 0x109881: resize_table (hash_table2.c:151)
+      n1: 12264 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 12264 0x109BE4: process_word (freq_count.c:25)
+        n1: 12264 0x109D64: process_file (freq_count.c:74)
+         n0: 12264 0x109EF2: main (freq_count.c:129)
+  n1: 10440 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 10440 0x109BE4: process_word (freq_count.c:25)
+    n1: 10440 0x109D64: process_file (freq_count.c:74)
+     n0: 10440 0x109EF2: main (freq_count.c:129)
+ n1: 8115 0x490A45E: strdup (strdup.c:42)
+  n1: 8115 0x109BB7: process_word (freq_count.c:24)
+   n1: 8115 0x109D64: process_file (freq_count.c:74)
+    n0: 8115 0x109EF2: main (freq_count.c:129)
+ n1: 4096 0x48DB294: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x48EB603: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x48E8963: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:486)
+    n1: 4096 0x48DCEEF: getdelim (iogetdelim.c:77)
+     n1: 4096 0x109D0B: process_file (freq_count.c:64)
+      n0: 4096 0x109EF2: main (freq_count.c:129)
+ n0: 640 in 4 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=8
+#-----------
+time=3007995
+mem_heap_B=185927
+mem_heap_extra_B=33169
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=3526033
+mem_heap_B=138589
+mem_heap_extra_B=35203
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=3935511
+mem_heap_B=143276
+mem_heap_extra_B=39524
+mem_stacks_B=0
+heap_tree=detailed
+n5: 143276 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 98376 0x109863: resize_table (hash_table2.c:150)
+  n1: 98376 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 98376 0x109BE4: process_word (freq_count.c:25)
+    n1: 98376 0x109D64: process_file (freq_count.c:74)
+     n0: 98376 0x109EF2: main (freq_count.c:129)
+ n2: 29448 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 24648 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 24648 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 24648 0x1096F9: rehash (hash_table2.c:135)
+     n1: 24648 0x109881: resize_table (hash_table2.c:151)
+      n1: 24648 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 24648 0x109BE4: process_word (freq_count.c:25)
+        n1: 24648 0x109D64: process_file (freq_count.c:74)
+         n0: 24648 0x109EF2: main (freq_count.c:129)
+  n1: 4800 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 4800 0x109BE4: process_word (freq_count.c:25)
+    n1: 4800 0x109D64: process_file (freq_count.c:74)
+     n0: 4800 0x109EF2: main (freq_count.c:129)
+ n1: 10716 0x490A45E: strdup (strdup.c:42)
+  n1: 10716 0x109BB7: process_word (freq_count.c:24)
+   n1: 10716 0x109D64: process_file (freq_count.c:74)
+    n0: 10716 0x109EF2: main (freq_count.c:129)
+ n1: 4096 0x48DB294: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x48EB603: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x48E8963: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:486)
+    n1: 4096 0x48DCEEF: getdelim (iogetdelim.c:77)
+     n1: 4096 0x109D0B: process_file (freq_count.c:64)
+      n0: 4096 0x109EF2: main (freq_count.c:129)
+ n0: 640 in 4 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=11
+#-----------
+time=4209992
+mem_heap_B=145772
+mem_heap_extra_B=41892
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=4781002
+mem_heap_B=150805
+mem_heap_extra_B=46635
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=5132955
+mem_heap_B=154121
+mem_heap_extra_B=49623
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=5420269
+mem_heap_B=157032
+mem_heap_extra_B=52248
+mem_stacks_B=0
+heap_tree=detailed
+n5: 157032 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 98376 0x109863: resize_table (hash_table2.c:150)
+  n1: 98376 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 98376 0x109BE4: process_word (freq_count.c:25)
+    n1: 98376 0x109D64: process_file (freq_count.c:74)
+     n0: 98376 0x109EF2: main (freq_count.c:129)
+ n2: 39240 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 24648 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 24648 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 24648 0x1096F9: rehash (hash_table2.c:135)
+     n1: 24648 0x109881: resize_table (hash_table2.c:151)
+      n1: 24648 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 24648 0x109BE4: process_word (freq_count.c:25)
+        n1: 24648 0x109D64: process_file (freq_count.c:74)
+         n0: 24648 0x109EF2: main (freq_count.c:129)
+  n1: 14592 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 14592 0x109BE4: process_word (freq_count.c:25)
+    n1: 14592 0x109D64: process_file (freq_count.c:74)
+     n0: 14592 0x109EF2: main (freq_count.c:129)
+ n1: 14680 0x490A45E: strdup (strdup.c:42)
+  n1: 14680 0x109BB7: process_word (freq_count.c:24)
+   n1: 14680 0x109D64: process_file (freq_count.c:74)
+    n0: 14680 0x109EF2: main (freq_count.c:129)
+ n1: 4096 0x48DB294: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x48EB603: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x48E8963: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:486)
+    n1: 4096 0x48DCEEF: getdelim (iogetdelim.c:77)
+     n1: 4096 0x109D0B: process_file (freq_count.c:64)
+      n0: 4096 0x109EF2: main (freq_count.c:129)
+ n0: 640 in 4 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=15
+#-----------
+time=5849741
+mem_heap_B=159339
+mem_heap_extra_B=54501
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=16
+#-----------
+time=6206003
+mem_heap_B=161461
+mem_heap_extra_B=56443
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=6471208
+mem_heap_B=163282
+mem_heap_extra_B=58054
+mem_stacks_B=0
+heap_tree=detailed
+n5: 163282 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 98376 0x109863: resize_table (hash_table2.c:150)
+  n1: 98376 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 98376 0x109BE4: process_word (freq_count.c:25)
+    n1: 98376 0x109D64: process_file (freq_count.c:74)
+     n0: 98376 0x109EF2: main (freq_count.c:129)
+ n2: 43704 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 24648 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 24648 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 24648 0x1096F9: rehash (hash_table2.c:135)
+     n1: 24648 0x109881: resize_table (hash_table2.c:151)
+      n1: 24648 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 24648 0x109BE4: process_word (freq_count.c:25)
+        n1: 24648 0x109D64: process_file (freq_count.c:74)
+         n0: 24648 0x109EF2: main (freq_count.c:129)
+  n1: 19056 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 19056 0x109BE4: process_word (freq_count.c:25)
+    n1: 19056 0x109D64: process_file (freq_count.c:74)
+     n0: 19056 0x109EF2: main (freq_count.c:129)
+ n1: 16466 0x490A45E: strdup (strdup.c:42)
+  n1: 16466 0x109BB7: process_word (freq_count.c:24)
+   n1: 16466 0x109D64: process_file (freq_count.c:74)
+    n0: 16466 0x109EF2: main (freq_count.c:129)
+ n1: 4096 0x48DB294: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x48EB603: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x48E8963: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:486)
+    n1: 4096 0x48DCEEF: getdelim (iogetdelim.c:77)
+     n1: 4096 0x109D0B: process_file (freq_count.c:64)
+      n0: 4096 0x109EF2: main (freq_count.c:129)
+ n0: 640 in 4 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=18
+#-----------
+time=6830024
+mem_heap_B=165344
+mem_heap_extra_B=59936
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=19
+#-----------
+time=7348245
+mem_heap_B=169136
+mem_heap_extra_B=63376
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=7855720
+mem_heap_B=367746
+mem_heap_extra_B=65142
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=8238501
+mem_heap_B=367746
+mem_heap_extra_B=65142
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=8822796
+mem_heap_B=272344
+mem_heap_extra_B=67944
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=9313538
+mem_heap_B=275339
+mem_heap_extra_B=70773
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=9704108
+mem_heap_B=278413
+mem_heap_extra_B=73475
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=10096902
+mem_heap_B=281450
+mem_heap_extra_B=76262
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=10685496
+mem_heap_B=285316
+mem_heap_extra_B=79836
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=11085794
+mem_heap_B=287276
+mem_heap_extra_B=81556
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=11482714
+mem_heap_B=289656
+mem_heap_extra_B=83640
+mem_stacks_B=0
+heap_tree=detailed
+n5: 289656 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 196584 0x109863: resize_table (hash_table2.c:150)
+  n1: 196584 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 196584 0x109BE4: process_word (freq_count.c:25)
+    n1: 196584 0x109D64: process_file (freq_count.c:74)
+     n0: 196584 0x109EF2: main (freq_count.c:129)
+ n2: 63528 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 49200 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 49200 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 49200 0x1096F9: rehash (hash_table2.c:135)
+     n1: 49200 0x109881: resize_table (hash_table2.c:151)
+      n1: 49200 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 49200 0x109BE4: process_word (freq_count.c:25)
+        n1: 49200 0x109D64: process_file (freq_count.c:74)
+         n0: 49200 0x109EF2: main (freq_count.c:129)
+  n1: 14328 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 14328 0x109BE4: process_word (freq_count.c:25)
+    n1: 14328 0x109D64: process_file (freq_count.c:74)
+     n0: 14328 0x109EF2: main (freq_count.c:129)
+ n1: 24808 0x490A45E: strdup (strdup.c:42)
+  n1: 24808 0x109BB7: process_word (freq_count.c:24)
+   n1: 24808 0x109D64: process_file (freq_count.c:74)
+    n0: 24808 0x109EF2: main (freq_count.c:129)
+ n1: 4096 0x48DB294: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 4096 0x48EB603: _IO_doallocbuf (genops.c:347)
+   n1: 4096 0x48E8963: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:486)
+    n1: 4096 0x48DCEEF: getdelim (iogetdelim.c:77)
+     n1: 4096 0x109D0B: process_file (freq_count.c:64)
+      n0: 4096 0x109EF2: main (freq_count.c:129)
+ n0: 640 in 4 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=29
+#-----------
+time=11874472
+mem_heap_B=291494
+mem_heap_extra_B=85386
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=12196249
+mem_heap_B=292780
+mem_heap_extra_B=86516
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=12519220
+mem_heap_B=294003
+mem_heap_extra_B=87709
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=32
+#-----------
+time=13003433
+mem_heap_B=295951
+mem_heap_extra_B=89505
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=13486352
+mem_heap_B=298149
+mem_heap_extra_B=91339
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=13963938
+mem_heap_B=301133
+mem_heap_extra_B=94035
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=14282945
+mem_heap_B=303074
+mem_heap_extra_B=95822
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=14762168
+mem_heap_B=305946
+mem_heap_extra_B=98238
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=15253584
+mem_heap_B=307845
+mem_heap_extra_B=99947
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=15578903
+mem_heap_B=309531
+mem_heap_extra_B=101349
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=15896890
+mem_heap_B=311398
+mem_heap_extra_B=103114
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=16222324
+mem_heap_B=313677
+mem_heap_extra_B=105139
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=16547524
+mem_heap_B=314273
+mem_heap_extra_B=105695
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=16868209
+mem_heap_B=315446
+mem_heap_extra_B=106826
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=17197124
+mem_heap_B=316575
+mem_heap_extra_B=107921
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=44
+#-----------
+time=17676743
+mem_heap_B=318000
+mem_heap_extra_B=109280
+mem_stacks_B=0
+heap_tree=detailed
+n4: 318000 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 196584 0x109863: resize_table (hash_table2.c:150)
+  n1: 196584 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 196584 0x109BE4: process_word (freq_count.c:25)
+    n1: 196584 0x109D64: process_file (freq_count.c:74)
+     n0: 196584 0x109EF2: main (freq_count.c:129)
+ n2: 83520 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 49200 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 49200 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 49200 0x1096F9: rehash (hash_table2.c:135)
+     n1: 49200 0x109881: resize_table (hash_table2.c:151)
+      n1: 49200 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 49200 0x109BE4: process_word (freq_count.c:25)
+        n1: 49200 0x109D64: process_file (freq_count.c:74)
+         n0: 49200 0x109EF2: main (freq_count.c:129)
+  n1: 34320 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 34320 0x109BE4: process_word (freq_count.c:25)
+    n1: 34320 0x109D64: process_file (freq_count.c:74)
+     n0: 34320 0x109EF2: main (freq_count.c:129)
+ n1: 33280 0x490A45E: strdup (strdup.c:42)
+  n1: 33280 0x109BB7: process_word (freq_count.c:24)
+   n1: 33280 0x109D64: process_file (freq_count.c:74)
+    n0: 33280 0x109EF2: main (freq_count.c:129)
+ n0: 4616 in 5 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=45
+#-----------
+time=17997636
+mem_heap_B=320151
+mem_heap_extra_B=111225
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=18578043
+mem_heap_B=323315
+mem_heap_extra_B=114293
+mem_stacks_B=0
+heap_tree=detailed
+n4: 323315 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 196584 0x109863: resize_table (hash_table2.c:150)
+  n1: 196584 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 196584 0x109BE4: process_word (freq_count.c:25)
+    n1: 196584 0x109D64: process_file (freq_count.c:74)
+     n0: 196584 0x109EF2: main (freq_count.c:129)
+ n2: 87312 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 49200 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 49200 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 49200 0x1096F9: rehash (hash_table2.c:135)
+     n1: 49200 0x109881: resize_table (hash_table2.c:151)
+      n1: 49200 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 49200 0x109BE4: process_word (freq_count.c:25)
+        n1: 49200 0x109D64: process_file (freq_count.c:74)
+         n0: 49200 0x109EF2: main (freq_count.c:129)
+  n1: 38112 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 38112 0x109BE4: process_word (freq_count.c:25)
+    n1: 38112 0x109D64: process_file (freq_count.c:74)
+     n0: 38112 0x109EF2: main (freq_count.c:129)
+ n1: 34683 0x490A45E: strdup (strdup.c:42)
+  n1: 34683 0x109BB7: process_word (freq_count.c:24)
+   n1: 34683 0x109D64: process_file (freq_count.c:74)
+    n0: 34683 0x109EF2: main (freq_count.c:129)
+ n0: 4736 in 5 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=47
+#-----------
+time=18956454
+mem_heap_B=326786
+mem_heap_extra_B=117998
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=48
+#-----------
+time=19510173
+mem_heap_B=330009
+mem_heap_extra_B=121263
+mem_stacks_B=0
+heap_tree=detailed
+n4: 330009 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 196584 0x109863: resize_table (hash_table2.c:150)
+  n1: 196584 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 196584 0x109BE4: process_word (freq_count.c:25)
+    n1: 196584 0x109D64: process_file (freq_count.c:74)
+     n0: 196584 0x109EF2: main (freq_count.c:129)
+ n2: 92424 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 49200 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 49200 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 49200 0x1096F9: rehash (hash_table2.c:135)
+     n1: 49200 0x109881: resize_table (hash_table2.c:151)
+      n1: 49200 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 49200 0x109BE4: process_word (freq_count.c:25)
+        n1: 49200 0x109D64: process_file (freq_count.c:74)
+         n0: 49200 0x109EF2: main (freq_count.c:129)
+  n1: 43224 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 43224 0x109BE4: process_word (freq_count.c:25)
+    n1: 43224 0x109D64: process_file (freq_count.c:74)
+     n0: 43224 0x109EF2: main (freq_count.c:129)
+ n1: 36265 0x490A45E: strdup (strdup.c:42)
+  n1: 36265 0x109BB7: process_word (freq_count.c:24)
+   n1: 36265 0x109D64: process_file (freq_count.c:74)
+    n0: 36265 0x109EF2: main (freq_count.c:129)
+ n0: 4736 in 5 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=49
+#-----------
+time=19672573
+mem_heap_B=330443
+mem_heap_extra_B=121781
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=19919980
+mem_heap_B=331193
+mem_heap_extra_B=122503
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=20113543
+mem_heap_B=332302
+mem_heap_extra_B=123514
+mem_stacks_B=0
+heap_tree=detailed
+n4: 332302 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 196584 0x109863: resize_table (hash_table2.c:150)
+  n1: 196584 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 196584 0x109BE4: process_word (freq_count.c:25)
+    n1: 196584 0x109D64: process_file (freq_count.c:74)
+     n0: 196584 0x109EF2: main (freq_count.c:129)
+ n2: 94128 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 49200 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 49200 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 49200 0x1096F9: rehash (hash_table2.c:135)
+     n1: 49200 0x109881: resize_table (hash_table2.c:151)
+      n1: 49200 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 49200 0x109BE4: process_word (freq_count.c:25)
+        n1: 49200 0x109D64: process_file (freq_count.c:74)
+         n0: 49200 0x109EF2: main (freq_count.c:129)
+  n1: 44928 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 44928 0x109BE4: process_word (freq_count.c:25)
+    n1: 44928 0x109D64: process_file (freq_count.c:74)
+     n0: 44928 0x109EF2: main (freq_count.c:129)
+ n1: 36854 0x490A45E: strdup (strdup.c:42)
+  n1: 36854 0x109BB7: process_word (freq_count.c:24)
+   n1: 36854 0x109D64: process_file (freq_count.c:74)
+    n0: 36854 0x109EF2: main (freq_count.c:129)
+ n0: 4736 in 5 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=52
+#-----------
+time=20362329
+mem_heap_B=333738
+mem_heap_extra_B=125046
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=53
+#-----------
+time=20610136
+mem_heap_B=334592
+mem_heap_extra_B=125896
+mem_stacks_B=0
+heap_tree=detailed
+n4: 334592 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 196584 0x109863: resize_table (hash_table2.c:150)
+  n1: 196584 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 196584 0x109BE4: process_word (freq_count.c:25)
+    n1: 196584 0x109D64: process_file (freq_count.c:74)
+     n0: 196584 0x109EF2: main (freq_count.c:129)
+ n2: 95880 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 49200 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 49200 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 49200 0x1096F9: rehash (hash_table2.c:135)
+     n1: 49200 0x109881: resize_table (hash_table2.c:151)
+      n1: 49200 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 49200 0x109BE4: process_word (freq_count.c:25)
+        n1: 49200 0x109D64: process_file (freq_count.c:74)
+         n0: 49200 0x109EF2: main (freq_count.c:129)
+  n1: 46680 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 46680 0x109BE4: process_word (freq_count.c:25)
+    n1: 46680 0x109D64: process_file (freq_count.c:74)
+     n0: 46680 0x109EF2: main (freq_count.c:129)
+ n1: 37392 0x490A45E: strdup (strdup.c:42)
+  n1: 37392 0x109BB7: process_word (freq_count.c:24)
+   n1: 37392 0x109D64: process_file (freq_count.c:74)
+    n0: 37392 0x109EF2: main (freq_count.c:129)
+ n0: 4736 in 5 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=54
+#-----------
+time=20855105
+mem_heap_B=336689
+mem_heap_extra_B=127983
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=20863728
+mem_heap_B=336925
+mem_heap_extra_B=128235
+mem_stacks_B=0
+heap_tree=detailed
+n4: 336925 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 196584 0x109863: resize_table (hash_table2.c:150)
+  n1: 196584 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 196584 0x109BE4: process_word (freq_count.c:25)
+    n1: 196584 0x109D64: process_file (freq_count.c:74)
+     n0: 196584 0x109EF2: main (freq_count.c:129)
+ n2: 97632 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 49200 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 49200 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 49200 0x1096F9: rehash (hash_table2.c:135)
+     n1: 49200 0x109881: resize_table (hash_table2.c:151)
+      n1: 49200 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 49200 0x109BE4: process_word (freq_count.c:25)
+        n1: 49200 0x109D64: process_file (freq_count.c:74)
+         n0: 49200 0x109EF2: main (freq_count.c:129)
+  n1: 48432 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 48432 0x109BE4: process_word (freq_count.c:25)
+    n1: 48432 0x109D64: process_file (freq_count.c:74)
+     n0: 48432 0x109EF2: main (freq_count.c:129)
+ n1: 37973 0x490A45E: strdup (strdup.c:42)
+  n1: 37973 0x109BB7: process_word (freq_count.c:24)
+   n1: 37973 0x109D64: process_file (freq_count.c:74)
+    n0: 37973 0x109EF2: main (freq_count.c:129)
+ n0: 4736 in 5 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=56
+#-----------
+time=21012903
+mem_heap_B=730990
+mem_heap_extra_B=129162
+mem_stacks_B=0
+heap_tree=peak
+n4: 730990 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 589728 0x109863: resize_table (hash_table2.c:150)
+  n1: 589728 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 589728 0x109BE4: process_word (freq_count.c:25)
+    n1: 589728 0x109D64: process_file (freq_count.c:74)
+     n0: 589728 0x109EF2: main (freq_count.c:129)
+ n2: 98328 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 49224 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 49224 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 49224 0x1096F9: rehash (hash_table2.c:135)
+     n1: 49224 0x109881: resize_table (hash_table2.c:151)
+      n1: 49224 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 49224 0x109BE4: process_word (freq_count.c:25)
+        n1: 49224 0x109D64: process_file (freq_count.c:74)
+         n0: 49224 0x109EF2: main (freq_count.c:129)
+  n1: 49104 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 49104 0x109BE4: process_word (freq_count.c:25)
+    n1: 49104 0x109D64: process_file (freq_count.c:74)
+     n0: 49104 0x109EF2: main (freq_count.c:129)
+ n1: 38198 0x490A45E: strdup (strdup.c:42)
+  n1: 38198 0x109BB7: process_word (freq_count.c:24)
+   n1: 38198 0x109D64: process_file (freq_count.c:74)
+    n0: 38198 0x109EF2: main (freq_count.c:129)
+ n0: 4736 in 5 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=57
+#-----------
+time=21257602
+mem_heap_B=730966
+mem_heap_extra_B=129146
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=21502302
+mem_heap_B=730990
+mem_heap_extra_B=129162
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=21747019
+mem_heap_B=730966
+mem_heap_extra_B=129146
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=21991748
+mem_heap_B=730990
+mem_heap_extra_B=129162
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=61
+#-----------
+time=22236527
+mem_heap_B=730990
+mem_heap_extra_B=129162
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=22481247
+mem_heap_B=730990
+mem_heap_extra_B=129162
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=63
+#-----------
+time=22726061
+mem_heap_B=534480
+mem_heap_extra_B=129240
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=64
+#-----------
+time=22974670
+mem_heap_B=536146
+mem_heap_extra_B=130878
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=23219961
+mem_heap_B=537784
+mem_heap_extra_B=132568
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=66
+#-----------
+time=23467172
+mem_heap_B=540141
+mem_heap_extra_B=135011
+mem_stacks_B=0
+heap_tree=detailed
+n4: 540141 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 393144 0x109863: resize_table (hash_table2.c:150)
+  n1: 393144 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 393144 0x109BE4: process_word (freq_count.c:25)
+    n1: 393144 0x109D64: process_file (freq_count.c:74)
+     n0: 393144 0x109EF2: main (freq_count.c:129)
+ n2: 102648 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 98304 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 98304 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 98304 0x1096F9: rehash (hash_table2.c:135)
+     n1: 98304 0x109881: resize_table (hash_table2.c:151)
+      n1: 98304 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 98304 0x109BE4: process_word (freq_count.c:25)
+        n1: 98304 0x109D64: process_file (freq_count.c:74)
+         n0: 98304 0x109EF2: main (freq_count.c:129)
+  n0: 4344 in 1 place, below massif's threshold (1.00%)
+ n1: 39613 0x490A45E: strdup (strdup.c:42)
+  n1: 39613 0x109BB7: process_word (freq_count.c:24)
+   n1: 39613 0x109D64: process_file (freq_count.c:74)
+    n0: 39613 0x109EF2: main (freq_count.c:129)
+ n0: 4736 in 5 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=67
+#-----------
+time=23712541
+mem_heap_B=542155
+mem_heap_extra_B=137029
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=68
+#-----------
+time=25462955
+mem_heap_B=608347
+mem_heap_extra_B=137973
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=69
+#-----------
+time=28331035
+mem_heap_B=538427
+mem_heap_extra_B=137965
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=70
+#-----------
+time=28575937
+mem_heap_B=538250
+mem_heap_extra_B=133998
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=71
+#-----------
+time=28821649
+mem_heap_B=536501
+mem_heap_extra_B=130331
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=72
+#-----------
+time=29066360
+mem_heap_B=534653
+mem_heap_extra_B=126811
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=73
+#-----------
+time=29311076
+mem_heap_B=532857
+mem_heap_extra_B=123303
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=74
+#-----------
+time=29556783
+mem_heap_B=530818
+mem_heap_extra_B=119870
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=75
+#-----------
+time=29801493
+mem_heap_B=528946
+mem_heap_extra_B=116342
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=76
+#-----------
+time=30047236
+mem_heap_B=526969
+mem_heap_extra_B=112959
+mem_stacks_B=0
+heap_tree=detailed
+n4: 526969 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 393144 0x109863: resize_table (hash_table2.c:150)
+  n1: 393144 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 393144 0x109BE4: process_word (freq_count.c:25)
+    n1: 393144 0x109D64: process_file (freq_count.c:74)
+     n0: 393144 0x109EF2: main (freq_count.c:129)
+ n2: 104880 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 98304 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 98304 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 98304 0x1096F9: rehash (hash_table2.c:135)
+     n1: 98304 0x109881: resize_table (hash_table2.c:151)
+      n1: 98304 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 98304 0x109BE4: process_word (freq_count.c:25)
+        n1: 98304 0x109D64: process_file (freq_count.c:74)
+         n0: 98304 0x109EF2: main (freq_count.c:129)
+  n1: 6576 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 6576 0x109BE4: process_word (freq_count.c:25)
+    n1: 6576 0x109D64: process_file (freq_count.c:74)
+     n0: 6576 0x109EF2: main (freq_count.c:129)
+ n1: 27849 0x490A45E: strdup (strdup.c:42)
+  n1: 27849 0x109BB7: process_word (freq_count.c:24)
+   n1: 27849 0x109D64: process_file (freq_count.c:74)
+    n0: 27849 0x109EF2: main (freq_count.c:129)
+ n0: 1096 in 7 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=77
+#-----------
+time=30292924
+mem_heap_B=524904
+mem_heap_extra_B=109648
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=78
+#-----------
+time=30538639
+mem_heap_B=522890
+mem_heap_extra_B=106174
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=79
+#-----------
+time=30784354
+mem_heap_B=520789
+mem_heap_extra_B=102755
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=80
+#-----------
+time=31030088
+mem_heap_B=518677
+mem_heap_extra_B=99363
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=81
+#-----------
+time=31275688
+mem_heap_B=516499
+mem_heap_extra_B=96069
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=82
+#-----------
+time=31521297
+mem_heap_B=514311
+mem_heap_extra_B=92801
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=83
+#-----------
+time=31766937
+mem_heap_B=512163
+mem_heap_extra_B=89525
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=84
+#-----------
+time=32012511
+mem_heap_B=509996
+mem_heap_extra_B=86220
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=85
+#-----------
+time=32258105
+mem_heap_B=507786
+mem_heap_extra_B=82894
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=86
+#-----------
+time=32503734
+mem_heap_B=505601
+mem_heap_extra_B=79527
+mem_stacks_B=0
+heap_tree=detailed
+n4: 505601 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 393144 0x109863: resize_table (hash_table2.c:150)
+  n1: 393144 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+   n1: 393144 0x109BE4: process_word (freq_count.c:25)
+    n1: 393144 0x109D64: process_file (freq_count.c:74)
+     n0: 393144 0x109EF2: main (freq_count.c:129)
+ n2: 104880 0x1094F8: entry_create (hash_table2.c:82)
+  n1: 98304 0x109625: rehash_insert (hash_table2.c:113)
+   n1: 98304 0x109681: rehash_bucket (hash_table2.c:124)
+    n1: 98304 0x1096F9: rehash (hash_table2.c:135)
+     n1: 98304 0x109881: resize_table (hash_table2.c:151)
+      n1: 98304 0x1099CB: ioopm_hash_table_insert (hash_table2.c:177)
+       n1: 98304 0x109BE4: process_word (freq_count.c:25)
+        n1: 98304 0x109D64: process_file (freq_count.c:74)
+         n0: 98304 0x109EF2: main (freq_count.c:129)
+  n1: 6576 0x10992E: ioopm_hash_table_insert (hash_table2.c:172)
+   n1: 6576 0x109BE4: process_word (freq_count.c:25)
+    n1: 6576 0x109D64: process_file (freq_count.c:74)
+     n0: 6576 0x109EF2: main (freq_count.c:129)
+ n1: 6481 0x490A45E: strdup (strdup.c:42)
+  n1: 6481 0x109BB7: process_word (freq_count.c:24)
+   n1: 6481 0x109D64: process_file (freq_count.c:74)
+    n0: 6481 0x109EF2: main (freq_count.c:129)
+ n0: 1096 in 7 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=87
+#-----------
+time=32749388
+mem_heap_B=503417
+mem_heap_extra_B=76271
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=88
+#-----------
+time=32994927
+mem_heap_B=501100
+mem_heap_extra_B=73084
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=89
+#-----------
+time=33239623
+mem_heap_B=495424
+mem_heap_extra_B=67520
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=90
+#-----------
+time=33484325
+mem_heap_B=459376
+mem_heap_extra_B=43488
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=91
+#-----------
+time=33729153
+mem_heap_B=425680
+mem_heap_extra_B=21024
+mem_stacks_B=0
+heap_tree=empty

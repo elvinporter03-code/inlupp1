@@ -15,7 +15,7 @@ void process_word(elem_t word, ioopm_hash_table_t *ht)
   elem_t tmp = int_elem(0);
   if (ioopm_hash_table_has_key(ht, word))
   {
-    ioopm_hash_table_lookup(ht, word, &tmp);
+    ioopm_hash_table_lookup(ht, word, &tmp); //aliasering
     tmp.i++;
     ioopm_hash_table_insert(ht, word, tmp);
   }

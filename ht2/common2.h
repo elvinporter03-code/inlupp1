@@ -27,7 +27,6 @@ struct entry
 
 struct hash_table
 {
-  // previous index
   float load_factor;
   size_t no_buckets;
   entry_t *buckets;
