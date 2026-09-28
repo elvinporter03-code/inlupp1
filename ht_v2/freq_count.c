@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "ht2/hash_table2.h"
-#include "ht2/hash_table_iterator2.h"
+#include "hash_table2.h"
+#include "hash_table_iterator2.h"
 
 #define Delimiters "+-#@()[]{}.,:;!? \t\n\r"
 

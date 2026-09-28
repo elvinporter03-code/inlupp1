@@ -191,6 +191,7 @@ bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, elem_t key, elem_t *result)
     previous->next = current->next;
     *result = current->value;
     entry_destroy(current);
+    (ht->ht_size)--;
     return true;
   }
 }

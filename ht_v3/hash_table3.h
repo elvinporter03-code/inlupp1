@@ -1,5 +1,5 @@
 #pragma once
-#include "common2.h"
+#include "common3.h"
 
 /**
 * @file hash_table.h
@@ -70,8 +70,10 @@ size_t ioopm_hash_table_size(ioopm_hash_table_t *ht);
 /// @return the element placed before the current key in linked list.
 entry_t *ioopm_find_previous(ioopm_hash_table_t *ht, elem_t key);
 
+/*
 static void rehash_bucket(ioopm_hash_table_t *ht, entry_t *arr, entry_t *old_arr);
 
 static void rehash(ioopm_hash_table_t *ht, entry_t *new_buckets);
 
 static void resize_table(ioopm_hash_table_t *ht);
+*/
