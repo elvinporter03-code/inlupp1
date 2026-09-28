@@ -179,7 +179,6 @@ int main() {
   // name or description of the test, and the function that runs
   // the test in question. If you want to add another test, just
   // copy a line below and change the information'
-  // || CU_add_test(my_test_suite, "test fresh entry", test_fresh_key) == NULL
   if ( CU_add_test(my_test_suite, "iterating over empty ht", test_iterating_empty) == NULL
    ||  CU_add_test(my_test_suite, "iterating over singleton ht", test_iterating_singleton) == NULL
    ||  CU_add_test(my_test_suite, "iterating over ht with several entries", test_iterator_several_entries) == NULL

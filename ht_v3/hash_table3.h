@@ -36,17 +36,12 @@ void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value);
 /// @return true/false depending on wether lookup was sucessfull    
 bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, elem_t key, elem_t *result);
 
-/// @brief remove any mapping from key to a value
+/// @brief Removes the mapping from a key to a value and stores the removed value in result.
 /// @param ht hash table operated upon
 /// @param key key to remove
 /// @param result variable to store removed value in.
-/// @return the value mapped to by key (FIXME: what if the key does not exist?)
+/// @return true/false depending on wether lookup was sucessfull
 bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, elem_t key, elem_t *result);
-
-/// @brief example hash function to convert strings to integers
-/// @param str The string to be hashed
-/// @return bucket to index into 
-unsigned long string_sum_hash(const char *str);
 
 /// @brief Checks if the key exists in the given hashtable 
 /// @param ht Hashtable to check
@@ -63,17 +58,3 @@ bool ioopm_hash_table_is_empty(ioopm_hash_table_t *ht);
 /// @param ht hashtable
 /// @return size of the hashtable as a positive integer
 size_t ioopm_hash_table_size(ioopm_hash_table_t *ht);
-
-/// @brief Finds the previous entry
-/// @param ht hashtable
-/// @param key current key
-/// @return the element placed before the current key in linked list.
-entry_t *ioopm_find_previous(ioopm_hash_table_t *ht, elem_t key);
-
-/*
-static void rehash_bucket(ioopm_hash_table_t *ht, entry_t *arr, entry_t *old_arr);
-
-static void rehash(ioopm_hash_table_t *ht, entry_t *new_buckets);
-
-static void resize_table(ioopm_hash_table_t *ht);
-*/

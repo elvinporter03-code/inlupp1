@@ -72,7 +72,7 @@ elem_t ioopm_list_last(ioopm_list_t *list)
     return list->last->head;
 }
 
-void ioopm_list_prepend(ioopm_list_t *list, elem_t value) // Som append men sätter noden först
+void ioopm_list_prepend(ioopm_list_t *list, elem_t value)
 {
     ioopm_list_node_t *new_node = calloc(1, sizeof(ioopm_list_node_t));
     new_node->head = value;
@@ -102,7 +102,7 @@ static ioopm_list_node_t *find_previous(ioopm_list_node_t *tmp, size_t index)
 }
 
 void ioopm_list_insert(ioopm_list_t *list, size_t index, elem_t value)
-{ // inte testad men ser fin ut
+{
     if (index == 0)
     {
         ioopm_list_prepend(list, value);

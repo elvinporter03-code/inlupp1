@@ -395,8 +395,7 @@ int main() {
   // For each call to CU_add_test we specify the test suite, the
   // name or description of the test, and the function that runs
   // the test in question. If you want to add another test, just
-  // copy a line below and change the information'
-  // || CU_add_test(my_test_suite, "test fresh entry", test_fresh_key) == NULL
+  // copy a line below and change the information
   if ( CU_add_test(my_test_suite, "hashtable create / destroy", test_create_destroy) == NULL 
       || CU_add_test(my_test_suite, "hashtable insert / lookup / destroy", test_insert_once) == NULL
       || CU_add_test(my_test_suite, "insert same key twice with different values", test_update_key) == NULL

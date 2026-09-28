@@ -25,8 +25,6 @@ static void advance_iterator_state(ioopm_hash_table_iterator_t *it)
   {
     it->current_entry = it->current_entry->next;
   }
-  // advance to the next entry in the bucket
-  //it->current_entry = it->current_entry->next;
 
   // if it was null advance to the next bucket
   if (it->current_entry == NULL)
@@ -41,16 +39,13 @@ static void advance_iterator_state(ioopm_hash_table_iterator_t *it)
   }
 }
 
-/*
-static void skip_sentinel_nodes(ioopm_hash_table_iterator_t *it)
-{
-  while (it->current_bucket != it->ht->no_buckets &&
-         it->current_entry == &it->ht->buckets[it->current_bucket])
-  {
-    advance_iterator_state(it);
-  }
-}
-*/
+/**
+ * @brief Advances the iterator past empty buckets.
+ * Continues advancing the iterator while the current bucket is within
+ * the hash table and contains no entry.
+ * @param it Pointer to the hash table iterator to update.
+ * @return void
+ */
 static void skip_empty_buckets(ioopm_hash_table_iterator_t *it)
 {
   while (it->current_bucket != it->ht->no_buckets &&
@@ -66,7 +61,6 @@ ioopm_hash_table_iterator_t *ioopm_hash_table_iterator_create(ioopm_hash_table_t
   it->ht = ht;
   it->current_bucket = 0;
   it->current_entry = *(&ht->buckets[0]);
-  //skip_sentinel_nodes(it);
   skip_empty_buckets(it);
   return it;
 }
@@ -94,6 +88,5 @@ elem_t ioopm_hash_table_iterator_current_value(ioopm_hash_table_iterator_t *it)
 void ioopm_hash_table_iterator_advance(ioopm_hash_table_iterator_t *it)
 {
   advance_iterator_state(it);
-  //skip_sentinel_nodes(it);
   skip_empty_buckets(it);
 }

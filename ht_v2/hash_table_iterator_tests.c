@@ -15,7 +15,6 @@ int clean_suite(void) {
   return 0;
 }
 
-
 static size_t ioopm_string_knr_hash(elem_t key)
 {
   const char *str = key.s;
@@ -177,8 +176,7 @@ int main() {
   // For each call to CU_add_test we specify the test suite, the
   // name or description of the test, and the function that runs
   // the test in question. If you want to add another test, just
-  // copy a line below and change the information'
-  // || CU_add_test(my_test_suite, "test fresh entry", test_fresh_key) == NULL
+  // copy a line below and change the information
   if ( CU_add_test(my_test_suite, "iterating over empty ht", test_iterating_empty) == NULL
    ||  CU_add_test(my_test_suite, "iterating over singleton ht", test_iterating_singleton) == NULL
    ||  CU_add_test(my_test_suite, "iterating over ht with several entries", test_iterator_several_entries) == NULL

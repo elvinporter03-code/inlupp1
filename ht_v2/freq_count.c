@@ -141,8 +141,6 @@ int main(int argc, char *argv[])
     index++;
     ioopm_hash_table_iterator_advance(it);
   }
-  // FIXME: Iterate over hash table to dump its words and
-  // frequencies into the array above
 
   sort_freq_words(freq_words, size);
 
@@ -151,10 +149,7 @@ int main(int argc, char *argv[])
     printf("%s: %d\n", freq_words[i].word, freq_words[i].freq);
     free(freq_words[i].word);
   }
-
-  // FIXME: Leaks memory! Use valgrind to find out where that memory is
-  // being allocated, and then insert code here to free it.
-
+  
   ioopm_hash_table_destroy(ht);
   ioopm_hash_table_iterator_destroy(it);
 }

@@ -23,7 +23,7 @@ static void advance_iterator_state(ioopm_hash_table_iterator_t *it)
   // advance to the next entry in the bucket
   it->current_entry = it->current_entry->next;
 
-  // if it was null advance to the next bucket
+  // if it was null, advance to the next bucket
   if (it->current_entry == NULL)
   {
     it->current_bucket += 1;

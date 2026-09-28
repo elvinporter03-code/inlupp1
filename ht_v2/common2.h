@@ -20,17 +20,17 @@ union element {
 
 struct entry
 {
-  elem_t key;    // holds the key
-  entry_t *next; // points to the next entry (possibly NULL)
-  elem_t value;
+  elem_t key;     // holds the key
+  entry_t *next;  // points to the next entry (possibly NULL)
+  elem_t value;   // holds value corresponding to key
 };
 
 struct hash_table
 {
-  float load_factor;
-  size_t no_buckets;
-  entry_t *buckets;
-  size_t ht_size; // holds the amount of entries for O(1) lookup
-  ioopm_hash_function *hash; //Function to hash the desired kind of key  
-  ioopm_eq_function *is_equal; // Function to check if the desired kind of key is equal to another
+  float load_factor;            // Maximum average number of entries allowed per bucket before resizing
+  size_t no_buckets;            // Number of buckets in the hash table
+  entry_t *buckets;             // Array of sentinel nodes, one sentinel node per bucket
+  size_t ht_size;               // holds the amount of entries for O(1) lookup
+  ioopm_hash_function *hash;    // Function to hash the desired kind of key  
+  ioopm_eq_function *is_equal;  // Function to check if the desired kind of key is equal to another
 };

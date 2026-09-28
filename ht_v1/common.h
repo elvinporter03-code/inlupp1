@@ -5,7 +5,7 @@
 #define int_elem(x)   ((elem_t) { .i = (x) })
 #define bool_elem(x)  ((elem_t) { .b = (x) })
 #define string_elem(x) ((elem_t) { .s = (x) })
-#define No_Buckets 17
+#define No_Buckets 17 // Amount of buckets for the table
 
 typedef struct entry entry_t;
 typedef struct hash_table ioopm_hash_table_t;
@@ -23,14 +23,13 @@ struct entry
 {
   elem_t key;    // holds the key
   entry_t *next; // points to the next entry (possibly NULL)
-  elem_t value;
+  elem_t value;  // holds value corresponding to key
 };
 
 struct hash_table
 {
-  // previous index
-  entry_t buckets[No_Buckets]; // Amount of buckets for the table, should be scaled with amount of entries
+  entry_t buckets[No_Buckets]; // Array of sentinel nodes, one for each bucket.
   size_t ht_size; // holds the amount of entries for O(1) lookup
-  ioopm_hash_function *hash; //Function to hash the desired kind of key  
+  ioopm_hash_function *hash; // Function to hash the desired kind of key  
   ioopm_eq_function *is_equal; // Function to check if the desired kind of key is equal to another
 };

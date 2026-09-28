@@ -40,20 +40,26 @@ static void free_bucket(entry_t **current_entry)
   }
 }
 
-///   NOTE: DENHÄR FUNCEN VA STATIC, DET ÄR DEN I HT2 OCH HT, ÄNDRA INNAN INLÄMMNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-/// @brief Finds the previous entry in relation to key in a hash table,
-///        or the last entry if the key does not exist
-/// @param ht Pointer to a hash table
-/// @param key the key of an entry_t in ht
-/// @return the previous entry of key in ht
-entry_t **find_previous_entry(ioopm_hash_table_t *ht, elem_t key)
+/**
+ * @brief Finds the link to the entry associated with a given key.
+ * Calculates the bucket corresponding to the key and traverses the
+ * bucket's linked list until the entry with the key is found or the
+ * end of the list is reached. The returned pointer can be used both
+ * to access the found entry and to modify the link pointing to it.
+ * @param ht The hash table to search.
+ * @param key The key to search for.
+ * @return A pointer to the link pointing to the entry with the given key,
+ *         or to the NULL pointer at the end of the bucket if the key
+ *         is not found.
+ */
+static entry_t **find_entry_link(ioopm_hash_table_t *ht, elem_t key)
 {
   size_t bucket = ht->hash(key) % ht->no_buckets;
   entry_t **link = &ht->buckets[bucket];
 
   while (*link != NULL && !(ht->is_equal((*link)->key, key)))
   {
-    link = &(*link)->next; // why not *link = (*link)->next; ???????????????
+    link = &(*link)->next;
   }
   return link;
 }
@@ -83,7 +89,23 @@ static entry_t *entry_create(elem_t key, elem_t value)
   return next;
 }
 
-static entry_t **find_previous_rehash(ioopm_hash_table_t *ht, entry_t **buckets, elem_t key)
+/**
+ * @brief Finds the link to an entry in a bucket array during rehashing.
+ *
+ * Calculates the bucket corresponding to the key and traverses the
+ * bucket's linked list until an entry with the given key is found or
+ * the end of the list is reached. The returned pointer points to the
+ * link leading to the matching entry, or to the NULL pointer where a
+ * new entry can be inserted.
+ *
+ * @param ht The hash table being rehashed, used for the hash and equality functions.
+ * @param buckets The bucket array in which to search.
+ * @param key The key to search for.
+ *
+ * @return A pointer to the link pointing to the matching entry, or to
+ *         the NULL pointer at the end of the bucket if the key is not found.
+ */
+static entry_t **find_entry_link_rehash(ioopm_hash_table_t *ht, entry_t **buckets, elem_t key)
 {
   size_t bucket = ht->hash(key) % ht->no_buckets;
   entry_t **link = &buckets[bucket];
@@ -95,10 +117,16 @@ static entry_t **find_previous_rehash(ioopm_hash_table_t *ht, entry_t **buckets,
   return link;
 }
 
-
+/**
+ * @brief Inserts an entry into the new bucket array during rehashing.
+ * @param ht The hash table being rehashed.
+ * @param buckets The new bucket array.
+ * @param key The key to insert.
+ * @param value The value associated with the key.
+ */
 static void rehash_insert(ioopm_hash_table_t *ht, entry_t **buckets, elem_t key, elem_t value)
 {
-  entry_t **link = find_previous_rehash(ht, buckets, key);
+  entry_t **link = find_entry_link_rehash(ht, buckets, key);
 
   // if the key exists, update the value, otherwise create a new entry
   if (*link != NULL)
@@ -111,6 +139,12 @@ static void rehash_insert(ioopm_hash_table_t *ht, entry_t **buckets, elem_t key,
   }
 }
 
+/**
+ * @brief Rehashes all entries in a single bucket.
+ * @param ht The hash table being rehashed.
+ * @param new_buckets The new bucket array.
+ * @param current_bucket The bucket currently being rehashed.
+ */
 static void rehash_bucket(ioopm_hash_table_t *ht, entry_t **new_buckets, entry_t **current_bucket)
 {
   while (*current_bucket != NULL) // traverse the bucket from current to the last non-NULL entry
@@ -123,6 +157,12 @@ static void rehash_bucket(ioopm_hash_table_t *ht, entry_t **new_buckets, entry_t
   }
 }
 
+/**
+ * @brief Rehashes all buckets into a new bucket array.
+ * @param ht The hash table being rehashed.
+ * @param new_buckets The new bucket array.
+ * @param old_buckets The number of buckets in the old array.
+ */
 static void rehash(ioopm_hash_table_t *ht, entry_t **new_buckets, size_t old_buckets)
 {
   for (size_t index = 0; index < old_buckets; index++)
@@ -132,6 +172,10 @@ static void rehash(ioopm_hash_table_t *ht, entry_t **new_buckets, size_t old_buc
   }
 }
 
+/**
+ * @brief Resizes the hash table and rehashes its entries.
+ * @param ht The hash table to resize.
+ */
 static void resize_table(ioopm_hash_table_t *ht)
 {
   size_t primes[] = {17, 31, 67, 127, 257, 509, 1021, 2053, 4099, 8191, 16381};
@@ -156,7 +200,7 @@ static void resize_table(ioopm_hash_table_t *ht)
 
 void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value)
 {
-  entry_t **link = find_previous_entry(ht, key);
+  entry_t **link = find_entry_link(ht, key);
 
   // if the key exists, update the value, otherwise create a new entry
   if (*link != NULL)
@@ -177,7 +221,7 @@ void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value)
 
 bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, elem_t key, elem_t *result)
 {
-  entry_t **link = find_previous_entry(ht, key);
+  entry_t **link = find_entry_link(ht, key);
 
   if (*link == NULL) // if current is a NULL-entry, there is nothing to remove
   {
@@ -199,7 +243,7 @@ bool ioopm_hash_table_remove(ioopm_hash_table_t *ht, elem_t key, elem_t *result)
 bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, elem_t key, elem_t *result)
 {
 
-  entry_t **link = find_previous_entry(ht, key);
+  entry_t **link = find_entry_link(ht, key);
 
   // if the key exists, return the value, otherwise, indicate that the lookup failed
   if (*link != NULL)

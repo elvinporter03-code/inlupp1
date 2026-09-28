@@ -234,7 +234,7 @@ void test_ioopm_list_remove(void)
 }
 
 void test_iterator_iterate(void)
-{ // alla tester i en inte clankat
+{ 
   ioopm_list_t *list = ioopm_list_create();
   elem_t v1 = {.i = 10};
   elem_t v2 = {.i = 20};
@@ -256,7 +256,7 @@ void test_iterator_iterate(void)
   CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).i, 30);
 
   ioopm_list_iterator_insert(it, v2);             // sätter in 20 igen
-  CU_ASSERT_TRUE(ioopm_list_iterator_at_end(it)); // ÄNDRAT DET STOG CU_ASSERT_FALSE HÄR FÖRUT, det måste vara TRUE för när vi tar bort 20'an är våran current på 30 (alltså det elem) och när vi lägger till 20 ska 20 hamna mellan 10 och 30 (alltså är 30 fortfarande vår current och det sista elem).
+  CU_ASSERT_TRUE(ioopm_list_iterator_at_end(it)); 
   CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).i, 30);
 
   ioopm_list_iterator_destroy(it);
@@ -284,16 +284,6 @@ void test_iterator_insert(void)
   ioopm_list_iterator_advance(it);
   CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).i, 30);
 
-  /* i denna ordningen var testerna förut, men jag tror att det är fel. testerna ovan tror jag är rätt för att kolla vad current(it).i är korrekt
-  CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).i, 30);
-
-  ioopm_list_iterator_advance(it);
-  CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).i, 20);
-
-  ioopm_list_iterator_advance(it);
-  CU_ASSERT_EQUAL(ioopm_list_iterator_current(it).i, 10);
-  */
-
   ioopm_list_iterator_destroy(it);
   ioopm_list_destroy(list);
 }
@@ -320,7 +310,20 @@ int main()
   // the test in question. If you want to add another test, just
   // copy a line below and change the information
   if (
-      (CU_add_test(my_test_suite, "Empty list", test_empty) == NULL) || (CU_add_test(my_test_suite, "Singleton append", test_singleton) == NULL) || (CU_add_test(my_test_suite, "3 entry list append", test_3_appends) == NULL) || (CU_add_test(my_test_suite, "ioopm_list_create", test_ioopm_list_create) == NULL) || (CU_add_test(my_test_suite, "ioopm_list_size", test_ioopm_list_size) == NULL) || (CU_add_test(my_test_suite, "ioopm_list_is_empty", test_ioopm_list_is_empty) == NULL) || (CU_add_test(my_test_suite, "ioopm_list_prepend", test_ioopm_list_prepend) == NULL) || (CU_add_test(my_test_suite, "ioopm_list_head", test_ioopm_list_head) == NULL) || (CU_add_test(my_test_suite, "ioopm_list_last", test_ioopm_list_last) == NULL) || (CU_add_test(my_test_suite, "ioopm_list_insert", test_ioopm_list_insert) == NULL) || (CU_add_test(my_test_suite, "ioopm_list_get", test_ioopm_list_get) == NULL) || (CU_add_test(my_test_suite, "ioopm_list_remove", test_ioopm_list_remove) == NULL) || (CU_add_test(my_test_suite, "ioopm_list_iterator", test_iterator_iterate) == NULL) || (CU_add_test(my_test_suite, "iterator_insert", test_iterator_insert) == NULL))
+      (CU_add_test(my_test_suite, "Empty list", test_empty) == NULL)
+      || (CU_add_test(my_test_suite, "Singleton append", test_singleton) == NULL)
+      || (CU_add_test(my_test_suite, "3 entry list append", test_3_appends) == NULL)
+      || (CU_add_test(my_test_suite, "ioopm_list_create", test_ioopm_list_create) == NULL)
+      || (CU_add_test(my_test_suite, "ioopm_list_size", test_ioopm_list_size) == NULL)
+      || (CU_add_test(my_test_suite, "ioopm_list_is_empty", test_ioopm_list_is_empty) == NULL)
+      || (CU_add_test(my_test_suite, "ioopm_list_prepend", test_ioopm_list_prepend) == NULL)
+      || (CU_add_test(my_test_suite, "ioopm_list_head", test_ioopm_list_head) == NULL)
+      || (CU_add_test(my_test_suite, "ioopm_list_last", test_ioopm_list_last) == NULL)
+      || (CU_add_test(my_test_suite, "ioopm_list_insert", test_ioopm_list_insert) == NULL)
+      || (CU_add_test(my_test_suite, "ioopm_list_get", test_ioopm_list_get) == NULL)
+      || (CU_add_test(my_test_suite, "ioopm_list_remove", test_ioopm_list_remove) == NULL)
+      || (CU_add_test(my_test_suite, "ioopm_list_iterator", test_iterator_iterate) == NULL)
+      || (CU_add_test(my_test_suite, "iterator_insert", test_iterator_insert) == NULL))
   {
     // If adding any of the tests fails, we tear down CUnit and exit
     CU_cleanup_registry();

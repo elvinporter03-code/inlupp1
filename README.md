@@ -187,26 +187,40 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
     callgrind_annotate --sort=Ir callgrind.out.<pid>
 
 # freq_count.c runtime with different textfiles:
-    ## Initial values with 17 buckets (KÖRT PÅ ELVINS DATOR)
+    ## Initial values with 17 buckets
         Antal ord   -   körtid (ms)
             small   -   10
             1k      -   15
             10k     -   22
             16k     -   105
 
-    ## Dynamic buckets (KÖRT PÅ ELVINS DATOR, JAG FICK ANNAT RESULTAT PÅ MIN DATOR!!!!!!!!!!!!!!!!)
+    ## Dynamic buckets
         Antal ord   -   körtid (ms)     procentuell förbättring
             small   -   11                      -9%
             1k      -   16                      -6%
             10k     -   20                      +10%
             16k     -   69                      +52%
 
-    ## Dynamic buckets with dubble-pointer-buckets (without sentinel nodes) (KÖRT PÅ ANTONS DATOR)
+    ## Dynamic buckets with dubble-pointer-buckets (without sentinel nodes)
         Antal ord   -   körtid (ms)
             small   -   10
             1k      -   14
             10k     -   18
             16k     -   65
+
+# Profiling memory consumption 
+## studied heap behavior of freq_count.c together with different versions of hash table implementation and 16k-words.txt
+### Heap consumption with ht_v1
+The program reached a peak total heap usage of 353,352 B. Of this, 215,587 B was useful heap allocated by the program, while 137,765 B was allocator overhead.
+
+### Heap consumption with ht_v2
+The program reached a peak total heap usage of 864,248 B. Of this, 735,086 B was useful heap allocated by the program, while 129,162 B was allocator overhead.
+
+### Heap consumption with ht_v3
+The program reached a peak total heap usage of 484,208 B. Of this, 346,251 B was useful heap allocated by the program, while 137,957 B was allocator overhead.
+
+## Conclusions
+When running the second version we see an additional 500kB allocated at the peak, this is mostly due to us upsizing the hashtable and allocating both the latest sizes of buckets until rehashing is complete. Meaning that at the peak we had roughly 24,000 sentinel nodes taking up space. While in the previous version we had 17 sentinel nodes at most. But in V3 we replaced the sentinel nodes with only a pointer to the first element. Effectively freeing up 2/3 of that space as a pointer takes 8B but a full entry_t takes 24B. Meaning we freed up roughly 385kB in the final benchmark. While still using a fair bit more memory than our first version, we get a lot faster performance out of it (61,9% when handling 16k words). So we deem it a valuable upgrade.
 
 ## plotting command
 valgrind --tool=massif ./ditt_program [argument]
