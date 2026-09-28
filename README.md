@@ -203,11 +203,10 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
 
     ## Dynamic buckets with dubble-pointer-buckets (without sentinel nodes) (KÖRT PÅ ANTONS DATOR)
         Antal ord   -   körtid (ms)
-            small   -   14
-            1k      -   17
-            10k     -   21
-            16k     -   50
+            small   -   10
+            1k      -   14
+            10k     -   18
+            16k     -   65
 
 ## plotting command
 valgrind --tool=massif ./ditt_program [argument]
-            
