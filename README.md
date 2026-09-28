@@ -78,26 +78,10 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
 
 
 ## Calls used to acquire numbers above
-    gcc -g -O0 -o freq_count freq_count.c hash_table.c hash_table_iterator.c
-    valgrind --tool=callgrind ./freq_count {filename}.txt
+    gcc -g -O0 -o ht_v1/freq_count ht_v1/freq_count.c ht_v1/hash_table.c ht_v1/hash_table_iterator.c
+    valgrind --tool=callgrind ht_v1/freq_count {filename}.txt
     callgrind_annotate --sort=Ir callgrind.out.<pid>     
 
-# Freq_count.c runtime with different textfiles:
-    ## Initial values with 17 buckets
-        Antal ord   -   körtid (ms)
-            small   -   10
-            1k      -   15
-            10k     -   22
-            16k     -   105
-
-    ## Dynamic buckets
-        Antal ord   -   körtid (ms)     procentuell förbättring
-            small   -   11                      -9%
-            1k      -   16                      -6%
-            10k     -   20                      +10%
-            16k     -   69                      +52%
-
-    
 # Profiling Results with dynamic buckets
     ## Most used functions for different textsizes:
 
@@ -110,7 +94,6 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
         skip_sentinel_nodes                 0.98%
         find_previous_entry                 0.95%
         main                                0.71%
-
 
         ### 1k-long-words.txt our functions:
         ioopm_string_knr_hash               62.16%
@@ -144,41 +127,87 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
 
             The improvements were least significant when testing small.txt. There was even a slight increase in runtime, the reason for this is believed to be that the dynmaic buckets are not profitable when the dataset is small: triggering rehashing when the dataset is small is more expensive then then its benefits.
 
+## Calls used to acquire numbers above
+    gcc -g -O0 -o ht_v2/freq_count ht_v2/freq_count.c ht_v2/hash_table2.c ht_v2/hash_table_iterator2.c
+    valgrind --tool=callgrind ht_v2/freq_count txt_files/{filename}.txt
+    callgrind_annotate --sort=Ir callgrind.out.<pid>
 
+# Profiling Results with dynamic buckets with dubble-pointer-buckets (instead of sentinel nodes)
+    (KÖRT PÅ ANTONS DATOR, FÅR ELVIN ANNORLUNDA?????????????????????)
+    ## Most used functions for different textsizes:
 
-            1 375 339 0.25 16k
+        ### small.txt our functions:
+        (not our)   __GI___tunables_init    33,467 (12.48%)
+        (not our)   do_lookup_x             27,164 (10.13%)
+        (not our)   _dl_relocate_object     16,159 ( 6.03%)
+        (not our)   _dl_lookup_symbol_x     10,520 ( 3.92%)
+        (not our)   _int_malloc             10,265 ( 3.83%)
+        (not our)   _dl_lookup_symbol_x      9,818 ( 3.66%)   
+        ioopm_string_knr_hash                8,265 ( 3.08%)
+                    (many inbetween)
+        advance_iterator_state               2,649 ( 0.99%)
+        find_previous_entry                  2,220 ( 0.83%)
+        main                                 1,763 ( 0.66%)
+
+        ### 1k-long-words.txt our functions:
+        ioopm_string_knr_hash               2,864,610 (60.79%)
+        (not our)   __strcspn_generic         364,564 ( 7.74%)
+        (not our)   __strcmp_sse42            181,257 ( 3.85%)
+        (not our)   __strspn_generic          142,000 ( 3.01%)
+        find_previous_entry                   134,562 ( 2.86%)
+        (not our)   getdelim                   89,554 ( 1.90%)
+        string_compare                         65,379 ( 1.39%)
+        (not our)   _int_free                  63,467 ( 1.35%)
+        (not our)   strtok_r                   61,000 ( 1.29%)
+        ioopm_hash_table_lookup                51,264 ( 1.09%)
+
+        ### 10k-words.txt:
+        ioopm_string_knr_hash               2,946,315 (22.72%)
+        (not our)    __strcspn_generic      1,647,238 (12.70%)
+        (not our)   __strspn_generic        1,458,062 (11.24%)
+        find_previous_entry                 1,366,306 (10.54%)
+        (not our)    __strcmp_sse42           993,567 ( 7.66%)
+        string_compare                        672,923 ( 5.19%)
+
+        ### 16k-words.txt:
+        ioopm_string_knr_hash               5,710,680 (15.04%)
+        (not our)   __strcspn_generic       2,772,869 ( 7.30%)
+        (not our)   __strspn_generic        2,545,999 ( 6.71%)
+        find_previous_entry                 2,038,112 ( 5.37%)
+        (not our)   _int_malloc             1,821,886 ( 4.80%)
+        (not our)   _int_free               1,374,153 ( 3.62%)
+        (not our)   __strcmp_sse42          1,325,431 ( 3.49%)
+        string_compare                        913,976 ( 2.41%)
+
+        Conclusions:
+            TODO: conclusions
+## Calls used to acquire numbers above
+    gcc -g -O0 -o ht_v3/freq_count ht_v3/freq_count.c ht_v3/hash_table3.c ht_v3/hash_table_iterator3.c
+    valgrind --tool=callgrind ht_v3/freq_count txt_files/{filename}.txt
+    callgrind_annotate --sort=Ir callgrind.out.<pid>
+
+# freq_count.c runtime with different textfiles:
+    ## Initial values with 17 buckets (KÖRT PÅ ELVINS DATOR)
+        Antal ord   -   körtid (ms)
+            small   -   10
+            1k      -   15
+            10k     -   22
+            16k     -   105
+
+    ## Dynamic buckets (KÖRT PÅ ELVINS DATOR, JAG FICK ANNAT RESULTAT PÅ MIN DATOR!!!!!!!!!!!!!!!!)
+        Antal ord   -   körtid (ms)     procentuell förbättring
+            small   -   11                      -9%
+            1k      -   16                      -6%
+            10k     -   20                      +10%
+            16k     -   69                      +52%
+
+    ## Dynamic buckets with dubble-pointer-buckets (without sentinel nodes) (KÖRT PÅ ANTONS DATOR)
+        Antal ord   -   körtid (ms)
+            small   -   14
+            1k      -   17
+            10k     -   21
+            16k     -   50
+
 ## plotting command
 valgrind --tool=massif ./ditt_program [argument]
-ms_print massif.out.<pid>
-
-# Profiling with memory 
-    Trying different load factors to whats optimal for memory management
-    
-    maximum simultaneous load (B):
-            0.5         0.25        0.75
-    16k     579,688     583,656     470,176
-    10k     29,728      42,032      22,144
-    1k      9,056       10,528      8,192
-    small   4,120       4,672       2,872
-
-    excess load at maximum (B):
-    16k     76,271    78,680        130,252 (70,367)
-    10k     6,691     6,707         3,800   
-    1k      813       845           813
-    small   671       240           96
-
-    excess delta (0.75-0.25)
-            excess      max
-    16k     51,572      -113,480  
-    10k     -2,907      -19,888
-    1k      -32         -2,336
-    small   -144        -1800
-
-
-    time (ms)           
-    16k     69          70          70
-    10k     20          20          20
-    1k      16          16          16
-    small   11          11          11
-
-    time difference is negligble and probably caused by measuring errors
+            
