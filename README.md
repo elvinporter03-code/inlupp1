@@ -99,7 +99,7 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
         ioopm_string_knr_hash               62.16%
         (not our)    __strcspn_generic      7.91%       
         find_previous_entry                 3.10%
-        (not our)    S:__strcmp_avx2        2.47%
+        (not our)    __strcmp_avx2          2.47%
         (not our)    getdelim               1.95%
         string_compare                      1.42%
         ioopm_hash_table_lookup             1.11%
