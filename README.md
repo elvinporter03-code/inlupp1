@@ -73,13 +73,12 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
         (not our) __strcmp_avx2             30.77%
         find_previous_entry                 27.59%
         string_compare                      26.85%
-            VAD ÄR DETTA!? (???:0x0000000000109170 [???])      2.83%
         ioopm_string_knr_hash               2.05%
 
 
 ## Calls used to acquire numbers above
     gcc -g -O0 -o ht_v1/freq_count ht_v1/freq_count.c ht_v1/hash_table.c ht_v1/hash_table_iterator.c
-    valgrind --tool=callgrind ht_v1/freq_count {filename}.txt
+    valgrind --tool=callgrind ht_v1/freq_count txt_files/{filename}.txt
     callgrind_annotate --sort=Ir callgrind.out.<pid>     
 
 # Profiling Results with dynamic buckets
@@ -133,7 +132,6 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
     callgrind_annotate --sort=Ir callgrind.out.<pid>
 
 # Profiling Results with dynamic buckets with dubble-pointer-buckets (instead of sentinel nodes)
-    (KÖRT PÅ ANTONS DATOR, FÅR ELVIN ANNORLUNDA?????????????????????)
     ## Most used functions for different textsizes:
 
         ### small.txt our functions:
@@ -195,18 +193,18 @@ Missing a few edge cases in the tests but we deem those redundant since we test 
             16k     -   105
 
     ## Dynamic buckets
-        Antal ord   -   körtid (ms)     procentuell förbättring
-            small   -   11                      -9%
-            1k      -   16                      -6%
+        Antal ord   -   körtid (ms)     procentuell förbättring mot ht_v1
+            small   -   11                      - 9%
+            1k      -   16                      - 6%
             10k     -   20                      +10%
             16k     -   69                      +52%
 
     ## Dynamic buckets with dubble-pointer-buckets (without sentinel nodes)
-        Antal ord   -   körtid (ms)
-            small   -   10
-            1k      -   14
-            10k     -   18
-            16k     -   65
+        Antal ord   -   körtid (ms)     procentuell förbättring mot ht_v2
+            small   -   10                      +10%
+            1k      -   14                      +14%
+            10k     -   18                      +11%
+            16k     -   65                      + 6%
 
 # Profiling memory consumption 
 ## studied heap behavior of freq_count.c together with different versions of hash table implementation and 16k-words.txt

@@ -1,11 +1,4 @@
 CFLAGS = -g -Wall -Wextra --coverage
-# BEHÖVER PHONY OCH ALL ÄNDRAS?
-.PHONY: all compile_ht compile_it_ht compile_ll \
-        test_ht test_ht_it test_ll clean
-
-all: compile_ht compile_it_ht compile_ll \
-     test_ht test_ht_it test_ll \
-	 coverage_ll coverage_ht coverage_ht_it
 
 # ht_v1
 ## compile:
