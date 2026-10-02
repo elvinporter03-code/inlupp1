@@ -2,26 +2,39 @@
 
 ## Running the tests
     ### Do everything below:
-    make all
 
-    ### Compiling the testfiles and sourcefiles:
-    make compile_ht -hashtable
-    make compile_ll -linked list
-    make compile_ht_it -hashtable iterator
+    #### Compiling the testfiles and sourcefiles:
+    make compile_ht_v1
+    make compile_ht_v2
+    make compile_ht_v3
+    make compile_it_ht_v1
+    make compile_it_ht_v2
+    make compile_it_ht_v3
+    make compile_ll
 
-    ### Running the tests
-    make test_ht
-    make test_ll 
-    make test_ht_it 
+    #### Running the tests:
+    make test_ht_v1
+    make test_ht_v2
+    make test_ht_v3
+    make test_it_ht_v1
+    make test_it_ht_v2
+    make test_it_ht_v3
+    make test_ll
 
-    ### This also produces a gcda file which you can run in order to check the test coverage:
+    #### Running all CUnit tests at once:
+    make test_all
+
+        ##### All hash-table-related:
+            make test_all_ht
+    
+    #### This also produces a gcda file which you can run in order to check the test coverage:
     make coverage_ll
     make coverage_ht
     make coverage_ht_it
 
     or open the gcov file to see exactly which lines dont get covered.
 
-    ### We also have a wordcounting program that counts the frequency of each word in a txt document:
+    #### We also have a wordcounting program that counts the frequency of each word in a txt document:
     gcc freq_count.c hash_table_iterator.c hash_table.c -o counter
     ./counter {name of your txtfile}.txt
 

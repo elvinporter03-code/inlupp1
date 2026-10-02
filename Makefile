@@ -51,6 +51,12 @@ test_it_ht_v3: compile_it_ht_v3
 	ht_v3/ht_it_tests
 	valgrind --leak-check=full ht_v3/ht_it_tests
 
+## compile and run all hash-table-related CUnit tests:
+test_all_ht: test_ht_v1 test_ht_v2 test_ht_v3
+
+## compile and run all CUnits tests:
+test_all: test_all_ht test_ll
+
 # freq_count
 ## compile:
 compile_fq_ht_v1: ht_v1/hash_table.c ht_v1/hash_table_iterator.c ht_v1/freq_count.c 
@@ -150,3 +156,4 @@ coverage_it_ht_v3: ht_v3/ht_it_tests-hash_table_iterator_tests.gcda
 # LÄGG TILL SÅ CLEAN KAN TA BORT ALLA COVERAGE O CALLGRIND FILER!
 clean:
 	rm -f ht_v1/ht_tests ht_v1/ht_it_tests ht_v1/freq_count ht_v2/ht_tests ht_v2/ht_it_tests ht_v2/freq_count ht_v3/ht_tests ht_v3/ht_it_tests ht_v3/freq_count linked_list/ll_tests
+	find . \( -name "*.gcno" -o -name "*.gcda" -o -name "*.gcov" \) -delete
